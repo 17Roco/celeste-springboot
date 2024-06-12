@@ -1,0 +1,51 @@
+package com.zsd.celeste.pojo;
+
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+/**
+ * (Article)实体类
+ *
+ * @author zsd
+ * @since 2024-06-10 15:15:58
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("article")
+public class Article{
+    @TableId("aid")
+    private Integer aid;
+
+    @TableField("uid")
+    private Integer uid;
+    @TableField("title")
+    private String title;
+    @TableField("context")
+    private String context;
+    @TableField("create_time")
+    private Date createTime;
+    @TableField("update_time")
+    private Date updateTime;
+    @TableField("watch")
+    private Integer watch;
+    @TableField("like_")
+    private Integer like_;
+    /**
+     * 1:public,2:private,vip:3
+     */
+    @TableField("status")
+    private Integer status;
+    @TableField("def_flag")
+    @TableLogic()
+    private Integer defFlag;
+
+}
+

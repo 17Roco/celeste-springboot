@@ -2,7 +2,7 @@ package com.zsd.celeste.service.base;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zsd.celeste.service.inter.selectWrapperInterface;
+import com.zsd.celeste.util.selectWrapperInterface;
 
 import java.util.List;
 

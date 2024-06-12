@@ -5,6 +5,7 @@ import com.zsd.celeste.util.Result;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,8 +31,7 @@ public class ArticleController {
     }
     @GetMapping("/list/{index}")
     Result getPage(@PathVariable Integer index){
-        List<Article> records = service.page(index).getRecords();
-        return Result.notEmpty(records,"index over");
+        return Result.page(service.page(index));
     }
 
     /**
@@ -79,10 +79,13 @@ public class ArticleController {
     }
 
 
-
-    Result heightLike(){
-
-        return null;
+    @GetMapping("/height_like/{index}")
+    Result heightLike(@PathVariable Integer index, @RequestParam Date beginTime,@RequestParam Date endTime){
+        return Result.page(service.heightLike(beginTime,endTime,index));
+    }
+    @GetMapping("/hot/{index}")
+    Result heightWatch(@PathVariable Integer index, @RequestParam Date beginTime,@RequestParam Date endTime){
+        return Result.page(service.hot(beginTime,endTime,index));
     }
 }
 

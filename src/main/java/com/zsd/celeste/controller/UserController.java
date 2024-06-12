@@ -22,11 +22,6 @@ public class UserController {
     
     @Autowired
     private UserService service;
-    private final int pageSize;
-
-    {
-        pageSize = 30;
-    }
 
     /**
      * 查询
@@ -34,14 +29,11 @@ public class UserController {
      */
     @GetMapping("/list")
     Result getPage(){
-        return getPage(1L);
+        return getPage(1);
     }
     @GetMapping("/list/{index}")
-    Result getPage(@PathVariable Long index){
-        IPage<User> p = Page.of(index,pageSize);
-        IPage<User> page = service.page(p);
-        List<User> records = page.getRecords();
-        return records.isEmpty()?Result.fail("index over"):Result.success(records);
+    Result getPage(@PathVariable Integer index){
+        return Result.page(service.page(index));
     }
 
     /**

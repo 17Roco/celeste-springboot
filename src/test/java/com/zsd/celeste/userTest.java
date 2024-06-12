@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -40,7 +41,7 @@ public class userTest {
             a.setAid(null);
             a.setUid(r.nextInt(1,101));
             a.setContext("test article " + i);
-            a.setLike_(r.nextInt());
+            a.setLikee(r.nextInt());
             a.setStatus(1);
             a.setTitle("test title " + i);
             a.setWatch(r.nextInt());
@@ -50,14 +51,15 @@ public class userTest {
     }
     @Test
     void UpdateTestArticle100(){
-        for (int i = 1; i < 111; i++) {
+        LocalDateTime now = LocalDateTime.now();
+        for (int i = 1; i < 111; i++,now = now.minusDays(1)) {
             Random r = new Random();
             Article a = new Article();
             a.setWatch(r.nextInt(5000));
             a.setAid(i);
-            a.setLike_(r.nextInt(2000));
+            a.setLikee(r.nextInt(2000));
+            a.setUpdateTime(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()));
             articleService.updateById(a);
-
         }
     }
 
@@ -74,11 +76,24 @@ public class userTest {
 
     @Test
     void timeTest(){
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(now.getDayOfWeek().getValue());
-        for (int i = 1; i < 9; i++) {
-            LocalDateTime now2 = now.plusYears(i);
-            System.out.println(now2.getDayOfWeek().getValue() + "  " + now2.getDayOfWeek());
-        }
+        LocalDate now = LocalDate.now();
+        LocalDate monday = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        // 周日
+        LocalDate sunday = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        System.out.println(monday);
+        System.out.println(sunday);
+        // 本周开始时间
+        LocalDateTime weekStart = monday.atStartOfDay();
+        // 本周结束时间
+        LocalDateTime weekEnd = LocalDateTime.of(sunday, LocalTime.MAX);
+        System.out.println(weekStart);
+        System.out.println(weekEnd);
+    }
+    @Test
+    void heightLike(){
+        articleService.heightLike(null, null, 1).getRecords().forEach(a->{
+            a.setContext("");
+            System.out.println(a.getUpdateTime() + " -- "+a.getAid() + " -- "+a.getLikee());
+        });
     }
 }

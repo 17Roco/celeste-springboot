@@ -1,12 +1,9 @@
 package com.zsd.celeste.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsd.celeste.pojo.Article;
 import com.zsd.celeste.service.base.CBaseService;
-import com.zsd.celeste.service.inter.selectWrapperInterface;
-
-import java.util.List;
+import java.util.Date;
 
 /**
  * (Article)表服务接口
@@ -17,7 +14,7 @@ import java.util.List;
 public interface ArticleService extends CBaseService<Article> {
     enum ArticleTimeRange{ total,mouth,week }
 
-    IPage<Article> heightLike(ArticleTimeRange timeRange,int index);
-    IPage<Article> hot(ArticleTimeRange timeRange,int index);
+    IPage<Article> heightLike(Date beginTime,Date endTime, int index);
+    IPage<Article> hot(Date beginTime,Date endTime,int index);
 }
 

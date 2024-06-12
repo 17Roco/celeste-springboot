@@ -1,19 +1,13 @@
 package com.zsd.celeste.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.pojo.Article;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.base.CBaseServiceImpl;
-import com.zsd.celeste.service.inter.selectWrapperInterface;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * (Article)表服务实现类
@@ -25,25 +19,21 @@ import java.util.List;
 public class ArticleServiceImpl extends CBaseServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
-    public IPage<Article> heightLike(ArticleTimeRange timeRange, int index) {
-//        Date date = new Date();
-//        if(timeRange == ArticleTimeRange.mouth){
-//            date.setHours();
-//        }
-//        select( w-> w.eq("update_time",).orderByDesc("update_time"));
-        return null;
+    public IPage<Article> heightLike(Date beginTime, Date endTime, int index) {
+        return select(w -> w
+                        .ge(!Objects.isNull(beginTime), "updateTime", beginTime)
+                        .le(!Objects.isNull(endTime), "updateTime", endTime)
+                        .orderByDesc("likee")
+                , index);
     }
 
     @Override
-    public IPage<Article> hot(ArticleTimeRange timeRange, int index) {
-        return null;
-    }
-
-
-    Date getCurrentWeekFirstDay(){
-        Calendar c = Calendar.getInstance();
-//        c.get(Calendar.W)
-        return null;
+    public IPage<Article> hot(Date beginTime, Date endTime, int index) {
+        return select(w -> w
+                        .ge(!Objects.isNull(beginTime), "updateTime", beginTime)
+                        .le(!Objects.isNull(endTime), "updateTime", endTime)
+                        .orderByDesc("watch")
+                , index);
     }
 }
 

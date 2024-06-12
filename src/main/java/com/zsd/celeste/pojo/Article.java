@@ -36,8 +36,8 @@ public class Article{
     private Date updateTime;
     @TableField("watch")
     private Integer watch;
-    @TableField("like_")
-    private Integer like_;
+    @TableField("likee")
+    private Integer likee;
     /**
      * 1:public,2:private,vip:3
      */

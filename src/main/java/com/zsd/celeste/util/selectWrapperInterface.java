@@ -1,4 +1,5 @@
-package com.zsd.celeste.service.inter;
+package com.zsd.celeste.util;
+
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 

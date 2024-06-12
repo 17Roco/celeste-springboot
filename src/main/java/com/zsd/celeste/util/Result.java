@@ -1,4 +1,5 @@
 package com.zsd.celeste.util;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -36,9 +37,14 @@ public class Result {
         return notNull(o,null);
     }
     static public Result notNull(Object o,Object errMsg){
-        return judge(Objects.isNull(o),o,errMsg);
+        return judge(!Objects.isNull(o),o,errMsg);
     }
     static public Result notEmpty(Collection<?> o,Object errMsg) {
         return judge(!o.isEmpty(),o,errMsg);
     }
+
+    static public Result page(IPage<?> p){
+        return judge(!p.getRecords().isEmpty(),p,"index over");
+    }
+
 }

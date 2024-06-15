@@ -1,6 +1,8 @@
 package com.zsd.celeste.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -46,6 +48,9 @@ public class Article{
     @TableField("def_flag")
     @TableLogic()
     private Integer defFlag;
+
+    @TableField(exist = false)
+    private List<Tag> tags = new ArrayList<>();
 
 }
 

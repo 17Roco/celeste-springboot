@@ -81,18 +81,6 @@ public class UserController {
         return Result.judge(b);
     }
 
-    /**
-     * 根据id获取文章
-     * @param id index
-     * @return 结果
-     * */
-    @GetMapping("/article/{id}")
-    Result getArticle(@PathVariable Integer id){
-        return getArticle(id, 1);
-    }
-    @GetMapping("/article/{id}/{index}")
-    Result getArticle(@PathVariable Integer id,@PathVariable Integer index){
-        return Result.success(service.getArticleByUser(id,index));
-    }
+
 }
 

@@ -1,5 +1,6 @@
 package com.zsd.celeste.controller;
 import com.zsd.celeste.pojo.Article;
+import com.zsd.celeste.pojo.ArticleFilterConfig;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.util.Result;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
  * @since 2024-06-07 00:46:33
  */
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/blog")
 public class ArticleController {
     
     @Autowired
@@ -30,7 +31,7 @@ public class ArticleController {
         return getPage(1);
     }
     @GetMapping("/list/{index}")
-    Result getPage(@PathVariable Integer index){
+    Result getPage(@PathVariable() Integer index){
         return Result.page(service.page(index));
     }
 
@@ -39,7 +40,7 @@ public class ArticleController {
      * @param id 查询id
      * @return 查询结果
      */
-    @GetMapping("/{id}")
+    @GetMapping("/article/{id}")
     Result getById(@PathVariable Integer id){
         return Result.notNull(service.getById(id));
     }
@@ -61,31 +62,54 @@ public class ArticleController {
      * @param article 更新数据
      * @return 结果
      */
-    @PutMapping()
+    @PutMapping("article/content")
     Result update(@RequestBody Article article){
         boolean b = service.updateById(article);
         return Result.judge(b);
     }
-
+    @PutMapping("article/tag/{aid}")
+    Result update(@RequestBody String[] tags,@PathVariable Integer aid){
+        return null;
+    }
     /**
      * 根据id删除
      * @param id 删除id
      * @return 结果
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/article/{id}")
     Result delete(@PathVariable Integer id){
         boolean b = service.removeById(id);
         return Result.judge(b);
     }
+    /**
+     * 根据uid获取文章
+     * @param uid index
+     * @return 结果
+     * */
+    @GetMapping("/user/{uid}")
+    Result getArticleByUser(@PathVariable Integer uid){
+        return getArticleByUser(uid, 1);
+    }
+    @GetMapping("/user/{uid}/{index}")
+    Result getArticleByUser(@PathVariable Integer uid,@PathVariable Integer index){
+        return Result.page(service.getArticleByUser(uid,index));
+    }
 
 
-    @GetMapping("/height_like/{index}")
-    Result heightLike(@PathVariable Integer index, @RequestParam Date beginTime,@RequestParam Date endTime){
-        return Result.page(service.heightLike(beginTime,endTime,index));
+    /**
+     * 根据条件过滤文章
+     * */
+    @GetMapping("/articles/filter")
+    Result filter(ArticleFilterConfig config){
+        System.out.println(config);
+        return Result.page(service.getArticleByFilterConfig(config));
     }
-    @GetMapping("/hot/{index}")
-    Result heightWatch(@PathVariable Integer index, @RequestParam Date beginTime,@RequestParam Date endTime){
-        return Result.page(service.hot(beginTime,endTime,index));
-    }
+
+
+    /*
+    ***********************************
+    **/
+
+
 }
 

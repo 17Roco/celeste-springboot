@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsd.celeste.pojo.Tag;
 import com.zsd.celeste.service.base.CBaseService;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * (Tag)表服务接口
@@ -26,13 +28,18 @@ public interface TagService extends CBaseService<Tag> {
      * */
     default boolean addTagNum(String title){
         Tag tag = getTagByTitle(title);
-        if (Objects.isNull(tag)){
-            tag = new Tag();
-            tag.setTitle(title);
-            _insert(tag);
-        }
+        if (Objects.isNull(tag))
+            return false;
         tag.setNum(tag.getNum()+1);
         return _update(tag);
     }
+    default boolean defTagNum(String title){
+        Tag tag = getTagByTitle(title);
+        if (Objects.isNull(tag))
+            return false;
+        tag.setNum(tag.getNum()+1);
+        return _update(tag);
+    }
+
 }
 

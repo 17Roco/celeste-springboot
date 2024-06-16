@@ -33,5 +33,14 @@ public interface ArticleService extends CBaseService<Article> {
      * 通过过滤条件获取 文章
      * */
     IPage<Article> getArticleByFilterConfig(ArticleFilterConfig config);
+
+    /**
+     * 增加标签
+     * */
+    Boolean addArticleTag(Integer aid,String title);
+    /**
+     * 删除标签
+     * */
+    Boolean delArticleTag(Integer aid,String title);
 }
 

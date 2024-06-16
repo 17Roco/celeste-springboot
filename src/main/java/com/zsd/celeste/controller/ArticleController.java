@@ -50,11 +50,20 @@ public class ArticleController {
      * @param article 实体类对象
      * @return 结果
      */
-    @PostMapping()
+    @PostMapping("/article")
     Result add(@RequestBody Article article){
         article.setAid(null);
         boolean save = service.save(article);
         return Result.judge(save);
+    }
+    /**
+     * 增加标签
+     * @param tag 更新标签
+     * @return 结果
+     */
+    @PutMapping("article/tag/{aid}/{tag}")
+    Result update(@PathVariable String tag,@PathVariable Integer aid){
+        return Result.judge(service.addArticleTag(aid,tag));
     }
 
     /**
@@ -67,10 +76,8 @@ public class ArticleController {
         boolean b = service.updateById(article);
         return Result.judge(b);
     }
-    @PutMapping("article/tag/{aid}")
-    Result update(@RequestBody String[] tags,@PathVariable Integer aid){
-        return null;
-    }
+
+
     /**
      * 根据id删除
      * @param id 删除id
@@ -80,6 +87,15 @@ public class ArticleController {
     Result delete(@PathVariable Integer id){
         boolean b = service.removeById(id);
         return Result.judge(b);
+    }
+    /**
+     * 删除标签
+     * @param tag 更新标签
+     * @return 结果
+     */
+    @DeleteMapping("article/tag/{aid}/{tag}")
+    Result delete(@PathVariable String tag,@PathVariable Integer aid){
+        return Result.judge(service.delArticleTag(aid,tag));
     }
     /**
      * 根据uid获取文章

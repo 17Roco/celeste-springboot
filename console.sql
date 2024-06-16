@@ -59,6 +59,7 @@ insert into tag (title) values
 ('C/C++'),('Java'),('Python'),('Web'),('Vue'),('SpringBoot'),('go'),('kotlin'),('android'),('SQL'),('AI'),('C#'),('JavaScript'),('html'),('css'),('nodeJS'),('PHP'),('Linux'),('docker'),('IOS'),('windows'),('Unity'),('UE5'),('TypeScript'),('pinia'),('git'),('Qt'),('redis');
 
 
-select * from link_aid_tid;
+select * from `link_aid_tid`;
 select tid from link_aid_tid where aid = 1;
+delete from link_aid_tid;
 insert into link_aid_tid values (1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(2,2),(2,12),(2,22),(2,32),(2,42);

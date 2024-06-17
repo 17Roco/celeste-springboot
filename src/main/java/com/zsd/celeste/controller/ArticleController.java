@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2024-06-07 00:46:33
  */
 @RestController
-@RequestMapping("/blog")
+@RequestMapping("/blog/article")
 public class ArticleController {
     
     @Autowired
@@ -40,7 +40,7 @@ public class ArticleController {
      * @param id 查询id
      * @return 查询结果
      */
-    @GetMapping("/article/{id}")
+    @GetMapping("/{id}")
     Result getById(@PathVariable Integer id){
         return Result.notNull(service.getById(id));
     }
@@ -50,20 +50,22 @@ public class ArticleController {
      * @param article 实体类对象
      * @return 结果
      */
-    @PostMapping("/article")
+    @PostMapping("/")
     Result add(@RequestBody Article article){
         article.setAid(null);
         boolean save = service.save(article);
         return Result.judge(save);
     }
+
     /**
-     * 增加标签
-     * @param tag 更新标签
+     * 根据id删除
+     * @param id 删除id
      * @return 结果
      */
-    @PutMapping("article/tag/{aid}/{tag}")
-    Result update(@PathVariable String tag,@PathVariable Integer aid){
-        return Result.judge(service.addArticleTag(aid,tag));
+    @DeleteMapping("/{id}")
+    Result delete(@PathVariable Integer id){
+        boolean b = service.removeById(id);
+        return Result.judge(b);
     }
 
     /**
@@ -71,32 +73,39 @@ public class ArticleController {
      * @param article 更新数据
      * @return 结果
      */
-    @PutMapping("article/content")
+    @PutMapping("/content")
     Result update(@RequestBody Article article){
         boolean b = service.updateById(article);
         return Result.judge(b);
     }
 
+    /* ********************************************* */
 
     /**
-     * 根据id删除
-     * @param id 删除id
+     * 增加标签
+     * @param tag 更新标签
      * @return 结果
      */
-    @DeleteMapping("/article/{id}")
-    Result delete(@PathVariable Integer id){
-        boolean b = service.removeById(id);
-        return Result.judge(b);
+    @PutMapping("/tag/{aid}/{tag}")
+    Result update(@PathVariable String tag,@PathVariable Integer aid){
+        return Result.judge(service.addArticleTag(aid,tag));
     }
+
     /**
      * 删除标签
      * @param tag 更新标签
      * @return 结果
      */
-    @DeleteMapping("article/tag/{aid}/{tag}")
+    @DeleteMapping("/tag/{aid}/{tag}")
     Result delete(@PathVariable String tag,@PathVariable Integer aid){
         return Result.judge(service.delArticleTag(aid,tag));
     }
+
+
+
+
+    /* *********************************** */
+
     /**
      * 根据uid获取文章
      * @param uid index
@@ -111,21 +120,13 @@ public class ArticleController {
         return Result.page(service.getArticleByUser(uid,index));
     }
 
-
     /**
      * 根据条件过滤文章
      * */
-    @GetMapping("/articles/filter")
+    @GetMapping("/filter")
     Result filter(ArticleFilterConfig config){
         System.out.println(config);
         return Result.page(service.getArticleByFilterConfig(config));
     }
-
-
-    /*
-    ***********************************
-    **/
-
-
 }
 

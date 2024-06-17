@@ -1,6 +1,7 @@
 package com.zsd.celeste.pojo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,26 +21,31 @@ public class ArticleFilterConfig {
     private Date beginTime;
     private Date endTime;
 
-    private List<Integer> getAids(TagService service){
+    private List<Integer> getAids(ArticleService service){
         if(Objects.isNull(tag))return null;
         // getTag
-        Tag tag1 = service._selectOne(w -> w.eq("title", getTag()));
-        if (Objects.isNull(tag1))
+//        Tag tag1 = service._selectOne(w -> w.eq("title", getTag()));
+//        if (Objects.isNull(tag1))
+//            throw new RuntimeException("标签不存在");
+        List<Integer> aids = service.getAidsByTag(tag);
+        if (Objects.isNull(aids) || aids.isEmpty())
             throw new RuntimeException("标签不存在");
-        return service.getLinkMapper().getAidByTid(tag1.getTid());
+        return aids;
     }
 
     private String getOrderColum(){
         if (Objects.isNull(order) || order.equals("new"))
-            return "create_time";
+            return "update_time";
+        else if (order.equals("like"))
+            return "likee";
         return order;
     }
 
-    public QueryWrapper<Article> wrapper(QueryWrapper<Article> wrapper, TagService service){
+    public QueryWrapper<Article> wrapper(QueryWrapper<Article> wrapper, ArticleService service){
         return wrapper
                 .in(!Objects.isNull(tag),"aid",getAids(service))
-                .ge(!Objects.isNull(beginTime),"create_time",beginTime)
-                .le(!Objects.isNull(endTime),"create_time",endTime)
+                .ge(!Objects.isNull(beginTime),"update_time",beginTime)
+                .le(!Objects.isNull(endTime),"update_time",endTime)
                 .orderByDesc(getOrderColum());
     }
 }

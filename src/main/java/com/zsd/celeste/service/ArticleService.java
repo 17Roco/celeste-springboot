@@ -25,9 +25,19 @@ public interface ArticleService extends CBaseService<Article> {
     };
 
     /**
+     * 通过tid 获取 aids
+     * */
+    List<Integer> getAidsByTag(Integer tid);
+    List<Integer> getAidsByTag(String title);
+
+    /**
      * 通过 tid 获取 文章
      * */
-    IPage<Article> getArticleByTag(Integer tid, int index);
+    default IPage<Article> getArticleByTag(Integer tid, int index){
+        List<Integer> aids = getAidsByTag(tid);
+        return  _select(w->w.in("aid",aids),index);
+    };
+
 
     /**
      * 通过过滤条件获取 文章

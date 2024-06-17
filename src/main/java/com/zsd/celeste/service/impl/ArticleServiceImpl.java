@@ -58,15 +58,19 @@ public class ArticleServiceImpl extends CBaseServiceImpl<ArticleMapper, Article>
         }else return false;
     }
 
-
-
     /**
-     * 通过 tid 获取 文章
+     * 通过tid 获取 aids
      * */
     @Override
-    public IPage<Article> getArticleByTag(Integer tid, int index) {
-        List<Integer> aids = linkMapper.getLinkField(tidToAid, tid);
-        return  _select(w->w.in("aid",aids),index);
+    public List<Integer> getAidsByTag(Integer tid) {
+        return linkMapper.getLinkField(tidToAid, tid);
+    }
+    @Override
+    public List<Integer> getAidsByTag(String  title) {
+        Tag tag = tagService.getTagByTitle(title);
+        if (Objects.isNull(tag))
+            return null;
+        return linkMapper.getLinkField(tidToAid, tag.getTid());
     }
 
     /**
@@ -75,7 +79,7 @@ public class ArticleServiceImpl extends CBaseServiceImpl<ArticleMapper, Article>
     @Override
     public IPage<Article> getArticleByFilterConfig(ArticleFilterConfig config) {
         return _select(
-                w->config.wrapper(w,tagService)
+                w->config.wrapper(w,this)
                 ,config.getIndex()
         );
     }

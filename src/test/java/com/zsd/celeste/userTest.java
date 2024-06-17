@@ -59,13 +59,14 @@ public class userTest {
         Random tr = new Random();
         long count = articleService.count();
         System.out.println(count);
-        for (int i = 1; i < count; i++,now = now.minusDays(tr.nextInt(7))) {
+        for (int i = 1; i < count; i++,now = now.minusDays(tr.nextInt(1,7))) {
             Random r = new Random();
             Article a = new Article();
             a.setWatch(r.nextInt(5000));
             a.setAid(i);
             a.setLikee(r.nextInt(2000));
-            a.setUpdateTime(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()));
+            a.setCreateTime(Date.from(now.atZone(ZoneId.systemDefault()).toInstant()));
+            a.setUpdateTime(a.getCreateTime());
             articleService.updateById(a);
         }
     }

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -45,12 +46,16 @@ public class Article{
      */
     @TableField("status")
     private Integer status;
+
+
+    @JsonIgnore
     @TableField("def_flag")
     @TableLogic()
     private Integer defFlag;
 
+
     @TableField(exist = false)
-    private List<Tag> tags = new ArrayList<>();
+    private List<String> tags = new ArrayList<>();
 
 }
 

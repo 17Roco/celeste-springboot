@@ -37,23 +37,25 @@ public class ArticleServiceImpl extends CBaseServiceImpl<ArticleMapper, Article>
         List<Integer> tids = linkMapper.getLinkField(aidToTid, entity.getAid());
         if (tids.isEmpty()) return;
         List<Tag> tags = tagService._select(w -> w.in("tid", tids));
-        entity.setTags(tags);
+        entity.setTags(tags.stream().map(Tag::getTitle).toList());
     }
 
     @Override
     public boolean insertAfter(Article entity) {
         if (super.insertAfter(entity)) {
-            long count = entity.getTags().stream().filter(t -> linkMapper.addLink(aidToTid, entity.getAid(), t.getTid()) == 1).count();
-//            if (count != entity.getTags().size())
-//                throw new RuntimeException("标签添加异常");
+            // 为新建的文章添加标签
+            List<Tag> tags = entity.getTags().stream().map(tag -> tagService.getTagByTitle(tag)).toList();
+            tags.forEach(tag -> tagService.save(tag.addNum()));
             return true;
         }else return false;
     }
 
     @Override
-    public boolean delAfter(Article entity) {
-        if (super.delAfter(entity)) {
-            entity.getTags().forEach(t -> linkMapper.addLink(aidToTid, entity.getAid(), t.getTid()));
+    public boolean delAfter(Integer id) {
+        if (super.delAfter(id)) {
+            // 为删除的文章删除标签标签
+            List<Integer> tids = linkMapper.getLinkField(aidToTid, id);
+            tids.forEach(tid -> linkMapper.delLink(aidToTid,id,tid));
             return true;
         }else return false;
     }

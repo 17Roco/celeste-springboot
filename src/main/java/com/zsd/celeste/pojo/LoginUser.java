@@ -10,8 +10,10 @@ import java.util.Collection;
 public class LoginUser implements UserDetails {
     private String username;
     private String password;
+    private User user;
 
     public LoginUser(User user){
+        this.user = user;
         username = user.getUsername();
         password = user.getPassword();
     }

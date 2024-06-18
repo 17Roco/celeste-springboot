@@ -1,13 +1,17 @@
 package com.zsd.celeste.controller;
 import com.zsd.celeste.pojo.Article;
 import com.zsd.celeste.pojo.ArticleFilterConfig;
+import com.zsd.celeste.pojo.LoginUser;
 import com.zsd.celeste.service.ArticleService;
+import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.Result;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * (Article)表控制层
@@ -42,7 +46,7 @@ public class ArticleController {
      */
     @GetMapping("/{id}")
     Result getById(@PathVariable Integer id){
-        return Result.notNull(service.getById(id));
+        return Result.notNull(service._select(w->w.eq("aid",id)));
     }
 
     /**
@@ -51,9 +55,18 @@ public class ArticleController {
      * @return 结果
      */
     @PostMapping("/")
+    @PreAuthorize("@autUtil.needLogin()")
     Result add(@RequestBody Article article){
-        article.setAid(null);
-        boolean save = service.save(article);
+        // 设置 uid 为登陆用户，设置 aid 问 null
+        LoginUser self = AutUtil.self();
+        Article art = new Article();
+        art.setUid(self.getUser().getUid());
+        art.setAid(null);
+        art.setCreateTime(new Date());
+        art.setUpdateTime(new Date());
+        art.setTitle(article.getTitle());
+        art.setContext(article.getContext());
+        boolean save = service.save(art);
         return Result.judge(save);
     }
 
@@ -62,9 +75,17 @@ public class ArticleController {
      * @param id 删除id
      * @return 结果
      */
-    @DeleteMapping("/{id}")
-    Result delete(@PathVariable Integer id){
-        boolean b = service.removeById(id);
+    @DeleteMapping("/{aid}")
+    @PreAuthorize("@autUtil.needLogin()")
+    Result delete(@PathVariable Integer aid){
+        LoginUser self = AutUtil.self();
+        Article art = service.getById(aid);
+        if (Objects.isNull(art)){
+            throw new RuntimeException("文章不存在");
+        }else if (!Objects.equals(art.getUid(), AutUtil.self().getUser().getUid())){
+            throw new RuntimeException("无法删除其他人的文章");
+        }
+        boolean b = service._del(aid);
         return Result.judge(b);
     }
 
@@ -74,7 +95,17 @@ public class ArticleController {
      * @return 结果
      */
     @PutMapping("/content")
+    @PreAuthorize("@autUtil.needLogin()")
     Result update(@RequestBody Article article){
+        Article art = service.getById(article.getAid());
+        if (Objects.isNull(art)){
+            throw new RuntimeException("文章不存在");
+        }else if (!Objects.equals(art.getUid(), AutUtil.self().getUser().getUid())){
+            throw new RuntimeException("无法修改其他人的文章");
+        }
+        art.setUpdateTime(new Date());
+        art.setTitle(article.getTitle());
+        art.setContext(article.getContext());
         boolean b = service.updateById(article);
         return Result.judge(b);
     }
@@ -87,7 +118,15 @@ public class ArticleController {
      * @return 结果
      */
     @PutMapping("/tag/{aid}/{tag}")
+    @PreAuthorize("@autUtil.needLogin()")
     Result update(@PathVariable String tag,@PathVariable Integer aid){
+        Article art = service.getById(aid);
+        if (Objects.isNull(art)){
+            throw new RuntimeException("文章不存在");
+        }else if (!Objects.equals(art.getUid(), AutUtil.self().getUser().getUid())){
+            throw new RuntimeException("无法修改其他人的文章");
+        }
+
         return Result.judge(service.addArticleTag(aid,tag));
     }
 
@@ -97,7 +136,15 @@ public class ArticleController {
      * @return 结果
      */
     @DeleteMapping("/tag/{aid}/{tag}")
+    @PreAuthorize("@autUtil.needLogin()")
     Result delete(@PathVariable String tag,@PathVariable Integer aid){
+        Article art = service.getById(aid);
+        if (Objects.isNull(art)){
+            throw new RuntimeException("文章不存在");
+        }else if (!Objects.equals(art.getUid(), AutUtil.self().getUser().getUid())){
+            throw new RuntimeException("无法修改其他人的文章");
+        }
+
         return Result.judge(service.delArticleTag(aid,tag));
     }
 

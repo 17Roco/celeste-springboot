@@ -24,7 +24,7 @@ public interface CBaseService<T> extends IService<T> {
     default void selectAfter(T entity){  }
     default boolean insertAfter(T entity){ return true; }
     default boolean updateAfter(T entity){ return true; }
-    default boolean delAfter(T entity){ return true; }
+    default boolean delAfter(Integer id){ return true; }
 
 
     /**
@@ -71,8 +71,8 @@ public interface CBaseService<T> extends IService<T> {
     default boolean _update(T entity){
         return updateById(entity) && updateAfter(entity);
     }
-    default boolean _del(T entity){
-        return removeById(entity) && delAfter(entity);
+    default boolean _del(Integer id){
+        return removeById(id) && delAfter(id);
     }
 
 

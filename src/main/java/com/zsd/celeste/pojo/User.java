@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @TableName("user")
 public class User{
+    @JsonIgnore
     @TableId("uid")
     private Integer uid;
 
@@ -27,16 +29,20 @@ public class User{
     private Integer sex;
     @TableField("username")
     private String username;
-    @TableField("password")
-    private String password;
     @TableField("img")
     private String img;
     @TableField("phone")
     private String phone;
     @TableField("email")
     private String email;
+
+    @JsonIgnore
+    @TableField("password")
+    private String password;
+    @JsonIgnore
     @TableField("status")
     private Integer status;
+    @JsonIgnore
     @TableLogic
     @TableField("def_flag")
     private Integer defFlag;

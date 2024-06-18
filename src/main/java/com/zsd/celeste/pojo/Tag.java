@@ -31,5 +31,9 @@ public class Tag{
     @TableField("num")
     private Integer num;
 
+    public Tag addNum() {
+        num++;
+        return this;
+    }
 }
 

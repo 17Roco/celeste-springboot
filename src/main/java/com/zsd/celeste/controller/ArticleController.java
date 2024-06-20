@@ -20,7 +20,7 @@ import java.util.Objects;
  * @since 2024-06-07 00:46:33
  */
 @RestController
-@RequestMapping("/blog/article")
+@RequestMapping("/article")
 public class ArticleController {
     
     @Autowired
@@ -46,7 +46,7 @@ public class ArticleController {
      */
     @GetMapping("/{id}")
     Result getById(@PathVariable Integer id){
-        return Result.notNull(service._select(w->w.eq("aid",id)));
+        return Result.success(service._selectOne(w->w.eq("aid",id)));
     }
 
     /**

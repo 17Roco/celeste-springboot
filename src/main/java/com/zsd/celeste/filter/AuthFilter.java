@@ -26,23 +26,26 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(request.getRequestURI());
-
+        // 验证
         String token = request.getHeader("token");
-        auth(token);
+        String username = auth(token);
+        // 输出访问的接口
+        System.out.println(username+" : "+request.getMethod()+" : "+request.getRequestURI());
+
         filterChain.doFilter(request,response);
     }
-    void auth(String token){
+    String auth(String token){
+        // 无 token
         if(!StringUtils.hasText(token))
-            return;
+            return "";
+        // token 无效
         LoginUser user = online.getUser(token);
         if(Objects.isNull(user))
             throw new RuntimeException("token 无效");
-
-        System.out.println(" >>> "+user.getUsername());
         // 保存到context
         Authentication t = new UsernamePasswordAuthenticationToken(user,token,user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(t);
 
+        return user.getUsername();
     }
 }

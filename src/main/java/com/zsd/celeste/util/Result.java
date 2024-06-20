@@ -16,14 +16,16 @@ public class Result {
         return new Result("ok",200,data);
     }
     static public Result fail(Object data){
-        return new Result("error",400,data);
+        return fail("error",data);
+    }
+    static public Result fail(String  msg){
+        return fail(msg,null);
+    }
+    static public Result fail(String msg,Object data){
+        return new Result(msg,400,data);
     }
 
 
-
-    static public Result judge(boolean b){
-        return judge(b,null,null);
-    }
     static public Result judge(boolean b,Object msg){
         return judge(b,msg,null);
     }
@@ -34,7 +36,7 @@ public class Result {
 
 
     static public Result notNull(Object o){
-        return notNull(o,null);
+        return notNull(o,"null");
     }
     static public Result notNull(Object o,Object errMsg){
         return judge(!Objects.isNull(o),o,errMsg);
@@ -43,8 +45,20 @@ public class Result {
         return judge(!o.isEmpty(),o,errMsg);
     }
 
+
+    ///
+
+    static public Result judge(boolean res){
+        return res ? success(null) : fail(null);
+    }
+    static public Result success(boolean res,String errMag){
+        return res ? success(null) : fail(errMag);
+    }
+
     static public Result page(IPage<?> p){
-        return judge(!p.getRecords().isEmpty(),p,"index over");
+        if (p.getRecords().isEmpty())
+            return fail("index over",p);
+        return success(p);
     }
 
 }

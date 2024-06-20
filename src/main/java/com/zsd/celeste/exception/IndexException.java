@@ -3,6 +3,7 @@ package com.zsd.celeste.exception;
 import com.zsd.celeste.util.Result;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class IndexException {
@@ -19,5 +20,14 @@ public class IndexException {
     @ResponseBody
     Result accessDenied(){
         return Result.fail("权限不足");
+    }
+
+
+    // MethodArgumentTypeMismatchException
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseBody
+    Result MethodArgumentTypeMismatch(){
+        return Result.fail("Argument Type Mismatch");
     }
 }

@@ -34,6 +34,7 @@ public class LoginController {
         String token = online.userLogin(u);
         return Result.success(token);
     }
+    @PostMapping("/logout")
     public Result logout(String token){
         return Result.judge(online.userLogout(token));
     }

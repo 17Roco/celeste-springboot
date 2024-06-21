@@ -26,7 +26,7 @@ public interface UserService extends CBaseService<User>, UserDetailsService {
         User user = getOne(new QueryWrapper<User>().eq("username", username));
         if(Objects.isNull(user))
             throw new RuntimeException("用户不存在");
-        return new LoginUser(user);
+        return new LoginUser(user,null);
     }
 
 

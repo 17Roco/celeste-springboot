@@ -25,6 +25,8 @@ public class ArticleController {
     
     @Autowired
     private ArticleService service;
+    @Autowired
+    private AutUtil autUtil;
 
     /**
      * 查询
@@ -173,6 +175,9 @@ public class ArticleController {
     @GetMapping("/filter")
     Result filter(ArticleFilterConfig config){
         System.out.println(config);
+        if (config.getSelf() && autUtil.needLogin()) {
+            config.setUid(autUtil.getLoginUser().getUser().getUid());
+        }
         return Result.page(service.getArticleByFilterConfig(config));
     }
 }

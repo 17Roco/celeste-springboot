@@ -6,6 +6,8 @@ import com.zsd.celeste.pojo.LoginUser;
 import com.zsd.celeste.pojo.User;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.service.base.CBaseServiceImpl;
+import com.zsd.celeste.util.OnlineCache;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.Objects;
  */
 @Service
 public class UserServiceImpl extends CBaseServiceImpl<UserMapper, User> implements UserService {
+
 
 }
 

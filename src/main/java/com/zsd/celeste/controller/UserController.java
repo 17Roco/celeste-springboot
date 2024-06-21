@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsd.celeste.pojo.User;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.Result;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +26,8 @@ public class UserController {
     
     @Autowired
     private UserService service;
+    @Autowired
+    private AutUtil autUtil;
 
     /**
      * 查询
@@ -50,7 +53,13 @@ public class UserController {
     Result getById(@PathVariable Integer id){
         return Result.success(service.getById(id));
     }
-
+    @GetMapping("/")
+    @PreAuthorize("@autUtil.needLogin()")
+    Result get(){
+        User user = autUtil.getLoginUser().getUser();
+        user.setPassword(null);
+        return Result.success(user);
+    }
 
     @Autowired
     private PasswordEncoder encoder;

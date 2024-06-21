@@ -8,19 +8,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
 public class OnlineCache {
-    private final Map<String , LoginUser> onlineUser = new HashMap<>();
 
-    /**
-     * 生成一个测试token
-     * */
-    public OnlineCache(UserService service){
-        String token = "asdfghjk";
-        onlineUser.put(token,new LoginUser(service.getById(1)));
-        System.out.println(" >> token >>>" + token);
+    @Autowired
+    private UserService service;
+    private final Map<Object , LoginUser> onlineUser = new HashMap<>();
+
+    public void addTestUser(LoginUser user,String  token){
+        onlineUser.put(token,user);
     }
 
     private String  createToken(){
@@ -36,6 +35,7 @@ public class OnlineCache {
      * */
     public String userLogin(LoginUser user){
         String token = createToken();
+        user.setToken(token);
         onlineUser.put(token,user);
         return token;
     }
@@ -43,7 +43,7 @@ public class OnlineCache {
      * 用户退出，删除对应token
     * */
     public boolean userLogout(String token){
-        if(!onlineUser.containsKey(token))
+        if (!onlineUser.containsKey(token))
             return false;
         onlineUser.remove(token);
         return true;
@@ -52,6 +52,9 @@ public class OnlineCache {
      * 根据token获取用户
      * */
     public LoginUser getUser(String token){
-        return onlineUser.get(token);
+        LoginUser self = onlineUser.get(token);
+        if (Objects.isNull(self)) return self;
+        self.setUser(service._selectOne(w -> w.eq("uid", self.getUser().getUid())));
+        return self;
     }
 }

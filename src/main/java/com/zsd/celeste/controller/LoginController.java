@@ -3,9 +3,11 @@ package com.zsd.celeste.controller;
 import com.zsd.celeste.filter.AuthFilter;
 import com.zsd.celeste.pojo.LoginUser;
 import com.zsd.celeste.pojo.User;
+import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.OnlineCache;
 import com.zsd.celeste.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,8 @@ public class LoginController {
     private AuthenticationManager manager;
     @Autowired
     private OnlineCache online;
+    @Autowired
+    private AutUtil autUtil;
     @PostMapping("/login")
     public Result login(@RequestBody User user){
         if(Objects.isNull(user.getUsername()) || user.getUsername().isEmpty() || Objects.isNull(user.getPassword()) || user.getPassword().isEmpty())throw new RuntimeException("用户名或密码欠缺");
@@ -36,8 +40,9 @@ public class LoginController {
         return Result.success(token);
     }
     @PostMapping("/logout")
-    public Result logout(@RequestBody String token){
-        return Result.judge(online.userLogout(token));
+    @PreAuthorize("@autUtil.needLogin()")
+    public Result logout(){
+        return Result.judge(online.userLogout(autUtil.getLoginUser().getToken()));
     }
 
 

@@ -20,6 +20,8 @@ public class ArticleFilterConfig {
     private String tag;
     private Date beginTime;
     private Date endTime;
+    private Integer uid;
+    private Boolean self = false;
 
     private List<Integer> getAids(ArticleService service){
         if(Objects.isNull(tag))return null;
@@ -42,7 +44,9 @@ public class ArticleFilterConfig {
     }
 
     public QueryWrapper<Article> wrapper(QueryWrapper<Article> wrapper, ArticleService service){
+        System.out.println(uid);
         return wrapper
+                .eq(!Objects.isNull(uid),"uid",uid)
                 .in(!Objects.isNull(tag),"aid",getAids(service))
                 .ge(!Objects.isNull(beginTime),"update_time",beginTime)
                 .le(!Objects.isNull(endTime),"update_time",endTime)

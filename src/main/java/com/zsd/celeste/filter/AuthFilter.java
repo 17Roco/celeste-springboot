@@ -1,11 +1,13 @@
 package com.zsd.celeste.filter;
 
 import com.zsd.celeste.pojo.LoginUser;
+import com.zsd.celeste.pojo.User;
 import com.zsd.celeste.util.OnlineCache;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.catalina.realm.AuthenticatedUserRealm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,7 +33,7 @@ public class AuthFilter extends OncePerRequestFilter {
         String username = auth(token);
         // 输出访问的接口
         System.out.println(username+" : "+request.getMethod()+" : "+request.getRequestURI());
-
+        //
         filterChain.doFilter(request,response);
     }
     String auth(String token){
@@ -41,7 +43,7 @@ public class AuthFilter extends OncePerRequestFilter {
         // token 无效
         LoginUser user = online.getUser(token);
         if(Objects.isNull(user))
-            throw new RuntimeException("token 无效");
+            user = new LoginUser(new User(),"notoken");
         // 保存到context
         Authentication t = new UsernamePasswordAuthenticationToken(user,token,user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(t);

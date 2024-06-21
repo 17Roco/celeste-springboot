@@ -8,19 +8,27 @@ import java.util.Collection;
 
 @Data
 public class LoginUser implements UserDetails {
-    private String username;
-    private String password;
     private User user;
+    private String token;
 
-    public LoginUser(User user){
+    public LoginUser(User user,String token){
         this.user = user;
-        username = user.getUsername();
-        password = user.getPassword();
+        this.token = token;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return getUser().getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return getUser().getUsername();
     }
 
 

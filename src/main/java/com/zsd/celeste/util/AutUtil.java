@@ -31,6 +31,8 @@ public class AutUtil {
         LoginUser user = getLoginUser();
         if (Objects.isNull(user))
             throw new RuntimeException("需要登陆");
+        else if (user.getToken().equals("notoken"))
+            throw new RuntimeException("token 失效");
         return true;
     }
 

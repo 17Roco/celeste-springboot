@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 /**
  * (User)实体类
@@ -21,7 +19,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @TableName("user")
 public class User{
-    @JsonIgnore
     @TableId("uid")
     private Integer uid;
 
@@ -36,9 +33,9 @@ public class User{
     @TableField("email")
     private String email;
 
-    @JsonIgnore
     @TableField("password")
     private String password;
+
     @JsonIgnore
     @TableField("status")
     private Integer status;

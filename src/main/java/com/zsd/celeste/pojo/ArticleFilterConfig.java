@@ -47,7 +47,7 @@ public class ArticleFilterConfig {
         System.out.println(uid);
         return wrapper
                 .eq(!Objects.isNull(uid),"uid",uid)
-                .in(!Objects.isNull(tag),"aid",getAids(service))
+                .in(!Objects.isNull(tag)&&!tag.isEmpty(),"aid",getAids(service))
                 .ge(!Objects.isNull(beginTime),"update_time",beginTime)
                 .le(!Objects.isNull(endTime),"update_time",endTime)
                 .orderByDesc(getOrderColum());

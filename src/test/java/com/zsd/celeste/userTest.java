@@ -26,33 +26,52 @@ public class userTest {
     private ArticleService articleService;
     @Autowired
     private TagService tagService;
-//    @Test
-//    void addTestUser100(){
-//        User user = new User();
-//        user.setPassword("$2a$10$.VXU9ZtIPk40SqQnMFI2zud6ht7xN5Z2hlFBCQoL.sAZA6lu/2rCG");
-//        for (int i = 0; i < 99; i++) {
-//            user.setUsername("user"+i);
-//            user.setUid(null);
-//            System.out.println(i+" : "+ userService.save(user));
-//        }
-//    }
-//    @Test
-//    void addTestArticle100(){
-//
-//        for (int i = 0; i < 100; i++) {
-//            Random r = new Random();
-//            Article a = new Article();
-//            a.setAid(null);
-//            a.setUid(r.nextInt(1,101));
-//            a.setContext("test article " + i);
-//            a.setLikee(r.nextInt());
-//            a.setStatus(1);
-//            a.setTitle("test title " + i);
-//            a.setWatch(r.nextInt());
-//            articleService.save(a);
-//            System.out.println(i);
-//        }
-//    }
+    @Test
+    void addTestUser100(){
+        for (int i = 1; i <= 100; i++) {
+            System.out.printf("('user%d')%s",i,(i%20==0) ? ",\n" : ",");
+        }
+    }
+    @Test
+    void addArticle100(){
+        Random random = new Random();
+
+        for (int i = 1; i <= 100; i++) {
+            System.out.printf(
+                    "(%d,'title %d','sdjghyuig;;eiruag%derui;uhegrh%duidgsdfhsiuef%dhushuia%ddgshudgfa')%s",
+                    random.nextInt(102),
+                    random.nextInt(1000),
+                    random.nextInt(1000),random.nextInt(1000),random.nextInt(1000),random.nextInt(1000),
+                    (i%5==0) ? ",\n" : ","
+            );
+        }
+    }
+    @Test
+    void addLink(){
+        Random random = new Random();
+        for (int i = 1; i <= 100; i++) {
+            System.out.printf(
+                    "(%d,%d)%s",
+                    random.nextInt(101),
+                    random.nextInt(111),
+                    (i%20==0) ? ",\n" : ","
+            );
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //    @Test
     void UpdateTestArticle(){
         LocalDateTime now = LocalDateTime.now();

@@ -12,7 +12,7 @@ public interface LinkMapper {
 //    List<Integer> getLinkField(String field,Integer id,String tableName,String linkField);
 //    @Select("select count(`${field}`) from `${tableName}` group by `${field}` having `${field}`= ${id}")
 //    List<Integer> getLinkFieldCount(String field,Integer id,String tableName,String linkField);
-//    @Insert("insert into `${tableName}` (`${field}`,`${linkField}`) values (${id},${linkId})")
+//    @Insert("insert.sql into `${tableName}` (`${field}`,`${linkField}`) values (${id},${linkId})")
 //    Integer addLink(String field,Integer id,String tableName,String linkField,Integer linkId);
 //    @Delete("delete from `${tableName}` where `${field}` = ${id} and `${linkField}` = ${linkId};")
 //    Integer delLink(String field,Integer id,String tableName,String linkField,Integer linkId);

@@ -19,6 +19,7 @@ spring:
   mvc:
     format:
       date: yyyy-MM-dd
+    static-path-pattern: /static/**
 
 mybatis-plus:
   configuration:

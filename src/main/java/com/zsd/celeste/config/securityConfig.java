@@ -28,7 +28,7 @@ public class securityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        aut->aut.requestMatchers("/login","/logout","test/**","user/**","article/**","tag/**").permitAll()
+                        aut->aut.requestMatchers("/api/login","/api/logout","test/**","/api/user/**","/api/article/**","/api/tag/**","static/**").permitAll()
                                 .anyRequest().authenticated()
                 );
         http.addFilterAt(authFilter, UsernamePasswordAuthenticationFilter.class);

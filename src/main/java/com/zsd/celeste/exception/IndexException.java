@@ -12,7 +12,7 @@ public class IndexException {
     @ResponseBody
     Result index(Exception e){
         System.out.println(e.getMessage());
-        e.printStackTrace();
+//        e.printStackTrace();
         return Result.fail(e.getMessage());
     }
 

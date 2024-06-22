@@ -20,7 +20,7 @@ import java.util.Objects;
  * @since 2024-06-07 00:46:33
  */
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 public class ArticleController {
     
     @Autowired

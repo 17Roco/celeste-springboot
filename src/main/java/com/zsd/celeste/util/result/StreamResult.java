@@ -17,5 +17,5 @@ public class StreamResult extends Result {
         return this;
     }
 
-    static public StreamResult put() {return new StreamResult();}
+    static public StreamResult create(String  k, Object v) {return new StreamResult().put(k,v);}
 }

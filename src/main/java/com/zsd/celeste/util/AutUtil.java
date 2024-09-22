@@ -1,6 +1,6 @@
 package com.zsd.celeste.util;
 
-import com.zsd.celeste.entity.LoginUser;
+import com.zsd.celeste.entity.DO.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

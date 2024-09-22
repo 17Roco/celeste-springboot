@@ -1,7 +1,8 @@
 package com.zsd.celeste.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zsd.celeste.entity.LoginUser;
+import com.zsd.celeste.entity.VO.UserInfoVo;
+import com.zsd.celeste.entity.DO.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.util.base.service.BaseService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,5 +26,12 @@ public interface UserService extends BaseService<User>, UserDetailsService {
         return new LoginUser(user,null);
     }
 
+    LoginUser auth(String username, String password);
+
+    String login(String username, String password);
+    boolean logout(String token);
+    boolean register(String username, String password);
+    boolean updatePassword(String username, String oldPassword, String newPassword);
+    boolean updateInfo(UserInfoVo userInfo);
 }
 

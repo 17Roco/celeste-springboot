@@ -24,4 +24,10 @@ public class TagController implements BaseAllListController<Tag> {
     public BaseService<Tag> getService() {
         return service;
     }
+
+    @PostMapping("/{title}")
+    public Result add(@PathVariable String title) {
+        Tag tag = new Tag(null, title, "", 0);
+        return Result.judge(service.save(tag));
+    }
 }

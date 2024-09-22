@@ -6,7 +6,8 @@ import java.util.Objects;
 
 public interface TokenService {
 
-    void addToken(User user);
+    String  addToken(User user);
     void removeToken(String token);
     User getUser(String token);
+    void removeUser(User user);
 }

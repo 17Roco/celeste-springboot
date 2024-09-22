@@ -1,25 +1,25 @@
-package com.zsd.celeste.entity;
+package com.zsd.celeste.entity.DO;
 
 import com.zsd.celeste.entity.PO.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class LoginUser implements UserDetails {
+
     private User user;
     private String token;
 
-    public LoginUser(User user,String token){
-        this.user = user;
-        this.token = token;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of();
     }
 
     @Override
@@ -32,21 +32,23 @@ public class LoginUser implements UserDetails {
         return getUser().getUsername();
     }
 
-
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return getUser().getStatus() == 1;
     }
+
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return getUser().getStatus() == 1;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return getUser().getStatus() == 1;
     }
+
     @Override
     public boolean isEnabled() {
-        return true;
+        return getUser().getStatus() == 1;
     }
 }

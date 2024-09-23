@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class UserInfoVo {
-    private Integer id;
+    private Integer uid;
     private String username;
     private String email;
     private Integer sex;

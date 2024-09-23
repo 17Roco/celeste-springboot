@@ -8,6 +8,7 @@ import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.TokenService;
 import com.zsd.celeste.service.UserService;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,13 +29,13 @@ import java.util.Objects;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-    @Autowired
-    AuthenticationManager manager;
     @Autowired
     TokenService tokenService;
+
+    @Setter
+    PasswordEncoder passwordEncoder;
+    @Setter
+    AuthenticationManager manager;
 
     @Override
     public LoginUser auth(String username, String password) {

@@ -29,10 +29,11 @@ public class ArticleFilterConfig {
 //        Tag tag1 = service._selectOne(w -> w.eq("title", getTag()));
 //        if (Objects.isNull(tag1))
 //            throw new RuntimeException("标签不存在");
-        List<Integer> aids = service.getAidsByTag(tag);
-        if (Objects.isNull(aids) || aids.isEmpty())
-            throw new RuntimeException("标签不存在");
-        return aids;
+//        List<Integer> aids = service.getAidsByTag(tag);
+//        if (Objects.isNull(aids) || aids.isEmpty())
+//            throw new RuntimeException("标签不存在");
+//        return aids;
+        return null;
     }
 
     private String getOrderColum(){

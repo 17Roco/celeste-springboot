@@ -89,18 +89,18 @@ public class userTest {
 
 //    @Test
     void UpdateTestArticleTagsLink(){
-        long artCount = articleService.count();
-        List<String> tags = tagService.list().stream().map(Tag::getTitle).toList();
-        Random linkNumRan = new Random();
-        for (int i = 1; i <= artCount; i++) {
-            for (int j = 1; j < linkNumRan.nextInt(8); j++) {
-                try {
-                    articleService.addArticleTag(i,tags.get(linkNumRan.nextInt(tags.size())));
-                }catch (Exception e){
-                    System.out.println("x");
-                }
-            }
-        }
+//        long artCount = articleService.count();
+//        List<String> tags = tagService.list().stream().map(Tag::getTitle).toList();
+//        Random linkNumRan = new Random();
+//        for (int i = 1; i <= artCount; i++) {
+//            for (int j = 1; j < linkNumRan.nextInt(8); j++) {
+//                try {
+//                    articleService.addArticleTag(i,tags.get(linkNumRan.nextInt(tags.size())));
+//                }catch (Exception e){
+//                    System.out.println("x");
+//                }
+//            }
+//        }
     }
 
 //    @Test

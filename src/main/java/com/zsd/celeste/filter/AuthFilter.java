@@ -1,16 +1,22 @@
 package com.zsd.celeste.filter;
 
+import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 public class AuthFilter extends OncePerRequestFilter {
@@ -30,16 +36,15 @@ public class AuthFilter extends OncePerRequestFilter {
     String auth(String token){
         // 无 token
         if(!StringUtils.hasText(token))
-            return "";
+            return "游客";
         // token 无效
-//        LoginUser user = online.getUser(token);
-//        if(Objects.isNull(user))
-//            user = new LoginUser(new User(),"notoken");
+        User user = service.getUser(token);
+        if(Objects.isNull(user))
+            throw new RuntimeException("token失效");
         // 保存到context
-//        Authentication t = new UsernamePasswordAuthenticationToken(user,token,user.getAuthorities());
-//        SecurityContextHolder.getContext().setAuthentication(t);
-//
-//        return user.getUsername();
-        return null;
+        Authentication t = new UsernamePasswordAuthenticationToken(user,token,null);
+        SecurityContextHolder.getContext().setAuthentication(t);
+
+        return user.getUsername();
     }
 }

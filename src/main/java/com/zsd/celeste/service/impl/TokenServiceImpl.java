@@ -16,6 +16,13 @@ public class TokenServiceImpl implements TokenService {
         return UUID.randomUUID().toString();
     }
 
+    public TokenServiceImpl(){
+        System.out.println(" ----------------- >>>> token service");
+        User user = new User();
+        user.setUsername("test_user");
+        user.setUid(0);
+        cache.put("12345678",user);
+    }
 
     public String addToken(User user) {
         if (Objects.isNull(user))

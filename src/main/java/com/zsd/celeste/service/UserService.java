@@ -5,9 +5,11 @@ import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.entity.DO.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.util.base.service.BaseService;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
 
@@ -25,6 +27,14 @@ public interface UserService extends BaseService<User>, UserDetailsService {
             throw new RuntimeException("用户不存在");
         return new LoginUser(user,null);
     }
+
+
+    void setPasswordEncoder(PasswordEncoder passwordEncoder);
+    void setManager(AuthenticationManager manager);
+
+
+
+
 
     LoginUser auth(String username, String password);
 

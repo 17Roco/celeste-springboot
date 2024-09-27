@@ -32,7 +32,8 @@ public class UserInfoController {
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
         User po = service.getById(id);
-        if (Objects.isNull(po)) return DataResult.ok(null);
+        if (Objects.isNull(po))
+            return DataResult.ok(null);
         UserInfoVo vo = new UserInfoVo();
         BeanUtils.copyProperties(po, vo);
         return DataResult.ok(vo);

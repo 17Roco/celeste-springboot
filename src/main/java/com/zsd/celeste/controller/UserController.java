@@ -23,15 +23,11 @@ public class UserController {
 
     @PostMapping("/login")
     Result login(@RequestBody LoginForm form) {
-        if (!StringUtils.hasText(form.getUsername()) || !StringUtils.hasText(form.getPassword()))
-            throw new RuntimeException("密码或用户名不能为空");
         return StreamResult.create("token",service.login(form.getUsername(), form.getPassword()));
     }
 
     @PostMapping("/register")
     Result register(@RequestBody LoginForm form) {
-        if (!StringUtils.hasText(form.getUsername()) || !StringUtils.hasText(form.getPassword()))
-            throw new RuntimeException("密码或用户名不能为空");
         return Result.judge(service.register(form.getUsername(), form.getPassword()));
     }
 

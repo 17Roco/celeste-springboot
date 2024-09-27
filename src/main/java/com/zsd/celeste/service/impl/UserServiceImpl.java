@@ -31,12 +31,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     TokenService tokenService;
-
     @Setter
     PasswordEncoder passwordEncoder;
     @Setter
     AuthenticationManager manager;
 
+    /**
+    * 验证信息
+    * */
     @Override
     public LoginUser auth(String username, String password) {
         // 验证用户
@@ -47,6 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new RuntimeException("用户认证失败");
         return u;
     }
+
 
     @Override
     public String login(String username, String password) {

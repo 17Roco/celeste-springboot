@@ -8,6 +8,8 @@ import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.TokenService;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.util.link.LinkConfig;
+import com.zsd.celeste.util.link.LinkMapper;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,6 +39,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Setter
     AuthenticationManager manager;
 
+    @Autowired
+    private LinkMapper linkMapper;
+
+    final private LinkConfig followConfig = new LinkConfig("link_user_follow","id","uid");
     /**
     * 验证信息
     * */
@@ -92,5 +99,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         BeanUtils.copyProperties(userInfo,user);
         return updateById(user);
     }
+
+    @Override
+    public boolean follow(Integer id, Integer uid,boolean b) {
+        User self = needById(id);
+        User user = needById(uid);
+        self.setFollow(self.getFollow()+(b?1:-1));
+        user.setFollower(self.getFollower()+(b?1:-1));
+        return b ?
+                linkMapper.addLink(followConfig,id,uid) && updateById(self) && updateById(user)
+                :
+                linkMapper.delLink(followConfig,id,uid) && updateById(self) && updateById(user);
+    }
+
+    @Override
+    public List<UserInfoVo> getFollow(Integer id) {
+        List<Integer> followIds = linkMapper.getB(followConfig, id);
+        List<User> users = list(new QueryWrapper<User>().in("uid", followIds));
+//        TODO
+        return List.of();
+    }
+
 }
 

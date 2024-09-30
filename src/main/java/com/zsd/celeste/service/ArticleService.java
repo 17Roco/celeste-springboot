@@ -11,5 +11,6 @@ import com.zsd.celeste.util.base.service.BaseService;
  */
 public interface ArticleService extends BaseService<Article> {
 
+    boolean like(Integer aid, Integer uid, boolean b);
 }
 

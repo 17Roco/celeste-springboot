@@ -28,8 +28,6 @@ public class UserInfoController {
 
     @Autowired
     private UserService service;
-    @Autowired
-    private AutUtil autUtil;
 
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
@@ -42,10 +40,16 @@ public class UserInfoController {
     }
 
     @PreAuthorize("@autUtil.needLogin()")
-    @PutMapping()
-    Result updateUser(@RequestBody UserInfoVo userInfoVo){
-        userInfoVo.setUid(autUtil.getLoginUser().getUid());
-        return Result.judge(service.updateInfo(userInfoVo));
+    @PostMapping("/info")
+    Result updateUserInfo(@RequestBody UserInfoVo vo) {
+        vo.setUid(AutUtil.self().getUid());
+        return Result.judge(service.updateInfo(vo));
+    }
+
+
+    @GetMapping("/{id}/follow")
+    Result getUserFollow(@PathVariable Integer id) {
+        return null;
     }
 }
 

@@ -28,15 +28,24 @@ public class UserInfoController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private AutUtil autUtil;
 
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
         User po = service.getById(id);
         if (Objects.isNull(po))
-            return DataResult.ok(null);
+            return DataResult.error("找不到用户");
         UserInfoVo vo = new UserInfoVo();
         BeanUtils.copyProperties(po, vo);
         return DataResult.ok(vo);
+    }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PutMapping()
+    Result updateUser(@RequestBody UserInfoVo userInfoVo){
+        userInfoVo.setUid(autUtil.getLoginUser().getUid());
+        return Result.judge(service.updateInfo(userInfoVo));
     }
 }
 

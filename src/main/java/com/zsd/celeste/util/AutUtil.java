@@ -12,16 +12,19 @@ import java.util.Objects;
 public class AutUtil {
 
 
-    static public User self(){
+    static public LoginUser self(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            return (User) authentication.getPrincipal();
+            return (LoginUser) authentication.getPrincipal();
         }catch (Exception e){
             return null;
         }
     }
-    public User getLoginUser(){
+    public LoginUser getLoginUser(){
         return self();
+    }
+    public String getToken(){
+        return getLoginUser().getToken();
     }
     public boolean needLogin(){
         if (Objects.isNull(getLoginUser()))
@@ -31,14 +34,14 @@ public class AutUtil {
 
     public boolean self(Integer uid){
         needLogin();
-        User user = getLoginUser();
+        LoginUser user = getLoginUser();
         if (!user.getUid().equals(uid))
             throw new RuntimeException("无法修改他人数据");
         return true;
     }
     public boolean root(){
         needLogin();
-        User user = getLoginUser();
+        LoginUser user = getLoginUser();
         if (!user.getUsername().equals("root"))
             throw new RuntimeException("没有 root 权限");
         return true;

@@ -41,21 +41,21 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
 
 
     @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/")
-    Result add(@RequestBody ArticleUpdate article) {
+    @PostMapping("/{aid}")
+    Result add(@RequestBody ArticleUpdate article,@PathVariable Integer aid) {
 //        判断内容是否为空
         if (!StringUtils.hasText(article.getTitle()))
             throw new RuntimeException("标题不能为空");
         if (!StringUtils.hasText(article.getContext()))
             throw new RuntimeException("正文不能为空");
-//        保存
+//        保存或更新
         Article a = new Article();
-        a.setAid(null);
+        a.setAid(aid);
         a.setUid(autUtil.getLoginUser().getUid());
         a.setTitle(article.getTitle());
         a.setContext(article.getContext());
         a.setUpdateTime(new Date());
-        boolean b = service.save(a);
+        boolean b = service.saveOrUpdate(a);
 //        todo 更新标签
         if (b){
 
@@ -63,24 +63,5 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
         return Result.judge(b);
     }
 
-    @PreAuthorize("@autUtil.needLogin()")
-    @PutMapping("/")
-    Result update(@RequestBody ArticleUpdate article) {
-        if (Objects.isNull(article.getAid()))
-            throw new RuntimeException("缺乏信息");
-        if (!StringUtils.hasText(article.getTitle()))
-            throw new RuntimeException("标题不能为空");
-        if (!StringUtils.hasText(article.getContext()))
-            throw new RuntimeException("正文不能为空");
-        // 更新
-        Article a = new Article();
-        a.setAid(null);
-        a.setUid(autUtil.getLoginUser().getUid());
-        a.setTitle(article.getTitle());
-        a.setContext(article.getContext());
-        a.setUpdateTime(new Date());
-        boolean b = service.updateById(a);
-        return Result.judge(b);
-    }
 }
 

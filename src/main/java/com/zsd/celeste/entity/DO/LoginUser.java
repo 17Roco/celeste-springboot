@@ -22,6 +22,9 @@ public class LoginUser implements UserDetails {
         return List.of();
     }
 
+    public Integer getUid(){
+        return getUser().getUid();
+    }
     @Override
     public String getPassword() {
         return getUser().getPassword();

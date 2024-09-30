@@ -38,7 +38,7 @@ public class AuthFilter extends OncePerRequestFilter {
         if(!StringUtils.hasText(token))
             return "游客";
         // token 无效
-        User user = service.getUser(token);
+        LoginUser user = service.getUser(token);
         if(Objects.isNull(user))
             throw new RuntimeException("token失效");
         // 保存到context

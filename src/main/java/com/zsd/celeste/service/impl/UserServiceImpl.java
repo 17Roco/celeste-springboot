@@ -80,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         LoginUser auth = auth(username, oldPassword);
         User user = auth.getUser();
         user.setPassword(passwordEncoder.encode(newPassword));
-        if (!save(user))
+        if (!updateById(user))
             throw new RuntimeException("修改失败");
         tokenService.removeUser(user);
         return true;

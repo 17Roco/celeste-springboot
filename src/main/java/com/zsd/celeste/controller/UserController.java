@@ -1,13 +1,13 @@
 package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.DO.LoginForm;
+import com.zsd.celeste.entity.DO.UpdatePasswordDO;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +34,14 @@ public class UserController {
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/logout")
     Result logout() {
-        return Result.ok();
+        return Result.judge(service.logout(autUtil.getToken()));
     }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping("/pw")
+    Result changePassword(@RequestBody UpdatePasswordDO update){
+        return Result.judge(service.updatePassword(autUtil.getLoginUser().getUsername(), update.getOldPassword(), update.getNewPassword()));
+    }
+
 
 }

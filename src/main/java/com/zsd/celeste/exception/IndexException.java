@@ -11,7 +11,7 @@ public class IndexException {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     Result index(Exception e){
-        System.out.println(e.getMessage());
+        System.out.println("error : " + e.getClass() + " - " + e.getMessage());
 //        e.printStackTrace();
         return Result.error(e.getMessage());
     }

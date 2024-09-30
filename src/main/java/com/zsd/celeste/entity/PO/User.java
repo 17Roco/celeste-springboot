@@ -32,14 +32,17 @@ public class User{
     private String phone;
     @TableField("email")
     private String email;
-
     @TableField("password")
     private String password;
 
-    @JsonIgnore
+    @TableField("follow")
+    private Integer follow;
+    @TableField("follower")
+    private Integer follower;
+
+
     @TableField("status")
     private Integer status;
-    @JsonIgnore
     @TableLogic
     @TableField("def_flag")
     private Integer defFlag;

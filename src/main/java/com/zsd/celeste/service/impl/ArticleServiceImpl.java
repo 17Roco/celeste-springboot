@@ -5,7 +5,8 @@ import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
-import com.zsd.celeste.util.LinkConfig;
+import com.zsd.celeste.util.link.LinkConfig;
+import com.zsd.celeste.util.link.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private TagService tagService;
-    private final LinkConfig tidToAid = new LinkConfig("link_aid_tid","tid","aid");
-    private final LinkConfig aidToTid = new LinkConfig("link_aid_tid","aid","tid");
+    @Autowired
+    private LinkMapper linkMapper;
 
+    final private LinkConfig likeConfig = new LinkConfig("link_article_like","aid","uid");
+
+    @Override
+    public boolean like(Integer aid, Integer uid, boolean b) {
+        Article article = needById(aid);
+        article.setLikee(article.getLikee() + (b?1:-1));
+        return b?
+                linkMapper.addLink(likeConfig,aid,uid) && updateById(article)
+                :
+                linkMapper.delLink(likeConfig,aid,uid) && updateById(article);
+    }
 }
 

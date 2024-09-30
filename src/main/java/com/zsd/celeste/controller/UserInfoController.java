@@ -38,5 +38,18 @@ public class UserInfoController {
         BeanUtils.copyProperties(po, vo);
         return DataResult.ok(vo);
     }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping("/info")
+    Result updateUserInfo(@RequestBody UserInfoVo vo) {
+        vo.setUid(AutUtil.self().getUid());
+        return Result.judge(service.updateInfo(vo));
+    }
+
+
+    @GetMapping("/{id}/follow")
+    Result getUserFollow(@PathVariable Integer id) {
+        return null;
+    }
 }
 

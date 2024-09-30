@@ -10,6 +10,8 @@ create table user(
     phone    varchar(64) default '',
     email    varchar(64) default '',
     status   int         default 1,
+    follow   int         default 0,
+    follower int         default 0,
     def_flag int         default 0
 );
 
@@ -34,6 +36,20 @@ create table `tag`(
     info		varchar(64) default '',
     num         int         default 0
 );
+
+DROP TABLE if exists `link_article_like`;
+create table `link_article_like`(
+    aid     int,
+    uid     int,
+    primary key (aid,uid)
+);
+DROP TABLE if exists `link_user_follow`;
+create table `link_user_follow`(
+    id     int,
+    uid     int,
+    primary key (id,uid)
+);
+
 DROP TABLE if exists `link_aid_tid`;
 create table `link_aid_tid`(
     aid     int,
@@ -44,10 +60,12 @@ create table `link_aid_tid`(
 # user          用户
 # article       文章
 # tag           标签
+# link_user_follow 用户关注表
+# link_article_like 文章点赞表
 # link_aid_tid  文章-标签连接表
 
 # select * from user;
-select * from article;
+# select * from article;
 # select * from `link_aid_tid`;
 # select * from `tag`;
 

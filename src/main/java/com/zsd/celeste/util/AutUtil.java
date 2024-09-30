@@ -17,7 +17,7 @@ public class AutUtil {
         try {
             return (User) authentication.getPrincipal();
         }catch (Exception e){
-            return null;
+            throw new RuntimeException("需要登录");
         }
     }
     public User getLoginUser(){

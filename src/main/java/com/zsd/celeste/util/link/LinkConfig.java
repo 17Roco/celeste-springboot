@@ -1,4 +1,4 @@
-package com.zsd.celeste.util;
+package com.zsd.celeste.util.link;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class LinkConfig {
     private String tableName;
-    private String idField;
-    private String linkField;
+    private String a;
+    private String b;
 }

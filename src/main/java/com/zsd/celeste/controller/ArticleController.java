@@ -8,7 +8,9 @@ import com.zsd.celeste.util.base.controller.rest.BaseDeleteByIdController;
 import com.zsd.celeste.util.base.controller.rest.BaseGetByIdController;
 import com.zsd.celeste.util.base.controller.rest.RESTController;
 import com.zsd.celeste.util.base.service.BaseService;
+import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -81,6 +83,14 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
         a.setUpdateTime(new Date());
         boolean b = service.updateById(a);
         return Result.judge(b);
+    }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping({"/like/{aid}","/unlike/{aid}"})
+    Result like(@PathVariable Integer aid,HttpServletRequest request) {
+        Integer uid = AutUtil.self().getUid();
+        boolean b = request.getRequestURI().startsWith("/article/like");
+        return Result.judge(service.like(aid,uid,b));
     }
 }
 

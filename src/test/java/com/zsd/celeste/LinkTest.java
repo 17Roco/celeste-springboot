@@ -1,9 +1,8 @@
 package com.zsd.celeste;
 
 
-import com.zsd.celeste.mapper.LinkMapper;
+import com.zsd.celeste.util.link.LinkMapper;
 import com.zsd.celeste.service.ArticleService;
-import com.zsd.celeste.util.LinkConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

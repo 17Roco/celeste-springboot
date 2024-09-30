@@ -5,9 +5,11 @@ import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,4 +39,11 @@ public class UserController {
         return Result.ok();
     }
 
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping({"/follow/{uid}","/unfollow/{uid}"})
+    Result follow(@PathVariable Integer uid, HttpServletRequest request) {
+        Integer id = AutUtil.self().getUid();
+        boolean b = request.getRequestURI().startsWith("/follow");
+        return Result.judge(service.follow(id,uid,b));
+    }
 }

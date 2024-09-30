@@ -1,19 +1,18 @@
 package com.zsd.celeste;
 
+import com.zsd.celeste.service.ArticleService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @SpringBootTest
 class CelesteApplicationTests {
 
+    @Autowired
+    ArticleService articleService;
     @Test
     void contextLoads() {
-//        System.out.println(new Date());
-        System.out.println(LocalDateTime.now());
+        System.out.println(articleService.like(1, 11, true));
     }
 
 }

@@ -37,8 +37,6 @@ public interface UserService extends BaseService<User>, UserDetailsService {
 
 
 
-    LoginUser auth(String username, String password);
-
     String login(String username, String password);
     boolean logout(String token);
     boolean register(String username, String password);

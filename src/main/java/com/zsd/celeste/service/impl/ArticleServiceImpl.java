@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Autowired
-    private TagService tagService;
-    @Autowired
     private LinkMapper linkMapper;
 
     final private LinkConfig likeConfig = new LinkConfig("link_article_like","aid","uid");

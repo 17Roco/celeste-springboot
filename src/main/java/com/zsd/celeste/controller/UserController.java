@@ -1,13 +1,16 @@
 package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.DO.LoginForm;
+import com.zsd.celeste.entity.DO.UpdatePasswordDO;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +45,8 @@ public class UserController {
     Result changePassword(@RequestBody UpdatePasswordDO update){
         return Result.judge(service.updatePassword(autUtil.getLoginUser().getUsername(), update.getOldPassword(), update.getNewPassword()));
     }
+
+
 
 
     @PreAuthorize("@autUtil.needLogin()")

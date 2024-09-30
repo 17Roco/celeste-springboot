@@ -8,7 +8,9 @@ import com.zsd.celeste.util.base.controller.rest.BaseDeleteByIdController;
 import com.zsd.celeste.util.base.controller.rest.BaseGetByIdController;
 import com.zsd.celeste.util.base.controller.rest.RESTController;
 import com.zsd.celeste.util.base.service.BaseService;
+import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
+import com.zsd.celeste.util.result.StreamResult;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -41,8 +43,8 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
 
 
     @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/{aid}")
-    Result add(@RequestBody ArticleUpdate article,@PathVariable Integer aid) {
+    @PostMapping({"/{aid}","/"})
+    Result add(@RequestBody ArticleUpdate article,@PathVariable(required = false) Integer aid) {
 //        判断内容是否为空
         if (!StringUtils.hasText(article.getTitle()))
             throw new RuntimeException("标题不能为空");
@@ -60,7 +62,7 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
         if (b){
 
         }
-        return Result.judge(b);
+        return aid == null ? StreamResult.create("aid",a.getAid()) : Result.judge(b);
     }
 
 }

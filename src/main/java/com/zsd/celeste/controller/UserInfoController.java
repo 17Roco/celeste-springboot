@@ -5,9 +5,11 @@ import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
+import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -29,13 +31,13 @@ public class UserInfoController {
     @Autowired
     private UserService service;
 
+
+
+
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
-        User po = service.getById(id);
-        if (Objects.isNull(po))
-            return DataResult.error("找不到用户");
-        UserInfoVo vo = new UserInfoVo();
-        BeanUtils.copyProperties(po, vo);
+        User po = service.needById(id);
+        UserInfoVo vo = PojoUtil.copy(new UserInfoVo(),po);
         return DataResult.ok(vo);
     }
 
@@ -46,10 +48,9 @@ public class UserInfoController {
         return Result.judge(service.updateInfo(vo));
     }
 
-
     @GetMapping("/{id}/follow")
     Result getUserFollow(@PathVariable Integer id) {
-        return null;
+        return DataResult.ok(service.getFollow(id));
     }
 }
 

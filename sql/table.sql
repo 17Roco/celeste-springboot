@@ -14,6 +14,8 @@ create table user(
     follower int         default 0,
     def_flag int         default 0
 );
+insert into user (username) values ('root'),('user1'),('user2'),('user3'),('user4'),('user5');
+
 
 DROP TABLE IF EXISTS `article`;
 create table article(

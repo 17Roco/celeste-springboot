@@ -8,10 +8,10 @@ import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.TokenService;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.link.LinkConfig;
 import com.zsd.celeste.util.link.LinkMapper;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,9 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * (User)表服务实现类
@@ -38,15 +38,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     PasswordEncoder passwordEncoder;
     @Setter
     AuthenticationManager manager;
-
     @Autowired
     private LinkMapper linkMapper;
-
     final private LinkConfig followConfig = new LinkConfig("link_user_follow","id","uid");
+
     /**
-    * 验证信息
-    * */
-    @Override
+     * 验证信息
+     * */
     public LoginUser auth(String username, String password) {
         // 验证用户
         Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -58,7 +56,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
 
-    @Override
+
+
+    /**
+     * 登录
+     * */
     public String login(String username, String password) {
         // 验证
         LoginUser auth = auth(username, password);
@@ -66,13 +68,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return tokenService.addToken(auth.getUser());
     }
 
-    @Override
+    /**
+    * 登出
+    * */
     public boolean logout(String token) {
         tokenService.removeToken(token);
         return true;
     }
 
-    @Override
+    /**
+     * 注册
+     * */
     public boolean register(String username, String password) {
         if (exists(new QueryWrapper<User>().eq("username",username)))
             throw new RuntimeException("用户名已存在");
@@ -82,7 +88,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return save(user);
     }
 
-    @Override
+    /**
+     * 修改密码
+     * */
     public boolean updatePassword(String username, String oldPassword, String newPassword) {
         LoginUser auth = auth(username, oldPassword);
         User user = auth.getUser();
@@ -93,14 +101,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return true;
     }
 
-    @Override
+    /**
+     * 更新信息
+     * */
     public boolean updateInfo(UserInfoVo userInfo) {
-        User user = new User();
-        BeanUtils.copyProperties(userInfo,user);
+        User user = PojoUtil.copy(new User(),userInfo);
         return updateById(user);
     }
 
-    @Override
+    /**
+     * 关注用户
+     * */
     public boolean follow(Integer id, Integer uid,boolean b) {
         User self = needById(id);
         User user = needById(uid);
@@ -112,12 +123,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 linkMapper.delLink(followConfig,id,uid) && updateById(self) && updateById(user);
     }
 
-    @Override
+    /**
+     * 获取关注列表
+     * */
     public List<UserInfoVo> getFollow(Integer id) {
+        // 获取 ids
         List<Integer> followIds = linkMapper.getB(followConfig, id);
+        //  获取 users
         List<User> users = list(new QueryWrapper<User>().in("uid", followIds));
-//        TODO
-        return List.of();
+        // 返回 userInfoVo
+        return users.stream().map(user -> PojoUtil.copy(new UserInfoVo(), user)).collect(Collectors.toList());
     }
 
 }

@@ -28,28 +28,38 @@ public class TokenServiceImpl implements TokenService {
         cache.put("123456",new LoginUser(user,"123456"));
     }
 
+    /**
+     * 添加
+     * */
     public String addToken(User user) {
-        if (Objects.isNull(user))
-            throw new RuntimeException("添加token异常");
-        // 添加token到缓存表里
         String token = createToken();
+        // 添加token到缓存表里
         cache.put(token, new LoginUser(user,token));
         // 添加token到反向缓存表里
         reCache.computeIfAbsent(user.getUid(), k -> new ArrayList<>());
         reCache.get(user.getUid()).add(token);
+        // 返回 token
         return token;
     }
+
+    /**
+     * 删除
+     * */
     public void removeToken(String token) {
         if (Objects.isNull(cache.remove(token)))
             throw new RuntimeException("删除token异常");
     }
-    public LoginUser getUser(String token) {
-        return cache.get(token);
-    }
-
-
     public void removeUser(User user) {
         List<String> tokens = reCache.remove(user.getUid());
         tokens.forEach(cache::remove);
     }
+
+
+    /**
+     * 获取用户
+     * */
+    public LoginUser getUser(String token) {
+        return cache.get(token);
+    }
+
 }

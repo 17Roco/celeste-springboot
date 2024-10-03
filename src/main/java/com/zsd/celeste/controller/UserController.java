@@ -53,7 +53,7 @@ public class UserController {
     @PostMapping({"/follow/{uid}","/unfollow/{uid}"})
     Result follow(@PathVariable Integer uid, HttpServletRequest request) {
         Integer id = AutUtil.self().getUid();
-        boolean b = request.getRequestURI().startsWith("/follow");
+        boolean b = request.getRequestURI().contains("/follow");
         return Result.judge(service.follow(id,uid,b));
     }
 }

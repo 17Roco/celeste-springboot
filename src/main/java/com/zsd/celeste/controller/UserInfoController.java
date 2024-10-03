@@ -9,6 +9,7 @@ import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,6 +52,14 @@ public class UserInfoController {
     @GetMapping("/{id}/follow")
     Result getUserFollow(@PathVariable Integer id) {
         return DataResult.ok(service.getFollow(id));
+    }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping({"/follow/{uid}","/unfollow/{uid}"})
+    Result follow(@PathVariable Integer uid, HttpServletRequest request) {
+        Integer id = AutUtil.self().getUid();
+        boolean b = request.getRequestURI().contains("/follow");
+        return Result.judge(service.follow(id,uid,b));
     }
 }
 

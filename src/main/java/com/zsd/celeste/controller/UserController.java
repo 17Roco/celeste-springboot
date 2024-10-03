@@ -19,8 +19,6 @@ public class UserController {
 
     @Autowired
     private UserService service;
-    @Autowired
-    private AutUtil autUtil;
 
 
     @PostMapping("/login")
@@ -36,23 +34,13 @@ public class UserController {
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/logout")
     Result logout() {
-        return Result.judge(service.logout(autUtil.getToken()));
+        return Result.judge(service.logout(AutUtil.self().getToken()));
     }
 
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/changePassword")
     Result changePassword(@RequestBody UpdatePassword update){
-        return Result.judge(service.updatePassword(autUtil.getLoginUser().getUsername(), update.getOldPassword(), update.getNewPassword()));
+        return Result.judge(service.updatePassword(AutUtil.self().getUsername(), update.getOldPassword(), update.getNewPassword()));
     }
 
-
-
-
-    @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping({"/follow/{uid}","/unfollow/{uid}"})
-    Result follow(@PathVariable Integer uid, HttpServletRequest request) {
-        Integer id = AutUtil.self().getUid();
-        boolean b = request.getRequestURI().contains("/follow");
-        return Result.judge(service.follow(id,uid,b));
-    }
 }

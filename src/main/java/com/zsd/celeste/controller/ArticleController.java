@@ -28,8 +28,6 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
     
     @Autowired
     private ArticleService service;
-    @Autowired
-    private AutUtil autUtil;
 
     @Override
     public BaseService<Article> getService() {
@@ -49,7 +47,7 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
 //        保存或更新
         Article a = new Article();
         a.setAid(aid);
-        a.setUid(autUtil.getLoginUser().getUid());
+        a.setUid(AutUtil.self().getUid());
         a.setTitle(article.getTitle());
         a.setContext(article.getContext());
         a.setUpdateTime(new Date());

@@ -1,12 +1,18 @@
 package com.zsd.celeste.controller;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsd.celeste.entity.ArticleFilter;
 import com.zsd.celeste.entity.DO.ArticleUpdate;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
+import com.zsd.celeste.service.TagService;
+import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.base.controller.BaseListPageController;
 import com.zsd.celeste.util.base.controller.rest.BaseDeleteByIdController;
 import com.zsd.celeste.util.base.controller.rest.BaseGetByIdController;
 import com.zsd.celeste.util.base.service.BaseService;
+import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,16 +30,23 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/article")
-public class ArticleController implements BaseGetByIdController<Article>, BaseDeleteByIdController<Article>, BaseListPageController<Article> {
+public class ArticleController implements BaseGetByIdController<Article>, BaseDeleteByIdController<Article> {
     
     @Autowired
     private ArticleService service;
+    @Autowired
+    private TagService tagService;
 
     @Override
     public BaseService<Article> getService() {
         return service;
     }
 
+
+    @GetMapping("/filter")
+    Result filter(ArticleFilter filter){
+        return DataResult.ok(service.page(filter.getIndex(),filter.wrapper(tagService)));
+    }
 
 
     @PreAuthorize("@autUtil.needLogin()")

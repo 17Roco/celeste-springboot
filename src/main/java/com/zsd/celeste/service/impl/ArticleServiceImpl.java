@@ -1,16 +1,19 @@
 package com.zsd.celeste.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
 import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
+import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.link.LinkConfig;
 import com.zsd.celeste.util.link.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,9 +29,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private LinkMapper linkMapper;
     @Autowired
+    private UserService userService;
+    @Autowired
     private TagService tagService;
     final private LinkConfig likeConfig = new LinkConfig("link_article_like","aid","uid");
     final private LinkConfig tagConfig = new LinkConfig("link_article_tag","aid","tid");
+
 
 
 
@@ -52,6 +58,32 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public boolean delTags(Integer aid, List<String> tags) {
         return linkMapper.delLink(tagConfig, aid, tagService.getTagByTitles(tags).stream().map(Tag::getTid).collect(Collectors.toList()));
+    }
+
+
+
+
+
+
+
+
+
+    private Article complete(Article article){
+        article.setTags(tagService.getTagsByAid(article.getAid()).stream().map(Tag::getTitle).collect(Collectors.toList()));
+        article.setUser(userService.needInfoById(article.getUid()));
+        return article;
+    }
+
+    @Override
+    public Article getById(Serializable id) {
+        return complete(super.getById(id));
+    }
+
+    @Override
+    public IPage<Article> page(int index) {
+        IPage<Article> page = ArticleService.super.page(index);
+        page.getRecords().forEach(this::complete);
+        return page;
     }
 }
 

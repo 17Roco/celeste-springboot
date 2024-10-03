@@ -37,9 +37,7 @@ public class UserInfoController {
 
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
-        User po = service.needById(id);
-        UserInfoVo vo = PojoUtil.copy(new UserInfoVo(),po);
-        return DataResult.ok(vo);
+        return DataResult.ok(service.needInfoById(id));
     }
 
     @PreAuthorize("@autUtil.needLogin()")

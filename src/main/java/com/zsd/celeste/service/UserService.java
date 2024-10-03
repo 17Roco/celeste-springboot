@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.entity.DO.LoginUser;
 import com.zsd.celeste.entity.PO.User;
+import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.base.service.BaseService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,5 +48,14 @@ public interface UserService extends BaseService<User>, UserDetailsService {
     // follow
     boolean follow(Integer id, Integer uid,boolean b);
     List<UserInfoVo> getFollow(Integer id);
+
+
+    default UserInfoVo getUserInfo(Integer id){
+        User po = getById(id);
+        return PojoUtil.copy(new UserInfoVo(),po);
+    }
+    default UserInfoVo needInfoById(Serializable id) {
+        return PojoUtil.copy(new UserInfoVo(),BaseService.super.needById(id));
+    }
 }
 

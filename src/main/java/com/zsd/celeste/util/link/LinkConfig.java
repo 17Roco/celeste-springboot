@@ -10,7 +10,7 @@ public class LinkConfig {
     private String a;
     private String b;
 
-    LinkConfig toRe(){
+    public LinkConfig toRe(){
         return new LinkConfig(tableName,b,a);
     }
 }

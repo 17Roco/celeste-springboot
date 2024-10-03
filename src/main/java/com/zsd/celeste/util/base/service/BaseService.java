@@ -1,5 +1,6 @@
 package com.zsd.celeste.util.base.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -19,6 +20,12 @@ public interface BaseService<T> extends IService<T> {
         IPage<T> p = Page.of(index,getSize());
         return page(p);
     }
+    default IPage<T> page(int index, QueryWrapper<T> wrapper){
+        IPage<T> p = Page.of(index,getSize());
+        return page(p, wrapper);
+    }
+
+
 
     default T needById(Serializable id){
         T entity = getById(id);

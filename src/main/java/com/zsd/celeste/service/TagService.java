@@ -21,5 +21,12 @@ public interface TagService extends BaseService<Tag> {
     default List<Tag> getTagByTitles(List<String> titles){
         return list(new QueryWrapper<Tag>().in("title",titles));
     }
+
+    List<Tag> getTagsByAid(Integer aid);
+
+    List<Integer> getAidsByTid(Integer tid);
+    default List<Integer> getAidsByTag(String title){
+        return getAidsByTid(getTagByTitle(title).getTid());
+    }
 }
 

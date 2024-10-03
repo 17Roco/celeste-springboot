@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zsd.celeste.entity.VO.UserInfoVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -56,6 +57,8 @@ public class Article{
 
     @TableField(exist = false)
     private List<String> tags = new ArrayList<>();
+    @TableField(exist = false)
+    private UserInfoVo user;
 
 }
 

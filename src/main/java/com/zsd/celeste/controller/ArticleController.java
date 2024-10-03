@@ -6,19 +6,15 @@ import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.base.controller.BaseListPageController;
 import com.zsd.celeste.util.base.controller.rest.BaseDeleteByIdController;
 import com.zsd.celeste.util.base.controller.rest.BaseGetByIdController;
-import com.zsd.celeste.util.base.controller.rest.RESTController;
 import com.zsd.celeste.util.base.service.BaseService;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
-import org.apache.logging.log4j.util.Strings;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * (Article)表控制层
@@ -57,13 +53,16 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
         a.setTitle(article.getTitle());
         a.setContext(article.getContext());
         a.setUpdateTime(new Date());
-        boolean b = service.saveOrUpdate(a);
-//        todo 更新标签
-        if (b){
-
-        }
+        boolean b = service.saveOrUpdate(a) && service.updateTags(a.getAid(),article.getTagUpdate());
         return aid == null ? StreamResult.create("aid",a.getAid()) : Result.judge(b);
     }
 
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping({"/like/{aid}","/unlike/{aid}"})
+    Result like(@PathVariable Integer aid, HttpServletRequest request){
+        boolean b = request.getRequestURI().contains("/like");
+        return Result.judge(service.like(aid, AutUtil.self().getUid(), b));
+    }
 }
 

@@ -128,7 +128,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * */
     public List<UserInfoVo> getFollow(Integer id) {
         // 获取 ids
-        List<Integer> followIds = linkMapper.getB(followConfig, id);
+        List<Integer> followIds = linkMapper.get(followConfig, id);
         //  获取 users
         List<User> users = list(new QueryWrapper<User>().in("uid", followIds));
         // 返回 userInfoVo

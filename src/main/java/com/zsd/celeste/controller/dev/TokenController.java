@@ -1,7 +1,6 @@
-package com.zsd.celeste.controller;
+package com.zsd.celeste.controller.dev;
 
 import com.zsd.celeste.service.TokenService;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
 import org.springframework.beans.factory.annotation.Autowired;

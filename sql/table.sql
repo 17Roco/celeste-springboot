@@ -52,8 +52,8 @@ create table `link_user_follow`(
     primary key (id,uid)
 );
 
-DROP TABLE if exists `link_aid_tid`;
-create table `link_aid_tid`(
+DROP TABLE if exists link_article_tag;
+create table `link_article_tag`(
     aid     int,
     tid     int,
     primary key (aid,tid)
@@ -64,7 +64,7 @@ create table `link_aid_tid`(
 # tag           标签
 # link_user_follow 用户关注表
 # link_article_like 文章点赞表
-# link_aid_tid  文章-标签连接表
+# link_article_tag  文章-标签连接表
 
 # select * from user;
 # select * from article;

@@ -9,4 +9,8 @@ public class LinkConfig {
     private String tableName;
     private String a;
     private String b;
+
+    LinkConfig toRe(){
+        return new LinkConfig(tableName,b,a);
+    }
 }

@@ -12,6 +12,5 @@ import com.zsd.celeste.entity.PO.Article;
  */
 @Mapper
 public interface ArticleMapper extends BaseMapper<Article> {
-
 }
 

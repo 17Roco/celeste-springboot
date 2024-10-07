@@ -1,5 +1,6 @@
 package com.zsd.celeste.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +34,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private UserService userService;
     @Autowired
     private TagService tagService;
+
+    public Function<Article, Serializable> getResourceUid() {
+        return Article::getUid;
+    }
+    public String getResourceMsg() {
+        return "文章不存在";
+    }
+
     final private LinkConfig likeConfig = new LinkConfig("link_article_like","aid","uid");
     final private LinkConfig tagConfig = new LinkConfig("link_article_tag","aid","tid");
 
@@ -50,6 +60,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 linkMapper.delLink(likeConfig,aid,uid) && updateById(article);
     }
 
+    @Override
+    public boolean addTag(Integer aid, String tag) {
+        return linkMapper.addLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
+    }
+    @Override
+    public boolean delTag(Integer aid, String tag) {
+        return linkMapper.delLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
+    }
     @Override
     public boolean addTags(Integer aid, List<String> tags) {
         return linkMapper.addLink(tagConfig, aid, tagService.getTagByTitles(tags).stream().map(Tag::getTid).collect(Collectors.toList()));
@@ -80,8 +98,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public IPage<Article> page(int index) {
-        IPage<Article> page = ArticleService.super.page(index);
+    public IPage<Article> page(int index, QueryWrapper<Article> wrapper) {
+        IPage<Article> page = ArticleService.super.page(index,wrapper);
         page.getRecords().forEach(this::complete);
         return page;
     }

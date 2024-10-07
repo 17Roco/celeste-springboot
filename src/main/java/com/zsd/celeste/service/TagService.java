@@ -17,6 +17,9 @@ public interface TagService extends BaseService<Tag> {
     default Tag getTagByTitle(String title){
         return getOne(new QueryWrapper<Tag>().eq("title", title));
     }
+    default Tag needTagByTitle(String title){
+        return need(getTagByTitle(title));
+    }
 
     default List<Tag> getTagByTitles(List<String> titles){
         return list(new QueryWrapper<Tag>().in("title",titles));

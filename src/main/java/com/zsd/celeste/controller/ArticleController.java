@@ -1,4 +1,5 @@
 package com.zsd.celeste.controller;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsd.celeste.entity.ArticleFilter;
@@ -20,6 +21,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -30,14 +33,12 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/article")
-public class ArticleController implements BaseGetByIdController<Article>, BaseDeleteByIdController<Article> {
+public class ArticleController implements BaseGetByIdController<Article> {
     
     @Autowired
     private ArticleService service;
     @Autowired
     private TagService tagService;
-
-    @Override
     public BaseService<Article> getService() {
         return service;
     }
@@ -47,33 +48,71 @@ public class ArticleController implements BaseGetByIdController<Article>, BaseDe
     Result filter(ArticleFilter filter){
         return DataResult.ok(service.page(filter.getIndex(),filter.wrapper(tagService)));
     }
+    @GetMapping({"/self","/self/{index}"})
+    Result getByUser(@PathVariable(required = false) Integer index){
+        return DataResult.ok(
+                service.page(
+                    index==null?1:index,
+                    new QueryWrapper<Article>().eq("uid",AutUtil.self().getUid())
+                )
+        );
+    }
 
+    /**
+     * 保存 、 更新
+     * */
+    @PostMapping("/")
+    Result save(@RequestBody ArticleUpdate update) {
+        Integer aid = service.saveWithTags(update);
+        return StreamResult.create(aid != null).put("aid",aid);
+    }
+    @PutMapping("/{aid}")
+    Result update(@RequestBody ArticleUpdate update,@PathVariable Integer aid) {
+        return Result.judge(service.update(update,aid));
+    }
 
-    @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping({"/{aid}","/"})
-    Result add(@RequestBody ArticleUpdate article,@PathVariable(required = false) Integer aid) {
-//        判断内容是否为空
-        if (!StringUtils.hasText(article.getTitle()))
-            throw new RuntimeException("标题不能为空");
-        if (!StringUtils.hasText(article.getContext()))
-            throw new RuntimeException("正文不能为空");
-//        保存或更新
-        Article a = new Article();
-        a.setAid(aid);
-        a.setUid(AutUtil.self().getUid());
-        a.setTitle(article.getTitle());
-        a.setContext(article.getContext());
-        a.setUpdateTime(new Date());
-        boolean b = service.saveOrUpdate(a) && service.updateTags(a.getAid(),article.getTagUpdate());
-        return aid == null ? StreamResult.create("aid",a.getAid()) : Result.judge(b);
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@articleServiceImpl.needBySelf(#id) != null ")
+    public Result delete(@PathVariable Integer id) {
+        return Result.judge(service.removeById(id));
+    }
+
+    /**
+     * 点赞 、 取消点赞
+     * */
+    Result like(Integer aid, boolean b){
+        return Result.judge(service.like(aid, AutUtil.self().getUid(), b));
+    }
+    @PostMapping("/like/{aid}")
+    Result like(@PathVariable Integer aid){
+        return like(aid,true);
+    }
+    @PostMapping("/unlike/{aid}")
+    Result unlike(@PathVariable Integer aid){
+        return like(aid,false);
     }
 
 
-    @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping({"/like/{aid}","/unlike/{aid}"})
-    Result like(@PathVariable Integer aid, HttpServletRequest request){
-        boolean b = request.getRequestURI().contains("/like");
-        return Result.judge(service.like(aid, AutUtil.self().getUid(), b));
+
+
+
+
+
+    /**
+     * 添加 、 删除 文章标签
+     * */
+    Result updateTag(Integer aid, String tag,boolean b){
+        return Result.judge(b ? service.addTag(aid,tag) : service.delTag(aid,tag));
+    }
+    @PreAuthorize("@articleServiceImpl.needBySelf(#aid) != null ")
+    @PostMapping("/add_tag/{aid}/{tag}")
+    Result addTag(@PathVariable Integer aid, @PathVariable String tag){
+        return updateTag(aid,tag,true);
+    }
+    @PreAuthorize("@articleServiceImpl.needBySelf(#aid) != null ")
+    @PostMapping("/del_tag/{aid}/{tag}")
+    Result delTag(@PathVariable Integer aid, @PathVariable String tag){
+        return updateTag(aid,tag,false);
     }
 }
 

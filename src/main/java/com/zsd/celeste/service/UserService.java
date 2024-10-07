@@ -26,9 +26,7 @@ public interface UserService extends BaseService<User>, UserDetailsService {
 
     default  UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getOne(new QueryWrapper<User>().eq("username", username));
-        if(Objects.isNull(user))
-            throw new RuntimeException("用户不存在");
-        return new LoginUser(user,null);
+        return new LoginUser(need(user),null);
     }
 
 
@@ -54,7 +52,7 @@ public interface UserService extends BaseService<User>, UserDetailsService {
         User po = getById(id);
         return PojoUtil.copy(new UserInfoVo(),po);
     }
-    default UserInfoVo needInfoById(Serializable id) {
+    default UserInfoVo needInfoById(Integer id) {
         return PojoUtil.copy(new UserInfoVo(),BaseService.super.needById(id));
     }
 }

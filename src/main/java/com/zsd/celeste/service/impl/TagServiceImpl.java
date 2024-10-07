@@ -10,6 +10,7 @@ import com.zsd.celeste.util.link.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,12 +24,15 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Autowired
     private LinkMapper linkMapper;
+    public String getResourceMsg() {
+        return "标签不存在";
+    }
     final private LinkConfig tagConfig = new LinkConfig("link_article_tag","aid","tid");
 
     @Override
     public List<Tag> getTagsByAid(Integer aid) {
         List<Integer> tids = linkMapper.get(tagConfig, aid);
-        return list(new QueryWrapper<Tag>().in("tid", tids));
+        return tids.isEmpty() ? new ArrayList<>() : list(new QueryWrapper<Tag>().in("tid", tids));
     }
 
 

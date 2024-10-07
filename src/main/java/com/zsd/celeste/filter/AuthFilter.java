@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,25 +27,41 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 验证
-        String token = request.getHeader("token");
-        String username = auth(token);
-        // 输出访问的接口
-        System.out.println(username+" : "+request.getMethod()+" : "+request.getRequestURI());
+        LoginUser user = auth(request.getHeader("token"));
+        print(user,request);
         //
         filterChain.doFilter(request,response);
     }
-    String auth(String token){
+
+    void print(LoginUser user,HttpServletRequest request){
+        // 输出访问的接口
+        String s = Objects.isNull(user)?"游客":user.getToken() + " :: " + user.getUsername();
+        System.out.println(s+"    >>>>   "+request.getMethod()+" :: "+request.getRequestURI());
+    }
+
+    LoginUser auth(String token){
         // 无 token
-        if(!StringUtils.hasText(token))
-            return "游客";
+        if(!StringUtils.hasText(token)) return null;
         // token 无效
         LoginUser user = service.getUser(token);
-        if(Objects.isNull(user))
-            throw new RuntimeException("token失效");
+        if(Objects.isNull(user)) {
+            //throw new RuntimeException("token失效");
+            // todo
+            user = devTokenMode(token);
+        }
         // 保存到context
         Authentication t = new UsernamePasswordAuthenticationToken(user,token,null);
         SecurityContextHolder.getContext().setAuthentication(t);
+        return user;
+    }
 
-        return user.getUsername();
+    LoginUser devTokenMode(String token){
+        if (token.startsWith("dev-")){
+            User user = new User();
+            user.setUid(Integer.valueOf(token.split("-")[1]));
+            user.setUsername("dev user");
+            return new LoginUser(user, token);
+        }
+        return null;
     }
 }

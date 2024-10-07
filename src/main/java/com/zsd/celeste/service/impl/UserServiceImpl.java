@@ -40,6 +40,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     AuthenticationManager manager;
     @Autowired
     private LinkMapper linkMapper;
+    public String getResourceMsg() {
+        return "用户不存在";
+    }
     final private LinkConfig followConfig = new LinkConfig("link_user_follow","id","uid");
 
     /**

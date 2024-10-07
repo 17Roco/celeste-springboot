@@ -1,4 +1,4 @@
-package com.zsd.celeste.exception;
+package com.zsd.celeste.exception.advice;
 
 import com.zsd.celeste.util.result.Result;
 import org.springframework.security.access.AccessDeniedException;

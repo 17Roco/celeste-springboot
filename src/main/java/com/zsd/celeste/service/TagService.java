@@ -29,7 +29,7 @@ public interface TagService extends BaseService<Tag> {
 
     List<Integer> getAidsByTid(Integer tid);
     default List<Integer> getAidsByTag(String title){
-        return getAidsByTid(getTagByTitle(title).getTid());
+        return getAidsByTid(needTagByTitle(title).getTid());
     }
 }
 

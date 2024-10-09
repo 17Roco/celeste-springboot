@@ -45,7 +45,8 @@ public class ArticleController implements BaseGetByIdController<Article> {
 
 
     @GetMapping("/filter")
-    Result filter(ArticleFilter filter){
+    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Integer uid){
+        ArticleFilter filter = new ArticleFilter(index,order,tag,beginTime,endTime,uid);
         return DataResult.ok(service.page(filter.getIndex(),filter.wrapper(tagService)));
     }
     @GetMapping({"/self","/self/{index}"})

@@ -22,7 +22,6 @@ public class ArticleFilter {
     private Date beginTime;
     private Date endTime;
     private Integer uid;
-    private Boolean self = false;
 
     private List<Integer> getAidsByTid(TagService service){
         if(Objects.isNull(tag))return null;
@@ -37,10 +36,17 @@ public class ArticleFilter {
         return order;
     }
 
+    public Integer getIndex() {
+        return Objects.isNull(index)?1:index;
+    }
+
     public QueryWrapper<Article> wrapper(TagService service){
+        List<Integer> aids = getAidsByTid(service);
+        if (aids != null && aids.isEmpty())
+            aids.add(-1);
         return new QueryWrapper<Article>()
                 .eq(!Objects.isNull(uid),                               "uid",uid)
-                .in(!Objects.isNull(tag)&&!tag.isEmpty(),      "aid",getAidsByTid(service))
+                .in(!Objects.isNull(aids),                              "aid",aids)
                 .ge(!Objects.isNull(beginTime),                         "update_time",beginTime)
                 .le(!Objects.isNull(endTime),                           "update_time",endTime)
                 .orderByDesc(getOrderColum());

@@ -40,6 +40,12 @@ public class UserInfoController {
         return DataResult.ok(service.needInfoById(id));
     }
 
+    @GetMapping("/{id}/follow")
+    Result getUserFollow(@PathVariable Integer id) {
+        return DataResult.ok(service.getFollow(id));
+    }
+
+
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/info")
     Result updateUserInfo(@RequestBody UserInfoVo vo) {
@@ -47,17 +53,22 @@ public class UserInfoController {
         return Result.judge(service.updateInfo(vo));
     }
 
-    @GetMapping("/{id}/follow")
-    Result getUserFollow(@PathVariable Integer id) {
-        return DataResult.ok(service.getFollow(id));
+
+
+    Result follow(@PathVariable Integer uid,boolean b) {
+        Integer id = AutUtil.self().getUid();
+        return Result.judge(service.follow(id,uid,b));
     }
 
     @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping({"/follow/{uid}","/unfollow/{uid}"})
-    Result follow(@PathVariable Integer uid, HttpServletRequest request) {
-        Integer id = AutUtil.self().getUid();
-        boolean b = request.getRequestURI().contains("/follow");
-        return Result.judge(service.follow(id,uid,b));
+    @PostMapping("/follow/{uid}")
+    Result follow(@PathVariable Integer uid) {
+        return follow(uid,true);
+    }
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping("/unfollow/{uid}")
+    Result unfollow(@PathVariable Integer uid) {
+        return follow(uid,false);
     }
 }
 

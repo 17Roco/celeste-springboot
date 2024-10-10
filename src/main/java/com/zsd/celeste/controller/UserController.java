@@ -43,6 +43,7 @@ public class UserController {
         return Result.judge(service.updatePassword(AutUtil.self().getUsername(), update.getOldPassword(), update.getNewPassword()));
     }
 
+    @PreAuthorize("@autUtil.needLogin()")
     @GetMapping("/self")
     Result self() {
         return DataResult.ok(service.needInfoById(AutUtil.self().getUid()));

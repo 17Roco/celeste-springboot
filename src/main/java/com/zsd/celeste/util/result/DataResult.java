@@ -1,27 +1,22 @@
 package com.zsd.celeste.util.result;
 
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class DataResult extends Result{
     private Object data;
-
-    protected DataResult(String msg,Object data) {
-        super(msg);
+    protected DataResult(boolean b,String msg,Object data) {
+        super(b,msg);
         this.data = data;
     }
     protected DataResult(boolean b,Object data) {
         super(b);
         this.data = data;
     }
-
-    public DataResult setData(Object data) {
-        this.data = data;
-        return this;
-    }
-    public Object getData() {
-        return data;
-    }
-
 
 
     static public DataResult ok(Object data) {

@@ -1,5 +1,6 @@
 package com.zsd.celeste.exception.advice;
 
+import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ public class IndexException {
     @ResponseBody
     Result index(Exception e){
         System.out.println("error : " + e.getClass() + " - " + e.getMessage());
-        e.printStackTrace();
+//        e.printStackTrace();
         return Result.error(e.getMessage());
     }
 
@@ -28,6 +29,6 @@ public class IndexException {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseBody
     Result MethodArgumentTypeMismatch(){
-        return Result.error().setMsg("Argument Type Mismatch");
+        return Result.error("Argument Type Mismatch");
     }
 }

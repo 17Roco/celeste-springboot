@@ -45,19 +45,12 @@ public class ArticleController implements BaseGetByIdController<Article> {
 
 
     @GetMapping("/filter")
-    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Integer uid){
+    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Boolean self){
+        Integer uid = self ? AutUtil.self().getUid() : null;
         ArticleFilter filter = new ArticleFilter(index,order,tag,beginTime,endTime,uid);
         return DataResult.ok(service.page(filter.getIndex(),filter.wrapper(tagService)));
     }
-    @GetMapping({"/self","/self/{index}"})
-    Result getByUser(@PathVariable(required = false) Integer index){
-        return DataResult.ok(
-                service.page(
-                    index==null?1:index,
-                    new QueryWrapper<Article>().eq("uid",AutUtil.self().getUid())
-                )
-        );
-    }
+
 
     /**
      * 保存 、 更新

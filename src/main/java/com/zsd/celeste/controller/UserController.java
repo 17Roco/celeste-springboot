@@ -48,4 +48,10 @@ public class UserController {
     Result self() {
         return DataResult.ok(service.needInfoById(AutUtil.self().getUid()));
     }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping("/upload")
+    Result upload(){
+        return null;
+    }
 }

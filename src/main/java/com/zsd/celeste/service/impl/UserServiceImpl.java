@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -110,6 +111,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean updateInfo(UserInfoVo userInfo) {
         User user = PojoUtil.copy(new User(),userInfo);
         return updateById(user);
+    }
+    /**
+     * 更新头像
+     * */
+    public String updateImg(MultipartFile file) {
+        // todo
+        return "";
     }
 
     /**

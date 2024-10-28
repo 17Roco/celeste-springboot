@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.List;
@@ -42,6 +43,7 @@ public interface UserService extends BaseService<User>, UserDetailsService {
     boolean register(String username, String password);
     boolean updatePassword(String username, String oldPassword, String newPassword);
     boolean updateInfo(UserInfoVo userInfo);
+    String updateImg(MultipartFile file);
 
     // follow
     boolean follow(Integer id, Integer uid,boolean b);

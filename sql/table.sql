@@ -1,5 +1,23 @@
 # create database celeste;
 
+
+# user          用户
+# article       文章
+# tag           标签
+# link_user_follow 用户关注表
+# link_article_like 文章点赞表
+# link_article_tag  文章-标签连接表
+
+# select * from user;
+# select * from article;
+# select * from `link_aid_tid`;
+# select * from `tag`;
+
+# ----------------------------------------------------------------------------------------------------------------------
+# user
+# article
+# tag
+# comment
 DROP TABLE IF EXISTS `user`;
 create table user(
     uid      int         primary key auto_increment,
@@ -14,8 +32,6 @@ create table user(
     follower int         default 0,
     def_flag int         default 0
 );
-insert into user (username) values ('root'),('user1'),('user2'),('user3'),('user4'),('user5');
-
 
 DROP TABLE IF EXISTS `article`;
 create table article(
@@ -39,35 +55,37 @@ create table `tag`(
     num         int         default 0
 );
 
-DROP TABLE if exists `link_article_like`;
-create table `link_article_like`(
-    aid     int,
-    uid     int,
-    primary key (aid,uid)
+DROP TABLE if exists `comment`;
+create table `comment`(
+    cid     int         primary key auto_increment,
+    pcid    int         default 0,
+    aid     int         not null ,
+    uid     int         not null ,
+    text    text        not null ,
+    likee   int         default 0,
+    time    datetime    default now()
 );
+
+# ----------------------------------------------------------------------------------------------------------------------
+# link_user_follow
+# link_article_like
+# link_article_tag
+#
 DROP TABLE if exists `link_user_follow`;
 create table `link_user_follow`(
     id     int,
     uid     int,
     primary key (id,uid)
 );
-
+DROP TABLE if exists `link_article_like`;
+create table `link_article_like`(
+                                    aid     int,
+                                    uid     int,
+                                    primary key (aid,uid)
+);
 DROP TABLE if exists link_article_tag;
 create table `link_article_tag`(
     aid     int,
     tid     int,
     primary key (aid,tid)
 );
-
-# user          用户
-# article       文章
-# tag           标签
-# link_user_follow 用户关注表
-# link_article_like 文章点赞表
-# link_article_tag  文章-标签连接表
-
-# select * from user;
-# select * from article;
-# select * from `link_aid_tid`;
-# select * from `tag`;
-

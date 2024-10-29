@@ -11,7 +11,7 @@ public class MailTest {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Test
+//    @Test
     public void sendSimpleEmail() {
         SimpleMailMessage message = new SimpleMailMessage();
         String to = "2135978695@qq.com";

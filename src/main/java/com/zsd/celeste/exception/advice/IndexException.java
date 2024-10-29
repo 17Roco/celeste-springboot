@@ -1,5 +1,6 @@
 package com.zsd.celeste.exception.advice;
 
+import com.zsd.celeste.exception.exception.UserNotLoginEx;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,5 +31,11 @@ public class IndexException {
     @ResponseBody
     Result MethodArgumentTypeMismatch(){
         return Result.error("Argument Type Mismatch");
+    }
+
+    @ExceptionHandler(UserNotLoginEx.class)
+    @ResponseBody
+    Result UserNotLogin(){
+        return Result.error("需要登录");
     }
 }

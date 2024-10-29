@@ -63,7 +63,8 @@ create table `comment`(
     uid     int         not null ,
     text    text        not null ,
     likee   int         default 0,
-    time    datetime    default now()
+    time    datetime    default now(),
+    def_flag    int     default 0
 );
 
 # ----------------------------------------------------------------------------------------------------------------------

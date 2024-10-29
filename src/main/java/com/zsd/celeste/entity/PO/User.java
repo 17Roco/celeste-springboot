@@ -18,7 +18,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("user")
-public class User{
+public class User implements UserPojo{
     @TableId("uid")
     private Integer uid;
 

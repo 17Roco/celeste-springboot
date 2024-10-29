@@ -1,24 +1,15 @@
 package com.zsd.celeste.controller;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsd.celeste.entity.ArticleFilter;
 import com.zsd.celeste.entity.DO.ArticleUpdate;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
-import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
-import com.zsd.celeste.util.base.controller.BaseListPageController;
-import com.zsd.celeste.util.base.controller.rest.BaseDeleteByIdController;
-import com.zsd.celeste.util.base.controller.rest.BaseGetByIdController;
 import com.zsd.celeste.util.base.service.BaseService;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +24,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/article")
-public class ArticleController implements BaseGetByIdController<Article> {
+public class ArticleController {
     
     @Autowired
     private ArticleService service;
@@ -51,6 +42,10 @@ public class ArticleController implements BaseGetByIdController<Article> {
         return DataResult.ok(service.page(filter.getIndex(),filter.wrapper(tagService)));
     }
 
+    @GetMapping("/{uid}")
+    Result get(@PathVariable Integer uid) {
+        return DataResult.ok(service.getById(uid));
+    }
 
     /**
      * 保存 、 更新

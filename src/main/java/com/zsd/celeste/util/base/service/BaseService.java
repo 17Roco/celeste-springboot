@@ -2,19 +2,17 @@ package com.zsd.celeste.util.base.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.parser.JsqlParserFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zsd.celeste.entity.PO.Article;
+import com.zsd.celeste.entity.PO.UserPojo;
 import com.zsd.celeste.exception.exception.ResourceNotfoundEx;
 import com.zsd.celeste.util.AutUtil;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-public interface BaseService<T> extends IService<T> {
+public interface BaseService<T extends UserPojo> extends IService<T> {
 
     /**
      * 默认分页大小
@@ -27,12 +25,6 @@ public interface BaseService<T> extends IService<T> {
      * */
     default String getResourceMsg(){
         return "资源不存在";
-    }
-    /**
-     * 默认获取uid接口，默认为toString,不可用
-    * */
-    default Function<T,Serializable> getResourceUid(){
-        return Object::toString;
     }
     /**
      * 当资源不存在时触发异常
@@ -51,7 +43,10 @@ public interface BaseService<T> extends IService<T> {
         return page(index,null);
     }
     default IPage<T> page(int index, QueryWrapper<T> wrapper){
-        IPage<T> p = Page.of(index,getSize());
+        return page(index,getSize(),wrapper);
+    }
+    default IPage<T> page(int index,int size, QueryWrapper<T> wrapper){
+        IPage<T> p = Page.of(index,size);
         return page(p, wrapper);
     }
 
@@ -64,8 +59,8 @@ public interface BaseService<T> extends IService<T> {
     }
     default T needBySelf(Serializable id){
         T t = needById(id);
-        if (getResourceUid().apply(t) != AutUtil.self().getUid())
-            throw new RuntimeException("无法访问该资源");
+        if (!Objects.equals(t.getUid(), AutUtil.self().getUid()))
+            throw new RuntimeException("无法访问该资源");// todo
         return t;
     }
 }

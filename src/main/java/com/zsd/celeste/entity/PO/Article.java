@@ -27,7 +27,7 @@ import org.springframework.util.StringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("article")
-public class Article{
+public class Article implements UserPojo{
     @TableId("aid")
     private Integer aid;
 

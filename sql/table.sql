@@ -20,17 +20,19 @@
 # comment
 DROP TABLE IF EXISTS `user`;
 create table user(
-    uid      int         primary key auto_increment,
-    sex      int         default 1,
-    username varchar(64) not null unique ,
-    password varchar(64) not null default '$2a$10$.VXU9ZtIPk40SqQnMFI2zud6ht7xN5Z2hlFBCQoL.sAZA6lu/2rCG',
-    img      varchar(64) default 'https://pinia.vuejs.org/logo.svg',
-    phone    varchar(64) default '',
-    email    varchar(64) default '',
-    status   int         default 1,
-    follow   int         default 0,
-    follower int         default 0,
-    def_flag int         default 0
+    uid      int          primary key auto_increment,
+    sex      int          default 1         comment '性别',
+    username varchar(64)  not null unique   comment '用户名',
+    birthday date         default null      comment '生日',
+    sign     varchar(200) default ''        comment '个性签名',
+    password varchar(64)  not null default '$2a$10$.VXU9ZtIPk40SqQnMFI2zud6ht7xN5Z2hlFBCQoL.sAZA6lu/2rCG',
+    img      varchar(64)  default 'https://pinia.vuejs.org/logo.svg',
+    phone    varchar(64)  default '',
+    email    varchar(64)  default '',
+    status   int          default 1         comment '1:正常，2:封禁',
+    follow   int          default 0,
+    follower int          default 0,
+    def_flag int          default 0
 );
 
 DROP TABLE IF EXISTS `article`;
@@ -43,7 +45,7 @@ create table article(
     update_time datetime    default now(),
     watch       int         default 1000,
     likee       int         default 1000,
-    status      int         default 1 comment '1:public,2:private,vip:3',
+    status      int         default 1 comment '1:public,2:private',
     def_flag    int         default 0
 );
 

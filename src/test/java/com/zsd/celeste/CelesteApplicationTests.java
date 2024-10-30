@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.Date;
+
 
 @SpringBootTest
 class CelesteApplicationTests {
@@ -15,6 +17,10 @@ class CelesteApplicationTests {
     void contextLoads() {
 //        System.out.println(1);
         redisTemplate.opsForValue().set("celeste", "hello");
+    }
+
+    @Test
+    void a(){
     }
 
 }

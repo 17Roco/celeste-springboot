@@ -14,8 +14,6 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleUpdate {
-//    private Integer aid;
     private String title;
     private String context;
-    private Map<String, Boolean> tagUpdate;
 }

@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zsd.celeste.entity.VO.UserInfoVo;
 import lombok.*;
+
+import java.util.Date;
 
 /**
  * (User)实体类
@@ -26,6 +29,11 @@ public class User implements UserPojo{
     private Integer sex;
     @TableField("username")
     private String username;
+    @TableField("birthday")
+    private Date birthday;
+    @TableField("sign")
+    private String sign;
+
     @TableField("img")
     private String img;
     @TableField("phone")
@@ -39,13 +47,21 @@ public class User implements UserPojo{
     private Integer follow;
     @TableField("follower")
     private Integer follower;
-
-
     @TableField("status")
     private Integer status;
     @TableLogic
     @TableField("def_flag")
     private Integer defFlag;
 
+
+
+    public User(Integer uid, UserInfoVo userInfo){
+        this.uid = uid;
+        this.username = userInfo.getUsername();
+        this.sex = userInfo.getSex();
+        this.birthday = userInfo.getBirthday();
+        this.sign = userInfo.getSign();
+
+    }
 }
 

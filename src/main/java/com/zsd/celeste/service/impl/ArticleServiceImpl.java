@@ -1,6 +1,6 @@
 package com.zsd.celeste.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
@@ -9,14 +9,13 @@ import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.link.LinkConfig;
 import com.zsd.celeste.util.link.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -35,9 +34,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private TagService tagService;
 
-    public Function<Article, Serializable> getResourceUid() {
-        return Article::getUid;
-    }
     public String getResourceMsg() {
         return "文章不存在";
     }
@@ -45,63 +41,58 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     final private LinkConfig likeConfig = new LinkConfig("link_article_like","aid","uid");
     final private LinkConfig tagConfig = new LinkConfig("link_article_tag","aid","tid");
 
-
-
-
-
-
-    @Override
-    public boolean like(Integer aid, Integer uid, boolean b) {
-        Article article = needById(aid);
-        article.setLikee(article.getLikee() + (b?1:-1));
-        return b?
-                linkMapper.addLink(likeConfig,aid,uid) && updateById(article)
-                :
-                linkMapper.delLink(likeConfig,aid,uid) && updateById(article);
-    }
-
-    @Override
-    public boolean addTag(Integer aid, String tag) {
-        return linkMapper.addLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
-    }
-    @Override
-    public boolean delTag(Integer aid, String tag) {
-        return linkMapper.delLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
-    }
-    @Override
-    public boolean addTags(Integer aid, List<String> tags) {
-        return linkMapper.addLink(tagConfig, aid, tagService.getTagByTitles(tags).stream().map(Tag::getTid).collect(Collectors.toList()));
-    }
-
-    @Override
-    public boolean delTags(Integer aid, List<String> tags) {
-        return linkMapper.delLink(tagConfig, aid, tagService.getTagByTitles(tags).stream().map(Tag::getTid).collect(Collectors.toList()));
-    }
-
-
-
-
-
-
-
-
-
     private Article complete(Article article){
-        article.setTags(tagService.getTagsByAid(article.getAid()).stream().map(Tag::getTitle).collect(Collectors.toList()));
-        article.setUser(userService.needInfoById(article.getUid()));
+        // 获取标签
+        List<Tag> tags = tagService.getTagsByAid(article.getAid());
+        // 获取标签标题
+        article.setTags(tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
+        // 获取用户
+        article.setUser(userService.getUserInfo(article.getUid()));
         return article;
     }
 
-    @Override
-    public Article getById(Serializable id) {
-        return complete(super.getById(id));
+
+    /*
+    * 点赞
+    * */
+    public boolean like(Integer aid, boolean b) {
+        // 获取文章，like +/-=1
+        Article article = needById(aid);
+        article.changeLike((b?1:-1));
+        return b?
+                linkMapper.addLink(likeConfig,aid, AutUtil.uid()) && updateById(article)
+                :
+                linkMapper.delLink(likeConfig,aid,AutUtil.uid()) && updateById(article);
     }
 
-    @Override
-    public IPage<Article> page(int index, QueryWrapper<Article> wrapper) {
-        IPage<Article> page = ArticleService.super.page(index,wrapper);
+    /*
+    * addTag  / delTag
+    * addTags / delTags
+    * */
+    public boolean addTag(Integer aid, String tag) {
+        needBySelf(aid);
+        tagService.needTagByTitle(tag);
+        return linkMapper.addLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
+    }
+
+    public boolean delTag(Integer aid, String tag) {
+        needBySelf(aid);
+        tagService.needTagByTitle(tag);
+        return linkMapper.delLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
+    }
+
+    /**
+     * getArticle
+     * getArticleList
+     * */
+    public Article getArticle(Integer aid) {
+        return complete(getById(aid));
+    }
+    public IPage<Article> getArticleList(Integer index, Wrapper<Article> wrapper) {
+        IPage<Article> page = page(index,wrapper);
         page.getRecords().forEach(this::complete);
         return page;
     }
+
 }
 

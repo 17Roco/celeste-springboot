@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -34,30 +35,44 @@ public class UserInfoController {
 
 
 
-
+    /**
+     * 获取用户信息
+     * */
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
         return DataResult.ok(service.needInfoById(id));
     }
 
-    @GetMapping("/{id}/follow")
-    Result getUserFollow(@PathVariable Integer id) {
-        return DataResult.ok(service.getFollow(id));
-    }
 
-
+    /**
+     * 更新用户信息 username,sex,birthday,sign
+     * */
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/info")
     Result updateUserInfo(@RequestBody UserInfoVo vo) {
-        vo.setUid(AutUtil.self().getUid());
-        return Result.judge(service.updateInfo(vo));
+        return Result.judge(service.updateInfo(AutUtil.uid(),vo));
+    }
+
+    @PreAuthorize("@autUtil.needLogin()")
+    @PostMapping("/img")
+    Result upload(@RequestParam("file") MultipartFile file) {
+        return DataResult.ok(service.updateImg(file));
     }
 
 
-
+    /**
+     * 获取关注列表
+     * 关注
+     * 取消关注
+     * */
     Result follow(@PathVariable Integer uid,boolean b) {
         Integer id = AutUtil.self().getUid();
         return Result.judge(service.follow(id,uid,b));
+    }
+
+    @GetMapping("/{id}/follow")
+    Result getUserFollow(@PathVariable Integer id) {
+        return DataResult.ok(service.getFollow(id));
     }
 
     @PreAuthorize("@autUtil.needLogin()")
@@ -70,5 +85,6 @@ public class UserInfoController {
     Result unfollow(@PathVariable Integer uid) {
         return follow(uid,false);
     }
+
 }
 

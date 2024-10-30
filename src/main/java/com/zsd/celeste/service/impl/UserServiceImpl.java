@@ -6,8 +6,10 @@ import com.zsd.celeste.entity.DO.LoginUser;
 import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;
+import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.service.TokenService;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.link.LinkConfig;
 import com.zsd.celeste.util.link.LinkMapper;
@@ -35,6 +37,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     TokenService tokenService;
+    @Autowired
+    private FileResourceService fileResourceService;
     @Setter
     PasswordEncoder passwordEncoder;
     @Setter
@@ -92,6 +96,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return save(user);
     }
 
+
+
+
+
+
+
+
+    /**
+     * 更新信息,username,sex,birthday,sign
+     * */
+    public boolean updateInfo(Integer uid,UserInfoVo userInfo) {
+        User user = new User(uid, userInfo);
+        return updateById(user);
+    }
     /**
      * 修改密码
      * */
@@ -104,21 +122,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         tokenService.removeUser(user);
         return true;
     }
-
-    /**
-     * 更新信息
-     * */
-    public boolean updateInfo(UserInfoVo userInfo) {
-        User user = PojoUtil.copy(new User(),userInfo);
-        return updateById(user);
-    }
     /**
      * 更新头像
      * */
     public String updateImg(MultipartFile file) {
-        // todo
-        return "";
+        // 获取用户
+        User user = needById(AutUtil.uid());
+        // 保存图片
+        String img = fileResourceService.saveImg(file);
+        // 修改并保存
+        user.setImg(img);
+        save(user);
+        return img;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 关注用户

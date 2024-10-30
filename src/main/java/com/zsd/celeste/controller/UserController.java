@@ -7,15 +7,9 @@ import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
 
 @RestController
 public class UserController {
@@ -52,9 +46,4 @@ public class UserController {
         return DataResult.ok(service.needInfoById(AutUtil.self().getUid()));
     }
 
-//    @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/upload")
-    Result upload(@RequestParam("file") MultipartFile file) {
-        return DataResult.ok(service.updateImg(file));
-    }
 }

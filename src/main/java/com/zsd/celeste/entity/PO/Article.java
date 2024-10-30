@@ -44,7 +44,7 @@ public class Article implements UserPojo{
     @TableField("watch")
     private Integer watch;
     @TableField("likee")
-    private Integer likee;
+    private Integer like;
     /**
      * 1:public,2:private,vip:3
      */
@@ -65,11 +65,18 @@ public class Article implements UserPojo{
 
 
     public void update(ArticleUpdate update){
-        if (!StringUtils.hasText(update.getTitle()) || !StringUtils.hasText(update.getContext()))
-            throw new RuntimeException("标题或正文不能为空");
         setTitle(update.getTitle());
         setContext(update.getContext());
         setUpdateTime(new Date());
+    }
+    public Article(Integer aid,Integer uid,ArticleUpdate update){
+        this.aid = aid;
+        this.uid = uid;
+        update(update);
+    }
+    public Article changeLike(Integer i){
+        like += i;
+        return this;
     }
 }
 

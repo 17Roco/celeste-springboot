@@ -1,15 +1,21 @@
 package com.zsd.celeste.entity.VO;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class UserInfoVo {
     private Integer uid;
     private String username;
-    private String email;
     private Integer sex;
+    private Date birthday;
+    private String sign;
+
     private String img;
+    private String email;
     private String phone;
+    private Boolean isFollow;
+
 }

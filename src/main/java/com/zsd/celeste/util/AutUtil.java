@@ -1,15 +1,10 @@
 package com.zsd.celeste.util;
 
 import com.zsd.celeste.entity.DO.LoginUser;
-import com.zsd.celeste.entity.PO.User;
-import com.zsd.celeste.entity.PO.UserPojo;
 import com.zsd.celeste.exception.exception.UserNotLoginEx;
-import com.zsd.celeste.util.base.service.BaseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class AutUtil {

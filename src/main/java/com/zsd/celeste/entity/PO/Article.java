@@ -37,6 +37,8 @@ public class Article implements UserPojo{
     private String title;
     @TableField("context")
     private String context;
+    @TableField("img")
+    private String img;
     @TableField("create_time")
     private Date createTime;
     @TableField("update_time")

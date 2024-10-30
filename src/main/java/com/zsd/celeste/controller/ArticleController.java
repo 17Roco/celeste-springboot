@@ -9,6 +9,7 @@ import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -57,6 +58,11 @@ public class ArticleController {
     @PutMapping("/{aid}")
     Result update(@RequestBody ArticleUpdate update,@PathVariable Integer aid) {
         return Result.judge(service.update(update,aid));
+    }
+    @PostMapping("/{aid}/img")
+    Result updateImg(MultipartFile file,@PathVariable Integer aid) {
+        // todo
+        return null;
     }
     @DeleteMapping("/{aid}")
     public Result delete(@PathVariable Integer aid) {

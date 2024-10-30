@@ -41,6 +41,7 @@ create table article(
     uid         int         not null ,
     title       varchar(64) not null ,
     context     text        not null ,
+    img         varchar(64) default '',
     create_time datetime    default now(),
     update_time datetime    default now(),
     watch       int         default 1000,

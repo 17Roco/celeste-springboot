@@ -1,6 +1,7 @@
 package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.DO.LoginForm;
+import com.zsd.celeste.entity.DO.UpdatePassword;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.service.UserService;
@@ -20,12 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
-/**
- * (User)表控制层
- *
- * @author zsd
- * @since 2024-06-07 00:43:08
- */
+
 @RestController()
 @RequestMapping("/user")
 public class UserInfoController {
@@ -48,33 +44,43 @@ public class UserInfoController {
      * 更新用户信息 username,sex,birthday,sign
      * */
     @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/info")
+    @PutMapping("/info")
     Result updateUserInfo(@RequestBody UserInfoVo vo) {
         return Result.judge(service.updateInfo(AutUtil.uid(),vo));
     }
 
+    /**
+     * 更新头像
+     * */
     @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/img")
+    @PutMapping("/img")
     Result upload(@RequestParam("file") MultipartFile file) {
         return DataResult.ok(service.updateImg(file));
     }
 
+    /**
+     * 更新密码
+     * */
+    @PreAuthorize("@autUtil.needLogin()")
+    @PutMapping("/pw")
+    Result changePassword(@RequestBody UpdatePassword update){
+        return Result.judge(service.updatePassword(AutUtil.self().getUsername(), update.getOldPassword(), update.getNewPassword()));
+    }
+
+
 
     /**
      * 获取关注列表
-     * 关注
-     * 取消关注
      * */
-    Result follow(@PathVariable Integer uid,boolean b) {
-        Integer id = AutUtil.self().getUid();
-        return Result.judge(service.follow(id,uid,b));
-    }
-
-    @GetMapping("/{id}/follow")
-    Result getUserFollow(@PathVariable Integer id) {
+    @GetMapping("/follow/{id}/{index}")
+    Result getUserFollow(@PathVariable Integer id, @PathVariable Integer index) {
+        // todo
         return DataResult.ok(service.getFollow(id));
     }
 
+    /**
+     * 关注、取消关注
+     * */
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/follow/{uid}")
     Result follow(@PathVariable Integer uid) {
@@ -86,5 +92,9 @@ public class UserInfoController {
         return follow(uid,false);
     }
 
+    Result follow(@PathVariable Integer uid,boolean b) {
+        Integer id = AutUtil.self().getUid();
+        return Result.judge(service.follow(id,uid,b));
+    }
 }
 

@@ -15,12 +15,17 @@ public class TagController {
     @Autowired
     private TagService service;
 
-
+    /**
+     * 获取标签列表
+     * */
     @GetMapping("/list")
     Result getList() {
         return DataResult.ok(service.list());
     }
 
+    /**
+     * 添加标签
+     * */
     @PostMapping("/{title}")
     public Result add(@PathVariable String title) {
         Tag tag = new Tag(null, title, "", 0);

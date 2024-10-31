@@ -60,12 +60,12 @@ create table `tag`(
 
 DROP TABLE if exists `comment`;
 create table `comment`(
-    cid     int         primary key auto_increment,
-    pcid    int         default 0,
-    aid     int         not null ,
-    uid     int         not null ,
-    text    text        not null ,
-    likee   int         default 0,
+    cid     int         primary      key auto_increment,
+    pid     int         default 0    comment '父id',
+    type    int         default 1    comment '类型，0：children，1：article',
+    uid     int         not null     ,
+    text    text        not null     ,
+    likee   int         default 0    ,
     time    datetime    default now(),
     def_flag    int     default 0
 );

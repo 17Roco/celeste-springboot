@@ -1,7 +1,6 @@
 package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.DO.LoginForm;
-import com.zsd.celeste.entity.DO.UpdatePassword;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.DataResult;
@@ -17,29 +16,36 @@ public class UserController {
     @Autowired
     private UserService service;
 
-
+    /**
+     * 登录
+     * */
     @PostMapping("/login")
     Result login(@RequestBody LoginForm form) {
         return StreamResult.create("token",service.login(form.getUsername(), form.getPassword()));
     }
 
+    /**
+     * 注册
+     * */
     @PostMapping("/register")
     Result register(@RequestBody LoginForm form) {
         return Result.judge(service.register(form.getUsername(), form.getPassword()));
     }
 
+    /**
+     * 退出
+     * */
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/logout")
     Result logout() {
         return Result.judge(service.logout(AutUtil.self().getToken()));
     }
 
-    @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/changePassword")
-    Result changePassword(@RequestBody UpdatePassword update){
-        return Result.judge(service.updatePassword(AutUtil.self().getUsername(), update.getOldPassword(), update.getNewPassword()));
-    }
 
+
+    /**
+     * 获取当前用户信息
+     * */
     @PreAuthorize("@autUtil.needLogin()")
     @GetMapping("/self")
     Result self() {

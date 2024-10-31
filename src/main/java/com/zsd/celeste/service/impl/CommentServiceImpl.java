@@ -6,53 +6,36 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Comment;
 import com.zsd.celeste.mapper.CommentMapper;
 import com.zsd.celeste.service.CommentService;
-import com.zsd.celeste.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
-    @Autowired
-    private UserService userService;
+    private final int COMMENT_SIZE = 10;
 
-    private final int MAIN_COMMENT_SIZE = 10;
-    private final int CHILDREN_COMMENT_SIZE = 5;
 
-    public IPage<Comment> getArticleComment(int aid, int index) {
-        IPage<Comment> list = selectMainComment(aid,index);
-        list.getRecords().forEach(c->c.setComments(selectChildrenComment(c.getPcid(),1)));
-        list.getRecords().forEach(c->c.setUser(userService.getById(c.getUid())));
-        return list;
+    /**
+     * 获取评论
+     * */
+    public IPage<Comment> getComment(int pid,int type,int index) {
+        return page(index,
+                COMMENT_SIZE,
+                new QueryWrapper<Comment>().eq("type", type).eq("pid", pid)
+        );
     }
-
-    public IPage<Comment> getArticleChildrenComment(int cid, int index) {
-        return selectChildrenComment(cid,index);
-    }
-
-    public boolean addComment(Comment c,int uid) {
-        Comment comment = new Comment(null,c.getPcid(),c.getAid(),uid,c.getText());
+    /**
+     * 添加评论
+     * */
+    public boolean addComment(Comment c,int uid,int type) {
+        Comment comment = new Comment(null,c.getPid(),type,uid,c.getText());
         return save(comment);
     }
 
-    public boolean deleteComment(int cid) {
-        return removeById(cid);
-    }
-
-
-    private IPage<Comment> selectMainComment(int aid,int index) {
-        return page(index,
-                MAIN_COMMENT_SIZE,
-                new QueryWrapper<Comment>().eq("aid", aid).eq("pcid", 0)
-        );
-    }
-    private IPage<Comment> selectChildrenComment(int pcid,int index) {
-        return page(
-                index,
-                CHILDREN_COMMENT_SIZE,
-                new QueryWrapper<Comment>().eq("pcid", pcid)
-        );
+    /**
+     * 点赞评论
+     * */
+    public boolean like(int cid,int uid,boolean like) {
+        return true;// todo
     }
 }

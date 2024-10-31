@@ -35,6 +35,7 @@ public class ArticleController {
     Result get(@PathVariable Integer aid) {
         return DataResult.ok(service.getArticle(aid));
     }
+
     /**
      * 过滤文章
      * */
@@ -49,21 +50,33 @@ public class ArticleController {
 
 
     /**
-     * 保存内容 、 更新内容、删除文章
+     * 保存内容
      * */
-    @PostMapping("/")
+    @PostMapping("/context")
     Result save(@RequestBody ArticleUpdate update) {
         return StreamResult.create("aid",service.saveArticle(update));
     }
-    @PutMapping("/{aid}")
+
+    /**
+     * 更新内容
+     * */
+    @PutMapping("/context/{aid}")
     Result update(@RequestBody ArticleUpdate update,@PathVariable Integer aid) {
         return Result.judge(service.update(update,aid));
     }
-    @PostMapping("/{aid}/img")
+
+    /**
+     * 更新封面
+     * */
+    @PutMapping("/img/{aid}")
     Result updateImg(MultipartFile file,@PathVariable Integer aid) {
         // todo
         return null;
     }
+
+    /**
+     * 删除文章
+     * */
     @DeleteMapping("/{aid}")
     public Result delete(@PathVariable Integer aid) {
         return Result.judge(service.deleteArticle(aid));

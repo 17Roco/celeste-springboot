@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.ArticleForm;
+import com.zsd.celeste.enums.ResourceNameSpace;
 import com.zsd.celeste.exception.exception.pojo.SaveFailEx;
 import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.entity.PO.Article;
@@ -96,7 +97,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 获取用户
         Article article = needBySelf(aid);
         // 保存图片
-        String img = resourceService.saveImg(file);
+        String img = resourceService.saveImg(file, ResourceNameSpace.IMAGE_ARTICLE);
         // 修改并保存
         article.setImg(img);
         save(article);

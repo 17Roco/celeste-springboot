@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.VO.UserInfoVo;
+import com.zsd.celeste.enums.ResourceNameSpace;
 import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.FileResourceService;
@@ -129,7 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取用户
         User user = needById(AutUtil.uid());
         // 保存图片
-        String img = fileResourceService.saveImg(file);
+        String img = fileResourceService.saveImg(file, ResourceNameSpace.IMAGE_USER);
         // 修改并保存
         user.setImg(img);
         save(user);

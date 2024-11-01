@@ -1,9 +1,11 @@
 package com.zsd.celeste.controller;
 import com.zsd.celeste.entity.ArticleFilter;
-import com.zsd.celeste.entity.DO.ArticleUpdate;
+import com.zsd.celeste.entity.PO.Article;
+import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
 import com.zsd.celeste.util.AutUtil;
+import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
@@ -33,7 +35,7 @@ public class ArticleController {
      * */
     @GetMapping("/{aid}")
     Result get(@PathVariable Integer aid) {
-        return DataResult.ok(service.getArticle(aid));
+        return DataResult.ok(service.needById(aid));
     }
 
     /**
@@ -53,16 +55,16 @@ public class ArticleController {
      * 保存内容
      * */
     @PostMapping("/context")
-    Result save(@RequestBody ArticleUpdate update) {
-        return StreamResult.create("aid",service.saveArticle(update));
+    Result save(@RequestBody ArticleForm form) {
+        return StreamResult.create("aid",service.saveBySelf(form));
     }
 
     /**
      * 更新内容
      * */
     @PutMapping("/context/{aid}")
-    Result update(@RequestBody ArticleUpdate update,@PathVariable Integer aid) {
-        return Result.judge(service.update(update,aid));
+    Result update(@RequestBody ArticleForm form, @PathVariable Integer aid) {
+        return Result.judge(service.updateBySelf(aid,form));
     }
 
     /**
@@ -70,8 +72,7 @@ public class ArticleController {
      * */
     @PutMapping("/img/{aid}")
     Result updateImg(MultipartFile file,@PathVariable Integer aid) {
-        // todo
-        return null;
+        return StreamResult.create("img",service.updateImg(file,aid));
     }
 
     /**
@@ -79,7 +80,7 @@ public class ArticleController {
      * */
     @DeleteMapping("/{aid}")
     public Result delete(@PathVariable Integer aid) {
-        return Result.judge(service.deleteArticle(aid));
+        return Result.judge(service.removeBySelf(aid));
     }
 
     /**

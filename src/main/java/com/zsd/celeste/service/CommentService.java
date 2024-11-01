@@ -3,6 +3,7 @@ package com.zsd.celeste.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.PO.Comment;
+import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.util.base.service.BasePojoService;
 
 public interface CommentService extends BasePojoService<Comment> {
@@ -25,9 +26,9 @@ public interface CommentService extends BasePojoService<Comment> {
     /**
      * 添加评论
      */
-    boolean addComment(Comment c,int uid,int type);
-    default boolean addChildComment(Comment c,int uid){
-        return addComment(c,uid,0);
+    boolean addComment(CommentForm form, int type);
+    default boolean addChildComment(CommentForm form,int uid){
+        return addComment(form,0);
     }
     /**
      * 删除评论 + 删除子评论

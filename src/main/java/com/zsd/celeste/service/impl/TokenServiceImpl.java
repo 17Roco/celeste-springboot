@@ -1,6 +1,6 @@
 package com.zsd.celeste.service.impl;
 
-import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.TokenService;
 import lombok.Getter;

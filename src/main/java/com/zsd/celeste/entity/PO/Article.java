@@ -9,13 +9,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.zsd.celeste.entity.DO.ArticleUpdate;
+import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.VO.UserInfoVo;
-import com.zsd.celeste.util.AutUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import org.springframework.util.StringUtils;
 
 /**
  * (Article)实体类
@@ -66,12 +64,13 @@ public class Article implements UserPojo{
     private UserInfoVo user;
 
 
-    public void update(ArticleUpdate update){
+    public Article update(ArticleForm update){
         setTitle(update.getTitle());
         setContext(update.getContext());
         setUpdateTime(new Date());
+        return this;
     }
-    public Article(Integer aid,Integer uid,ArticleUpdate update){
+    public Article(Integer aid, Integer uid, ArticleForm update){
         this.aid = aid;
         this.uid = uid;
         update(update);

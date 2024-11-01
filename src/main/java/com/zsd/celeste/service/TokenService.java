@@ -1,11 +1,10 @@
 package com.zsd.celeste.service;
 
-import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public interface TokenService {
 

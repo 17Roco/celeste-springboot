@@ -1,9 +1,8 @@
-package com.zsd.celeste.entity.DO;
+package com.zsd.celeste.entity.form;
 
 import com.zsd.celeste.entity.PO.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

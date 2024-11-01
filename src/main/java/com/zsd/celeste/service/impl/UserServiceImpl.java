@@ -2,7 +2,7 @@ package com.zsd.celeste.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;

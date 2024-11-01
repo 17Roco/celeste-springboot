@@ -4,9 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
+import com.zsd.celeste.entity.PO.User;
+import com.zsd.celeste.entity.form.ArticleForm;
+import com.zsd.celeste.exception.exception.pojo.SaveFailEx;
 import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
+import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.service.TagService;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
@@ -14,8 +18,12 @@ import com.zsd.celeste.util.link.LinkConfig;
 import com.zsd.celeste.util.link.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +41,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private UserService userService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private FileResourceService resourceService;
 
     public String getResourceMsg() {
         return "文章不存在";
@@ -51,6 +61,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return article;
     }
 
+
+    public Article saveBySelf(ArticleForm form) {
+        Article article = new Article().update(form);
+        if (!ArticleService.super.saveBySelf(article)) {
+            throw new SaveFailEx();
+        }
+        return article;
+    }
+
+
+    public boolean updateBySelf(Serializable id, ArticleForm form) {
+        return ArticleService.super.updateBySelf(id, a->a.update(form));
+    }
 
     /*
     * 点赞
@@ -92,6 +115,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         IPage<Article> page = page(index,wrapper);
         page.getRecords().forEach(this::complete);
         return page;
+    }
+
+    /**
+     * 修改封面
+     * */
+    public String updateImg(MultipartFile file,Integer aid) {
+        // 获取用户
+        Article article = needBySelf(aid);
+        // 保存图片
+        String img = resourceService.saveImg(file);
+        // 修改并保存
+        article.setImg(img);
+        save(article);
+        return img;
     }
 
 }

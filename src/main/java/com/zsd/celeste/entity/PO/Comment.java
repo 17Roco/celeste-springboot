@@ -20,17 +20,19 @@ import lombok.NoArgsConstructor;
 public class Comment implements UserPojo{
     @TableId("cid")
     private Integer cid;
+    @JsonIgnore
     @TableField("pid")
     private Integer pid;
     @JsonIgnore
     @TableField("type")
     private Integer type;
+    @JsonIgnore
     @TableField("uid")
     private Integer uid;
     @TableField("text")
     private String text;
     @TableField("likee")
-    private Integer like;
+    private Integer likee;
     @TableField("time")
     private Date time;
     @JsonIgnore
@@ -44,15 +46,9 @@ public class Comment implements UserPojo{
     @TableField(exist = false)
     private IPage<Comment> comments;
 
-    public Comment(Integer cid, Integer pid, Integer type, Integer uid, String text) {
-        this.cid = cid;
-        this.pid = pid;
-        this.type = type;
-        this.uid = uid;
-        this.text = text;
-    }
+
     public Comment addLike(int i){
-        like += i;
+        likee += i;
         return this;
     }
 }

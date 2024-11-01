@@ -1,4 +1,4 @@
-package com.zsd.celeste.entity.DO;
+package com.zsd.celeste.entity.form;
 
 import lombok.Data;
 

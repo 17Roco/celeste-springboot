@@ -1,6 +1,6 @@
 package com.zsd.celeste.filter;
 
-import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.service.TokenService;
 import jakarta.servlet.FilterChain;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 

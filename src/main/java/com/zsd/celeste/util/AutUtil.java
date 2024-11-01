@@ -1,6 +1,6 @@
 package com.zsd.celeste.util;
 
-import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.exception.exception.UserNotLoginEx;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zsd.celeste.exception.exception.ResourceNotfoundEx;
+import com.zsd.celeste.exception.exception.pojo.PojoNotExistEx;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -27,7 +27,7 @@ public interface BaseService<T> extends IService<T> {
      * 当资源不存在时触发异常
      * */
     default T need(T entity){
-        if (Objects.isNull(entity)) throw new ResourceNotfoundEx(getResourceMsg());
+        if (Objects.isNull(entity)) throw new PojoNotExistEx(getResourceMsg());
         return entity;
     }
     /**
@@ -36,7 +36,6 @@ public interface BaseService<T> extends IService<T> {
     default T needById(Serializable id){
         return need(getById(id));
     }
-
 
     /**
      * 分页查询、分页带条件查询

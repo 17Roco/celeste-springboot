@@ -2,7 +2,7 @@ package com.zsd.celeste.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zsd.celeste.entity.VO.UserInfoVo;
-import com.zsd.celeste.entity.DO.LoginUser;
+import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.base.service.BasePojoService;

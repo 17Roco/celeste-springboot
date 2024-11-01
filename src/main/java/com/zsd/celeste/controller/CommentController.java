@@ -2,6 +2,7 @@ package com.zsd.celeste.controller;
 
 
 import com.zsd.celeste.entity.PO.Comment;
+import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.service.CommentService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.DataResult;
@@ -22,7 +23,7 @@ public class CommentController {
      * */
     @GetMapping({"/article/{aid}","/article/{aid}/{index}"})
     Result getArticleComment(@PathVariable Integer aid, @PathVariable(required = false) Integer index){
-        return DataResult.ok(service.getArticleComment(aid,index == null ? 1 : index));
+        return DataResult.ok(service.getArticleComment(aid, index == null ? 1 : index));
     }
 
     /**
@@ -47,10 +48,9 @@ public class CommentController {
      * 在文章下评论
      * */
     @PreAuthorize("@autUtil.needLogin()")
-    @PostMapping("/article/{aid}")
-    Result comment(@RequestBody Comment comment, @PathVariable Integer aid){
-        comment.setPid(aid);
-        return Result.judge(service.addComment(comment,AutUtil.self().getUid(),1));
+    @PostMapping("/article")
+    Result comment(@RequestBody CommentForm form){
+        return Result.judge(service.addComment(form,1));
     }
 
     /**

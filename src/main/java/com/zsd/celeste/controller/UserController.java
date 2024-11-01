@@ -1,6 +1,6 @@
 package com.zsd.celeste.controller;
 
-import com.zsd.celeste.entity.DO.LoginForm;
+import com.zsd.celeste.entity.form.LoginForm;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.DataResult;

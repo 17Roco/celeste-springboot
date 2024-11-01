@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Comment;
+import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.mapper.CommentMapper;
 import com.zsd.celeste.service.CommentService;
+import com.zsd.celeste.util.PojoUtil;
 import org.springframework.stereotype.Service;
 
 
@@ -27,9 +29,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     /**
      * 添加评论
      * */
-    public boolean addComment(Comment c,int uid,int type) {
-        Comment comment = new Comment(null,c.getPid(),type,uid,c.getText());
-        return save(comment);
+    public boolean addComment(CommentForm form, int type) {
+        return saveBySelf(PojoUtil.copy(form, Comment.class));
     }
 
     /**

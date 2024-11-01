@@ -79,5 +79,15 @@ public class Article implements UserPojo{
         like += i;
         return this;
     }
+
+    @Override
+    public Integer getId() {
+        return getAid();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        setAid(id);
+    }
 }
 

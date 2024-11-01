@@ -34,4 +34,6 @@ public class FileResourceServiceImpl implements FileResourceService {
     public String saveImg(MultipartFile file) {
         return saveResource(file);
     }
+
+
 }

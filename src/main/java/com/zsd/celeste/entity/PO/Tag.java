@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("tag")
-public class Tag{
+public class Tag implements Pojo{
     @JsonIgnore
     @TableId("tid")
     private Integer tid;
@@ -34,6 +34,17 @@ public class Tag{
     public Tag addNum() {
         num++;
         return this;
+    }
+
+
+    @Override
+    public Integer getId() {
+        return getTid();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        setTid(id);
     }
 }
 

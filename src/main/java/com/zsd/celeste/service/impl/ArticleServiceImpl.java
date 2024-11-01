@@ -61,21 +61,50 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return article;
     }
 
-
+    /**
+     * 保存文章
+     * */
     public Article saveBySelf(ArticleForm form) {
-        Article article = new Article().update(form);
-        if (!ArticleService.super.saveBySelf(article)) {
-            throw new SaveFailEx();
-        }
-        return article;
+        return saveBySelf(new Article().update(form));
     }
 
-
+    /**
+    * 更新文章
+    * */
     public boolean updateBySelf(Serializable id, ArticleForm form) {
         return ArticleService.super.updateBySelf(id, a->a.update(form));
     }
 
-    /*
+    /**
+     * 获取文章
+     * 获取文章列表
+     * */
+    public Article getArticleById(Serializable id){
+        Article article = needById(id);
+        return complete(article);
+    };
+    public IPage<Article> getArticleList(Integer index, Wrapper<Article> wrapper) {
+        IPage<Article> page = page(index,wrapper);
+        page.getRecords().forEach(this::complete);
+        return page;
+    }
+
+    /**
+     * 修改封面
+     * */
+    public String updateImg(MultipartFile file,Integer aid) {
+        // 获取用户
+        Article article = needBySelf(aid);
+        // 保存图片
+        String img = resourceService.saveImg(file);
+        // 修改并保存
+        article.setImg(img);
+        save(article);
+        return img;
+    }
+
+
+    /**
     * 点赞
     * */
     public boolean like(Integer aid, boolean b) {
@@ -104,32 +133,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return linkMapper.delLink(tagConfig,aid,tagService.needTagByTitle(tag).getTid());
     }
 
-    /**
-     * getArticle
-     * getArticleList
-     * */
-    public Article getArticle(Integer aid) {
-        return complete(getById(aid));
-    }
-    public IPage<Article> getArticleList(Integer index, Wrapper<Article> wrapper) {
-        IPage<Article> page = page(index,wrapper);
-        page.getRecords().forEach(this::complete);
-        return page;
-    }
-
-    /**
-     * 修改封面
-     * */
-    public String updateImg(MultipartFile file,Integer aid) {
-        // 获取用户
-        Article article = needBySelf(aid);
-        // 保存图片
-        String img = resourceService.saveImg(file);
-        // 修改并保存
-        article.setImg(img);
-        save(article);
-        return img;
-    }
 
 }
 

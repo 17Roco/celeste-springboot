@@ -51,5 +51,16 @@ public class Comment implements UserPojo{
         likee += i;
         return this;
     }
+
+
+    @Override
+    public Integer getId() {
+        return getCid();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        setCid(id);
+    }
 }
 

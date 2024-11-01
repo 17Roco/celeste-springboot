@@ -1,10 +1,9 @@
 package com.zsd.celeste.controller;
 
 
-import com.zsd.celeste.entity.PO.Comment;
 import com.zsd.celeste.entity.form.CommentForm;
+import com.zsd.celeste.enums.CommentType;
 import com.zsd.celeste.service.CommentService;
-import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class CommentController {
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/article")
     Result comment(@RequestBody CommentForm form){
-        return Result.judge(service.addComment(form,1));
+        return Result.judge(service.addComment(form, CommentType.ARTICLE));
     }
 
     /**
@@ -58,10 +57,10 @@ public class CommentController {
      * */
     @PostMapping("like/{cid}")
     public Result like(@PathVariable Integer cid){
-        return Result.judge(service.like(cid,AutUtil.uid(),true));
+        return Result.judge(service.like(cid,true));
     }
     @PostMapping("unlike/{cid}")
     public Result unlike(@PathVariable Integer cid){
-        return Result.judge(service.like(cid,AutUtil.uid(),false));
+        return Result.judge(service.like(cid,false));
     }
 }

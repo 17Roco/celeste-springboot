@@ -24,7 +24,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
-//
+
     @Autowired
     private ArticleService service;
     @Autowired
@@ -35,7 +35,7 @@ public class ArticleController {
      * */
     @GetMapping("/{aid}")
     Result get(@PathVariable Integer aid) {
-        return DataResult.ok(service.needById(aid));
+        return DataResult.ok(service.getArticleById(aid));
     }
 
     /**

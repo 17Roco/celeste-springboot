@@ -63,5 +63,16 @@ public class User implements UserPojo{
         this.sign = userInfo.getSign();
 
     }
+
+
+    @Override
+    public Integer getId() {
+        return getUid();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        setUid(id);
+    }
 }
 

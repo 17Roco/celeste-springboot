@@ -2,8 +2,8 @@ package com.zsd.celeste.util.base.service;
 
 import com.zsd.celeste.entity.PO.UserPojo;
 import com.zsd.celeste.exception.exception.pojo.NotOwnerEx;
+import com.zsd.celeste.exception.exception.pojo.SaveFailEx;
 import com.zsd.celeste.util.AutUtil;
-import com.zsd.celeste.util.PojoUtil;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -32,9 +32,11 @@ public interface BasePojoService<T extends UserPojo> extends BaseService<T> {
     /**
      * 保存实体类
      * */
-    default boolean saveBySelf(T t){
+    default T saveBySelf(T t){
         t.setUid(AutUtil.uid());
-        return save(t);
+        if (!save(t))
+            throw new SaveFailEx();
+        return needBySelf(t.getId());
     }
 
     /**
@@ -44,5 +46,4 @@ public interface BasePojoService<T extends UserPojo> extends BaseService<T> {
         T t = needBySelf(id);
         return updateById(updateByForm.apply(t));
     }
-
 }

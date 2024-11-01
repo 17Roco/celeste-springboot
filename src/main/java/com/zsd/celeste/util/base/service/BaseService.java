@@ -24,14 +24,14 @@ public interface BaseService<T> extends IService<T> {
         return "资源不存在";
     }
     /**
-     * 当资源不存在时触发异常
+     * 当资源不存在时触发异常 PojoNotExistEx
      * */
     default T need(T entity){
         if (Objects.isNull(entity)) throw new PojoNotExistEx(getResourceMsg());
         return entity;
     }
     /**
-     * 获取资源，不存在则报错 、 获取资源同时鉴权
+     * 获取资源，不存在则报错 、 获取资源同时鉴权 PojoNotExistEx
      * */
     default T needById(Serializable id){
         return need(getById(id));

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Comment;
 import com.zsd.celeste.entity.form.CommentForm;
+import com.zsd.celeste.enums.CommentType;
 import com.zsd.celeste.mapper.CommentMapper;
 import com.zsd.celeste.service.CommentService;
 import com.zsd.celeste.util.PojoUtil;
@@ -20,23 +21,24 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     /**
      * 获取评论
      * */
-    public IPage<Comment> getComment(int pid,int type,int index) {
+    public IPage<Comment> getComment(int pid, CommentType type, int index) {
         return page(index,
                 COMMENT_SIZE,
-                new QueryWrapper<Comment>().eq("type", type).eq("pid", pid)
+                new QueryWrapper<Comment>().eq("type", type.getValue()).eq("pid", pid)
         );
     }
     /**
      * 添加评论
      * */
-    public boolean addComment(CommentForm form, int type) {
-        return saveBySelf(PojoUtil.copy(form, Comment.class));
+    public boolean addComment(CommentForm form, CommentType type) {
+        saveBySelf(form.toComment(type));
+        return true;
     }
 
     /**
      * 点赞评论
      * */
-    public boolean like(int cid,int uid,boolean like) {
+    public boolean like(int cid,boolean like) {
         return true;// todo
     }
 }

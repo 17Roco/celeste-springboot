@@ -58,7 +58,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 获取标签标题
         article.setTags(tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
         // 获取用户
-        article.setUser(userService.getUserInfo(article.getUid()));
+        article.setUser(userService.getById(article.getUid()));
         return article;
     }
 

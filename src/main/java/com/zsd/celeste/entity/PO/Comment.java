@@ -54,12 +54,12 @@ public class Comment implements UserPojo{
 
 
     @Override
-    public Integer getId() {
+    public Integer Id() {
         return getCid();
     }
 
     @Override
-    public void setId(Integer id) {
+    public void Id(Integer id) {
         setCid(id);
     }
 }

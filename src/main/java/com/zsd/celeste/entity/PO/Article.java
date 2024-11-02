@@ -44,7 +44,7 @@ public class Article implements UserPojo{
     @TableField("watch")
     private Integer watch;
     @TableField("likee")
-    private Integer like;
+    private Integer likee;
     /**
      * 1:public,2:private,vip:3
      */
@@ -61,7 +61,7 @@ public class Article implements UserPojo{
     @TableField(exist = false)
     private List<String> tags = new ArrayList<>();
     @TableField(exist = false)
-    private UserInfoVo user;
+    private User user;
 
 
     public Article update(ArticleForm update){
@@ -76,17 +76,16 @@ public class Article implements UserPojo{
         update(update);
     }
     public Article changeLike(Integer i){
-        like += i;
+        likee += i;
         return this;
     }
 
     @Override
-    public Integer getId() {
+    public Integer Id() {
         return getAid();
     }
-
     @Override
-    public void setId(Integer id) {
+    public void Id(Integer id) {
         setAid(id);
     }
 }

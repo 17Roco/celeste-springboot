@@ -1,9 +1,11 @@
 package com.zsd.celeste.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.VO.UserInfoVo;
+import com.zsd.celeste.entity.form.UserInfoForm;
 import com.zsd.celeste.enums.ResourceNameSpace;
 import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.entity.PO.User;
@@ -23,8 +25,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -107,10 +111,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 更新信息,username,sex,birthday,sign
      * */
-    public boolean updateInfo(Integer uid,UserInfoVo userInfo) {
-        User user = new User(uid, userInfo);
-        return updateById(user);
+    public boolean updateBySelf(UserInfoForm form) {
+        return UserService.super.updateBySelf(AutUtil.uid(), u->u.update(form));
     }
+
     /**
      * 修改密码
      * */
@@ -168,14 +172,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 获取关注列表
      * */
-    public List<UserInfoVo> getFollow(Integer id) {
+    public IPage<User> getFollow(Integer id, Integer index) {
         // 获取 ids
         List<Integer> followIds = linkMapper.get(followConfig, id);
         //  获取 users
-        List<User> users = list(new QueryWrapper<User>().in("uid", followIds));
-        // 返回 userInfoVo
-        return users.stream().map(user -> PojoUtil.copy(new UserInfoVo(), user)).collect(Collectors.toList());
+        return page(index, new QueryWrapper<User>().in("uid", followIds));
+
     }
 
+    /**
+     * 是否关注
+    * */
+    public boolean isFollow(Integer id, Integer uid) {
+        return linkMapper.exits(followConfig, id, uid);
+    }
 }
 

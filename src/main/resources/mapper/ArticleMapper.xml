@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsd.celeste.mapper.ArticleMapper">
+    <select id="filter" resultType="com.zsd.celeste.entity.PO.Article">
+        select
+            article.aid, article.uid, article.title, article.create_time, article.update_time, article.watch, article.likee, article.status, article.def_flag
+        from article
+            join link_article_tag on link_article_tag.aid = article.aid
+            join tag              on link_article_tag.tid = tag.tid
+        <where>
+            <if test="tag != null">
+                tag.title = #{tag}
+            </if>
+            <if test="uid != null">
+                and article.uid = #{uid}
+            </if>
+            <if test="beginTime != null">
+                and article.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and article.create_time &lt;= #{endTime}
+            </if>
+        </where>
+        <if test="order != null">
+            order by ${order} desc
+        </if>
+    </select>
+</mapper>

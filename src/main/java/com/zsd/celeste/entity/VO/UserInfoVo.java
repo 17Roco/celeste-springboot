@@ -12,10 +12,4 @@ public class UserInfoVo {
     private Integer sex;
     private Date birthday;
     private String sign;
-
-    private String img;
-    private String email;
-    private String phone;
-    private Boolean isFollow;
-
 }

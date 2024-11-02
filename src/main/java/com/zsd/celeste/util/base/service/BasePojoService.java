@@ -36,7 +36,7 @@ public interface BasePojoService<T extends UserPojo> extends BaseService<T> {
         t.setUid(AutUtil.uid());
         if (!save(t))
             throw new SaveFailEx();
-        return needBySelf(t.getId());
+        return needBySelf(t.Id());
     }
 
     /**

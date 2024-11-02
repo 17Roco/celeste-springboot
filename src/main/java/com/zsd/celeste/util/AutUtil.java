@@ -6,6 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 public class AutUtil {
 
@@ -14,12 +16,21 @@ public class AutUtil {
         return self().getUid();
     }
     static public LoginUser self(){
+        LoginUser loginUser = getAuthentication();
+        if (Objects.isNull(loginUser))
+            throw new UserNotLoginEx();
+        return loginUser;
+    }
+    static public LoginUser getAuthentication(){
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             return (LoginUser) authentication.getPrincipal();
         }catch (Exception e){
-            throw new UserNotLoginEx();
+            return null;
         }
+    }
+    static public boolean isLogin(){
+        return Objects.isNull(getAuthentication());
     }
 
 
@@ -37,14 +48,7 @@ public class AutUtil {
         return true;
     }
 
-//    public boolean isSelf(BaseService<? extends UserPojo> service,Integer id){
-//        self();
-//        Integer uid = getLoginUser().getUid();
-//        UserPojo pojo = service.getById(id);
-//        if (!Objects.equals(pojo.getUid(), uid))
-//            throw new RuntimeException("无法修改他人数据");
-//        return true;
-//    }
+
     public boolean isRoot(){
         self();
         LoginUser user = getLoginUser();

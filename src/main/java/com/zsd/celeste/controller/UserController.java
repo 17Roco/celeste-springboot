@@ -49,7 +49,7 @@ public class UserController {
     @PreAuthorize("@autUtil.needLogin()")
     @GetMapping("/self")
     Result self() {
-        return DataResult.ok(service.needInfoById(AutUtil.self().getUid()));
+        return DataResult.ok(service.needById(AutUtil.self().getUid()));
     }
 
 }

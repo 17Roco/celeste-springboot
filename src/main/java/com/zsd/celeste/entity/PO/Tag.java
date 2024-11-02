@@ -38,12 +38,12 @@ public class Tag implements Pojo{
 
 
     @Override
-    public Integer getId() {
+    public Integer Id() {
         return getTid();
     }
 
     @Override
-    public void setId(Integer id) {
+    public void Id(Integer id) {
         setTid(id);
     }
 }

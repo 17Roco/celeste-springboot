@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zsd.celeste.entity.VO.UserInfoVo;
+import com.zsd.celeste.entity.form.UserInfoForm;
 import lombok.*;
 
 import java.util.Date;
@@ -40,6 +41,7 @@ public class User implements UserPojo{
     private String phone;
     @TableField("email")
     private String email;
+    @JsonIgnore
     @TableField("password")
     private String password;
 
@@ -49,9 +51,14 @@ public class User implements UserPojo{
     private Integer follower;
     @TableField("status")
     private Integer status;
+    @JsonIgnore
     @TableLogic
     @TableField("def_flag")
     private Integer defFlag;
+    @TableField(exist = false)
+    private Boolean isFollow;
+
+
 
 
 
@@ -64,14 +71,22 @@ public class User implements UserPojo{
 
     }
 
+    public User update(UserInfoForm form){
+        this.username = form.getUsername();
+        this.sex = form.getSex();
+        this.birthday = form.getBirthday();
+        this.sign = form.getSign();
+        return this;
+    }
+
 
     @Override
-    public Integer getId() {
+    public Integer Id() {
         return getUid();
     }
 
     @Override
-    public void setId(Integer id) {
+    public void Id(Integer id) {
         setUid(id);
     }
 }

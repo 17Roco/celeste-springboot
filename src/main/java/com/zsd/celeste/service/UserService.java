@@ -1,9 +1,12 @@
 package com.zsd.celeste.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.PO.User;
+import com.zsd.celeste.entity.form.UserInfoForm;
+import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.base.service.BasePojoService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -35,12 +39,13 @@ public interface UserService extends BasePojoService<User>, UserDetailsService {
     /**
      * 获取用户信息
      * */
-    default UserInfoVo getUserInfo(Integer id){
-        User po = getById(id);
-        return PojoUtil.copy(new UserInfoVo(),po);
-    }
-    default UserInfoVo needInfoById(Integer id) {
-        return PojoUtil.copy(new UserInfoVo(), BasePojoService.super.needById(id));
+    default User needById(Serializable id) {
+        User user = BasePojoService.super.needById(id);
+        // 是否有关注该用户
+        if (AutUtil.isLogin()) {
+            user.setIsFollow(isFollow(AutUtil.uid(),user.getUid()));
+        }
+        return user;
     }
 
     /**
@@ -57,7 +62,7 @@ public interface UserService extends BasePojoService<User>, UserDetailsService {
      * 更新密码
      * 更新头像
      * */
-    boolean updateInfo(Integer uid,UserInfoVo userInfo);
+    boolean updateBySelf(UserInfoForm form);
     boolean updatePassword(String username, String oldPassword, String newPassword);
     String updateImg(MultipartFile file);
 
@@ -65,10 +70,11 @@ public interface UserService extends BasePojoService<User>, UserDetailsService {
     /**
      * 关注
      * 获取列表
+     * 是否关注
     * */
     boolean follow(Integer id, Integer uid,boolean b);
-    List<UserInfoVo> getFollow(Integer id);
-
+    IPage<User> getFollow(Integer id, Integer index);
+    boolean isFollow(Integer id,Integer uid);
 
 }
 

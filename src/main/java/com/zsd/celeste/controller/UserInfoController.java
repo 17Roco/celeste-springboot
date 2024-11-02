@@ -2,6 +2,7 @@ package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.form.UpdatePassword;
 import com.zsd.celeste.entity.VO.UserInfoVo;
+import com.zsd.celeste.entity.form.UserInfoForm;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.result.DataResult;
@@ -26,7 +27,7 @@ public class UserInfoController {
      * */
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
-        return DataResult.ok(service.needInfoById(id));
+        return DataResult.ok(service.needById(id));
     }
 
 
@@ -35,8 +36,8 @@ public class UserInfoController {
      * */
     @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/info")
-    Result updateUserInfo(@RequestBody UserInfoVo vo) {
-        return Result.judge(service.updateInfo(AutUtil.uid(),vo));
+    Result updateUserInfo(@RequestBody UserInfoForm form) {
+        return Result.judge(service.updateBySelf(form));
     }
 
     /**
@@ -62,10 +63,9 @@ public class UserInfoController {
     /**
      * 获取关注列表
      * */
-    @GetMapping("/follow/{id}/{index}")
-    Result getUserFollow(@PathVariable Integer id, @PathVariable Integer index) {
-        // todo
-        return DataResult.ok(service.getFollow(id));
+    @GetMapping({"/follow/{id}","/follow/{id}/{index}"})
+    Result getUserFollow(@PathVariable Integer id, @PathVariable(required = false) Integer index) {
+        return DataResult.ok(service.getFollow(id,index == null ? 1 : index));
     }
 
     /**

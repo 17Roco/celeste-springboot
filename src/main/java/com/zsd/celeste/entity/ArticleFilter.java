@@ -6,6 +6,7 @@ import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ArticleFilter {
     private Integer index = 1;
+    @Getter
     private String order;
     private String tag;
     private Date beginTime;

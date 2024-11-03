@@ -86,7 +86,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     };
     public IPage<Article> getArticleList(Integer index, Wrapper<Article> wrapper) {
         IPage<Article> page = page(index,wrapper);
-        page.getRecords().forEach(this::complete);
+        page.getRecords().forEach(this::complete);// todo
         return page;
     }
 

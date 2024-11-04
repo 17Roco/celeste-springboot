@@ -10,8 +10,9 @@
             join tag              on link_article_tag.tid = tag.tid
             </if>
         <where>
+            article.def_flag = 0
             <if test="filter.tag != null">
-                tag.title = #{filter.tag}
+                and tag.title = #{filter.tag}
             </if>
             <if test="filter.uid != null">
                 and article.uid = #{filter.uid}

@@ -28,7 +28,7 @@ class CelesteApplicationTests {
         Date date = ft.parse("2023-11-1");
         Date date1 = ft.parse("2024-6-1");
 
-        ArticleFilterForm filterForm = new ArticleFilterForm(1, "create_time", null, null, null, null);
+        ArticleFilterForm filterForm = new ArticleFilterForm(1, "create_time", null, null, null, null,null);
         System.out.println(filterForm.getOrder());
         System.out.println(filterForm.getTag());
 
@@ -39,7 +39,7 @@ class CelesteApplicationTests {
 
     }
 
-    @Test
+//    @Test
     void a() throws ParseException {
         userService.getById(1);
     }

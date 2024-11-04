@@ -7,6 +7,7 @@ import lombok.Data;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -36,7 +37,7 @@ public class ArticleFilterForm {
     }
 
     public Integer getUid() {
-        if (self)
+        if (!Objects.isNull(self) && self)
             return AutUtil.uid();
         return uid;
     }

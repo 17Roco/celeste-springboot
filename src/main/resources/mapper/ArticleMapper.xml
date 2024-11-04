@@ -5,24 +5,26 @@
         select
             article.aid, article.uid, article.title, article.create_time, article.update_time, article.watch, article.likee, article.status, article.def_flag
         from article
+            <if test="filter.tag != null">
             join link_article_tag on link_article_tag.aid = article.aid
             join tag              on link_article_tag.tid = tag.tid
+            </if>
         <where>
-            <if test="tag != null">
-                tag.title = #{tag}
+            <if test="filter.tag != null">
+                tag.title = #{filter.tag}
             </if>
-            <if test="uid != null">
-                and article.uid = #{uid}
+            <if test="filter.uid != null">
+                and article.uid = #{filter.uid}
             </if>
-            <if test="beginTime != null">
-                and article.create_time &gt;= #{beginTime}
+            <if test="filter.beginTime != null">
+                and article.create_time &gt;= #{filter.beginTime}
             </if>
-            <if test="endTime != null">
-                and article.create_time &lt;= #{endTime}
+            <if test="filter.endTime != null">
+                and article.create_time &lt;= #{filter.endTime}
             </if>
         </where>
-        <if test="order != null">
-            order by ${order} desc
+        <if test="filter.order != null">
+            order by ${filter.order} desc
         </if>
     </select>
 </mapper>

@@ -1,10 +1,9 @@
 package com.zsd.celeste.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.PO.Article;
-import com.zsd.celeste.util.AutUtil;
+import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.util.base.service.BasePojoService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,7 +26,7 @@ public interface ArticleService extends BasePojoService<Article> {
     Article saveBySelf(ArticleForm form);
     boolean updateBySelf(Serializable id, ArticleForm form);
     Article getArticleById(Serializable id);
-    IPage<Article> getArticleList(Integer index, Wrapper<Article> wrapper);
+    IPage<Article> getArticleList(ArticleFilterForm form);
 
     /**
      * 点赞

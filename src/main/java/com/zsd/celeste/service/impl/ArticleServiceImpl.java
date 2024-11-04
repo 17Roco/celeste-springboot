@@ -1,13 +1,12 @@
 package com.zsd.celeste.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
-import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.ArticleForm;
+import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.enums.ResourceNameSpace;
-import com.zsd.celeste.exception.exception.pojo.SaveFailEx;
 import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.ArticleService;
@@ -22,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -52,13 +49,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     final private LinkConfig likeConfig = new LinkConfig("link_article_like","aid","uid");
     final private LinkConfig tagConfig = new LinkConfig("link_article_tag","aid","tid");
 
-    private Article complete(Article article){
+    private Article complete(Article article) {
+        return complete(article, true, true);
+    };
+    private Article complete(Article article,boolean tag,boolean user){
         // 获取标签
         List<Tag> tags = tagService.getTagsByAid(article.getAid());
         // 获取标签标题
-        article.setTags(tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
+        if (tag)
+            article.setTags(tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
         // 获取用户
-        article.setUser(userService.getById(article.getUid()));
+        if (user)
+            article.setUser(userService.getById(article.getUid()));
         return article;
     }
 
@@ -84,10 +86,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Article article = needById(id);
         return complete(article);
     };
-    public IPage<Article> getArticleList(Integer index, Wrapper<Article> wrapper) {
-        IPage<Article> page = page(index,wrapper);
-        page.getRecords().forEach(this::complete);// todo
-        return page;
+    public IPage<Article> getArticleList(ArticleFilterForm form) {
+        Page<Article> page = Page.of(form.getIndex(), getSize());
+        Page<Article> filter = getBaseMapper().filter(page, form);
+        filter.getRecords().forEach(article->complete(article,false,true));
+        return filter;
     }
 
     /**

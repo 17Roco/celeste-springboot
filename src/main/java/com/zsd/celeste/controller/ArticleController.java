@@ -1,11 +1,8 @@
 package com.zsd.celeste.controller;
-import com.zsd.celeste.entity.ArticleFilter;
-import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.entity.form.ArticleForm;
+import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
-import com.zsd.celeste.util.AutUtil;
-import com.zsd.celeste.util.PojoUtil;
 import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import com.zsd.celeste.util.result.StreamResult;
@@ -42,12 +39,9 @@ public class ArticleController {
      * 过滤文章
      * */
     @GetMapping("/filter")
-    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Boolean self){
-        // 构建 ArticleFilter
-        Integer uid = self ? AutUtil.self().getUid() : null;
-        ArticleFilter filter = new ArticleFilter(index,order,tag,beginTime,endTime,uid);
-        // 过滤并返回
-        return DataResult.ok(service.getArticleList(filter.getIndex(),filter.wrapper(tagService)));
+    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Integer uid){
+        ArticleFilterForm filterForm = new ArticleFilterForm(index, order, tag, beginTime, endTime,uid);
+        return DataResult.ok(service.getArticleList(filterForm));
     }
 
 

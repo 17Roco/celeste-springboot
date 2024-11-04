@@ -1,7 +1,6 @@
 package com.zsd.celeste.controller;
 
-import com.zsd.celeste.entity.form.UpdatePassword;
-import com.zsd.celeste.entity.VO.UserInfoVo;
+import com.zsd.celeste.entity.form.ChangePasswordForm;
 import com.zsd.celeste.entity.form.UserInfoForm;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
@@ -27,7 +26,7 @@ public class UserInfoController {
      * */
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
-        return DataResult.ok(service.needById(id));
+        return DataResult.ok(service.getById(id));
     }
 
 
@@ -54,7 +53,7 @@ public class UserInfoController {
      * */
     @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/pw")
-    Result changePassword(@RequestBody UpdatePassword update){
+    Result changePassword(@RequestBody ChangePasswordForm update){
         return Result.judge(service.updatePassword(AutUtil.self().getUsername(), update.getOldPassword(), update.getNewPassword()));
     }
 

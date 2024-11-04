@@ -37,11 +37,16 @@ public interface UserService extends BasePojoService<User>, UserDetailsService {
     void setManager(AuthenticationManager manager);
 
     /**
-     * 获取用户信息
+     * 获取用户信息 + 是否关注
      * */
     default User needById(Serializable id) {
         User user = BasePojoService.super.needById(id);
         // 是否有关注该用户
+        user.setIsFollow(isFollow(AutUtil.uid(),user.getUid()));
+        return user;
+    }
+    default User getById(Serializable id) {
+        User user = BasePojoService.super.getById(id);
         if (AutUtil.isLogin()) {
             user.setIsFollow(isFollow(AutUtil.uid(),user.getUid()));
         }

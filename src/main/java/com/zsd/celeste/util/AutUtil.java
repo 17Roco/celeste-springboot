@@ -30,7 +30,7 @@ public class AutUtil {
         }
     }
     static public boolean isLogin(){
-        return Objects.isNull(getAuthentication());
+        return !Objects.isNull(getAuthentication());
     }
 
 

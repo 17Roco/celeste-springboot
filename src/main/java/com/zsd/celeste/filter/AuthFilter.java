@@ -7,7 +7,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.info.ProjectInfoProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +20,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Objects;
 
+@Slf4j
 @Component
 public class AuthFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService service;
+    @Autowired
+    private ProjectInfoProperties projectInfoProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -32,12 +37,22 @@ public class AuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
+
+
+    // 输出日志
     void print(LoginUser user,HttpServletRequest request){
         // 输出访问的接口
-        String s = Objects.isNull(user)?"游客":user.getToken() + " :: " + user.getUsername();
-        System.out.println(s+"    >>>>   "+request.getMethod()+" :: "+request.getRequestURI());
+        String msg = Objects.isNull(user)?"游客":user.getToken() + " :: " + user.getUsername();
+        log.info("{} :: {} :: {}",
+                msg,
+                request.getMethod(),
+                request.getRequestURI()
+        );
+
     }
 
+
+    // 验证 token
     LoginUser auth(String token){
         // 无 token
         if(!StringUtils.hasText(token)) return null;
@@ -54,6 +69,9 @@ public class AuthFilter extends OncePerRequestFilter {
         return user;
     }
 
+
+
+    // 开发模式下，通过 token 直接获取用户信息
     LoginUser devTokenMode(String token){
         if (token.startsWith("dev-")){
             User user = new User();

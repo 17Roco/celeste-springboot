@@ -50,6 +50,8 @@ public interface BaseService<T> extends IService<T> {
         IPage<T> p = Page.of(index,size);
         return page(p, wrapper);
     }
-
+    /**
+     * 分页
+     * */
 
 }

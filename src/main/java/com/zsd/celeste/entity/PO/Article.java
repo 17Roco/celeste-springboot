@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zsd.celeste.entity.form.ArticleForm;
-import com.zsd.celeste.entity.VO.UserInfoVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

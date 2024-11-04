@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.zsd.celeste.entity.VO.UserInfoVo;
 import com.zsd.celeste.entity.form.UserInfoForm;
 import lombok.*;
 
@@ -62,14 +61,6 @@ public class User implements UserPojo{
 
 
 
-    public User(Integer uid, UserInfoVo userInfo){
-        this.uid = uid;
-        this.username = userInfo.getUsername();
-        this.sex = userInfo.getSex();
-        this.birthday = userInfo.getBirthday();
-        this.sign = userInfo.getSign();
-
-    }
 
     public User update(UserInfoForm form){
         this.username = form.getUsername();

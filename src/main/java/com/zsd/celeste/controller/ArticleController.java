@@ -39,8 +39,8 @@ public class ArticleController {
      * 过滤文章
      * */
     @GetMapping("/filter")
-    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Integer uid){
-        ArticleFilterForm filterForm = new ArticleFilterForm(index, order, tag, beginTime, endTime,uid);
+    Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Integer uid,@RequestParam(required = false) Boolean self){
+        ArticleFilterForm filterForm = new ArticleFilterForm(index, order, tag, beginTime, endTime,uid,self);
         return DataResult.ok(service.getArticleList(filterForm));
     }
 

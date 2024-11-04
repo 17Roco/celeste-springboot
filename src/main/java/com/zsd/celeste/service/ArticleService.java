@@ -25,6 +25,8 @@ public interface ArticleService extends BasePojoService<Article> {
      * */
     Article saveBySelf(ArticleForm form);
     boolean updateBySelf(Serializable id, ArticleForm form);
+
+
     Article getArticleById(Serializable id);
     IPage<Article> getArticleList(ArticleFilterForm form);
 

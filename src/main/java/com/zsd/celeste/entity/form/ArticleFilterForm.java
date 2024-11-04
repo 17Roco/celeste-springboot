@@ -1,5 +1,6 @@
 package com.zsd.celeste.entity.form;
 
+import com.zsd.celeste.util.AutUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class ArticleFilterForm {
     private Date beginTime;
     private Date endTime;
     private Integer uid;
-
+    private Boolean self;
 
     public Integer getIndex() {
         return index == null ? 0 : index;
@@ -32,5 +33,11 @@ public class ArticleFilterForm {
         ORDER_MAP.put("new", "create_time");
         ORDER_MAP.put("watch", "watch");
         ORDER_MAP.put("like", "likee");
+    }
+
+    public Integer getUid() {
+        if (self)
+            return AutUtil.uid();
+        return uid;
     }
 }

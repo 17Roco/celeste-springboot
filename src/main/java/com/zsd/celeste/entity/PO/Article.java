@@ -61,6 +61,8 @@ public class Article implements UserPojo{
     private List<String> tags = new ArrayList<>();
     @TableField(exist = false)
     private User user;
+    @TableField(exist = false)
+    private Boolean isLike;
 
 
     public Article update(ArticleForm update){

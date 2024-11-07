@@ -31,7 +31,7 @@ create table user(
     email    varchar(64)  default null      unique ,
     status   int          default 1         comment '1:正常，2:封禁',
     follow   int          default 0,
-    follower int          default 0,
+    followed int          default 0,
     def_flag int          default 0
 );
 

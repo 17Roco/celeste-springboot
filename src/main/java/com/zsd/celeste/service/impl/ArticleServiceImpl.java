@@ -53,14 +53,20 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return complete(article, true, true);
     };
     private Article complete(Article article,boolean tag,boolean user){
-        // 获取标签
-        List<Tag> tags = tagService.getTagsByAid(article.getAid());
+        if (AutUtil.isLogin()) {
+            //  是否已点赞
+            article.setIsLike(linkMapper.exits(likeConfig, article.getAid(), AutUtil.uid()));
+        }
         // 获取标签标题
-        if (tag)
+        if (tag) {
+            // 获取标签
+            List<Tag> tags = tagService.getTagsByAid(article.getAid());
             article.setTags(tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
+        }
         // 获取用户
-        if (user)
+        if (user) {
             article.setUser(userService.getById(article.getUid()));
+        }
         return article;
     }
 

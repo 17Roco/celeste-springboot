@@ -46,17 +46,17 @@ public class User implements UserPojo{
 
     @TableField("follow")
     private Integer follow;
-    @TableField("follower")
-    private Integer follower;
+    @TableField("followed")
+    private Integer followed;
     @TableField("status")
     private Integer status;
     @JsonIgnore
     @TableLogic
     @TableField("def_flag")
     private Integer defFlag;
+
     @TableField(exist = false)
     private Boolean isFollow;
-
 
 
 

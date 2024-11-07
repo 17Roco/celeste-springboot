@@ -160,7 +160,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User self = needById(id);
         User user = needById(uid);
         self.setFollow(self.getFollow()+(b?1:-1));
-        user.setFollower(self.getFollower()+(b?1:-1));
+        user.setFollowed(self.getFollowed()+(b?1:-1));
         return b ?
                 linkMapper.addLink(followConfig,id,uid) && updateById(self) && updateById(user)
                 :

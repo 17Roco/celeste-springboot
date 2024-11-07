@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 @Component
 public class AutUtil {
@@ -31,6 +32,12 @@ public class AutUtil {
     }
     static public boolean isLogin(){
         return !Objects.isNull(getAuthentication());
+    }
+
+    static public void login(Function<Void,Void> function){
+        if (isLogin()){
+            function.apply(null);
+        }
     }
 
 

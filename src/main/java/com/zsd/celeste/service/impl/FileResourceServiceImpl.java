@@ -24,7 +24,7 @@ public class FileResourceServiceImpl implements FileResourceService {
      * 获取保存的路径，文件夹不存在则创建
      * */
     private String getPath(ResourceNameSpace resourceNameSpace) {
-        File file = new File(getBasePath() + resourceNameSpace.getPath());
+        File file = new File(getBasePath() + resourceNameSpace.getPath()+"\\");
         // 不存在则创建
         if (!file.exists() || file.isFile()){
             if (!file.mkdir())
@@ -39,7 +39,7 @@ public class FileResourceServiceImpl implements FileResourceService {
      * */
     private File getSaveInfo(ResourceNameSpace nameSpace,String filename){
         String saveFilename = hashUtil.hash(filename);
-        File saveFile = new File(getPath(nameSpace) + saveFilename);
+        File saveFile = new File(getPath(nameSpace) + "\\" + saveFilename);
         if (saveFile.exists())
             throw new ResourceSaveFailEx("文件已存在");
         return saveFile;
@@ -63,7 +63,7 @@ public class FileResourceServiceImpl implements FileResourceService {
         File uploadedFile = getSaveInfo(nameSpace,file.getOriginalFilename());
         // 保存图片
         saveFile(uploadedFile,file);
-        return uploadedFile.getName();
+        return nameSpace.getPath() + "/" + uploadedFile.getName();
     }
 
 

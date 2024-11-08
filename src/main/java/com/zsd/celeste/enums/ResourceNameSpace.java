@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResourceNameSpace {
-    IMAGE_USER("userImage"),
-    IMAGE_ARTICLE("articleImage");
+    IMAGE_USER("user"),
+    IMAGE_ARTICLE("article");
 
     private final String path;
 }

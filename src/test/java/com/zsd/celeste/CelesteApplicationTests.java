@@ -5,10 +5,14 @@ import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.mapper.ArticleMapper;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.util.HashUtil;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.MethodDescriptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +25,8 @@ class CelesteApplicationTests {
     ArticleMapper articleMapper;
     @Autowired
     UserService userService;
+    @Autowired
+    HashUtil hashUtil;
     @Test
     void contextLoads() throws ParseException {
 

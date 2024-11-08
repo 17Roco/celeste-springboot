@@ -27,7 +27,7 @@ public class FileResourceServiceImpl implements FileResourceService {
         File file = new File(getBasePath() + resourceNameSpace.getPath());
         // 不存在则创建
         if (!file.exists() || file.isFile()){
-            if (file.mkdir())
+            if (!file.mkdir())
                 throw new ResourceSaveFailEx("路径创建失败");
         }
         // 返回路径

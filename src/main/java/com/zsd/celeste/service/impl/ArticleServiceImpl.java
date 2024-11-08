@@ -109,7 +109,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         String img = resourceService.saveImg(file, ResourceNameSpace.IMAGE_ARTICLE);
         // 修改并保存
         article.setImg(img);
-        save(article);
+        updateById(article);
         return img;
     }
 

@@ -1,42 +1,43 @@
 package com.zsd.celeste.util.result;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import lombok.*;
 
-import java.util.Collection;
-import java.util.Objects;
+import com.zsd.celeste.enums.ResultCode;
+import lombok.Data;
+import org.springframework.cglib.core.internal.Function;
 
-@Getter
+import java.util.HashMap;
+
+@Data
 public class Result {
-    @Setter
+    private int code;
     private String msg;
-    private Integer code;
+    private Object data;
 
-    protected Result(boolean b,String msg) {
-        this.code = b ? 200 : 400;
-        this.msg = msg;
-    }
-    protected Result(boolean b) {
-        this.code = b ? 200 : 400;
-        this.msg = b ? "ok" : "error";
+    public Result(ResultCode code, String msg, Object data) {
+        this.code = code.getCode();
+        this.msg = msg == null ? code.getText() : msg;
+        this.data = data;
     }
 
-    public void toOk(){
-        code = 200;
-    }
-    public void toError(){
-        code = 400;
-    }
 
-    static public Result ok(){
-        return new Result(true);
+    static public Result ok(Object data) {
+        return new Result(ResultCode.OK, null, data);
     }
-    static public Result error(){
-        return new Result(false);
-    }
-    static public Result error(String msg){
-        return new Result(false,msg);
+    static public Result error(Object data) {
+        return new Result(ResultCode.ERROR, null, data);
     }
     static public Result judge(boolean b){
-        return b ? ok() : error();
+        return b? ok(null) : error(null);
+    }
+
+    static public Result map(String key, Object value){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return new Result(ResultCode.OK, null,map);
+    }
+    static public Result map(Function<MapResult, Object> function){
+        MapResult mapResult = new MapResult();
+        function.apply(mapResult);
+        return new Result(ResultCode.OK, null,mapResult);
     }
 }
+

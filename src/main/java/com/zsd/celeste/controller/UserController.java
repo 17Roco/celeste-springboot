@@ -3,9 +3,7 @@ package com.zsd.celeste.controller;
 import com.zsd.celeste.entity.form.LoginForm;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
-import com.zsd.celeste.util.result.StreamResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +19,7 @@ public class UserController {
      * */
     @PostMapping("/login")
     Result login(@RequestBody LoginForm form) {
-        return StreamResult.create("token",service.login(form.getUsername(), form.getPassword()));
+        return Result.map(map->map.put("token",service.login(form.getUsername(), form.getPassword())));
     }
 
     /**
@@ -49,7 +47,7 @@ public class UserController {
     @PreAuthorize("@autUtil.needLogin()")
     @GetMapping("/self")
     Result self() {
-        return DataResult.ok(service.needById(AutUtil.self().getUid()));
+        return Result.ok(service.needById(AutUtil.self().getUid()));
     }
 
 }

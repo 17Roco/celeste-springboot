@@ -1,7 +1,6 @@
 package com.zsd.celeste.exception.advice;
 
 import com.zsd.celeste.exception.exception.UserNotLoginEx;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;

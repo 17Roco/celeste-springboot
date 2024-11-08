@@ -3,9 +3,7 @@ import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.TagService;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
-import com.zsd.celeste.util.result.StreamResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +30,7 @@ public class ArticleController {
      * */
     @GetMapping("/{aid}")
     Result get(@PathVariable Integer aid) {
-        return DataResult.ok(service.getArticleById(aid));
+        return Result.ok(service.getArticleById(aid));
     }
 
     /**
@@ -41,7 +39,7 @@ public class ArticleController {
     @GetMapping("/filter")
     Result filter(@RequestParam(required = false) Integer index, @RequestParam(required = false) String order, @RequestParam(required = false) String tag, @RequestParam(required = false) Date beginTime, @RequestParam(required = false) Date endTime, @RequestParam(required = false) Integer uid,@RequestParam(required = false) Boolean self){
         ArticleFilterForm filterForm = new ArticleFilterForm(index, order, tag, beginTime, endTime,uid,self);
-        return DataResult.ok(service.getArticleList(filterForm));
+        return Result.ok(service.getArticleList(filterForm));
     }
 
 
@@ -50,7 +48,7 @@ public class ArticleController {
      * */
     @PostMapping("/context")
     Result save(@RequestBody ArticleForm form) {
-        return StreamResult.create("aid",service.saveBySelf(form));
+        return Result.map(map -> map.put("aid", service.saveBySelf(form)));
     }
 
     /**
@@ -66,7 +64,7 @@ public class ArticleController {
      * */
     @PutMapping("/img/{aid}")
     Result updateImg(MultipartFile file,@PathVariable Integer aid) {
-        return StreamResult.create("img",service.updateImg(file,aid));
+        return Result.map(map -> map.put("img", service.updateImg(file,aid)));
     }
 
     /**

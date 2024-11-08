@@ -4,7 +4,6 @@ package com.zsd.celeste.controller;
 import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.enums.CommentType;
 import com.zsd.celeste.service.CommentService;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +21,7 @@ public class CommentController {
      * */
     @GetMapping({"/article/{aid}","/article/{aid}/{index}"})
     Result getArticleComment(@PathVariable Integer aid, @PathVariable(required = false) Integer index){
-        return DataResult.ok(service.getArticleComment(aid, index == null ? 1 : index));
+        return Result.ok(service.getArticleComment(aid, index == null ? 1 : index));
     }
 
     /**
@@ -30,7 +29,7 @@ public class CommentController {
      * */
     @GetMapping({"/children/{cid}","/children/{cid}/{index}"})
     Result getArticleChildrenComment(@PathVariable Integer cid, @PathVariable(required = false) Integer index){
-        return DataResult.ok(service.getChildrenComment(cid,index == null ? 1 : index));
+        return Result.ok(service.getChildrenComment(cid,index == null ? 1 : index));
     }
 
     /**

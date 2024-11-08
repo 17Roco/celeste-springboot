@@ -4,7 +4,6 @@ import com.zsd.celeste.entity.form.ChangePasswordForm;
 import com.zsd.celeste.entity.form.UserInfoForm;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.util.AutUtil;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,7 @@ public class UserInfoController {
      * */
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
-        return DataResult.ok(service.getById(id));
+        return Result.ok(service.getById(id));
     }
 
 
@@ -45,7 +44,7 @@ public class UserInfoController {
     @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/img")
     Result upload(@RequestParam("file") MultipartFile file) {
-        return DataResult.ok(service.updateImg(file));
+        return Result.ok(service.updateImg(file));
     }
 
     /**
@@ -64,7 +63,7 @@ public class UserInfoController {
      * */
     @GetMapping({"/follow/{id}","/follow/{id}/{index}"})
     Result getUserFollow(@PathVariable Integer id, @PathVariable(required = false) Integer index) {
-        return DataResult.ok(service.getFollow(id,index == null ? 1 : index));
+        return Result.ok(service.getFollow(id,index == null ? 1 : index));
     }
 
     /**

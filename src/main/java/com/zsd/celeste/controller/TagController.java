@@ -2,7 +2,6 @@ package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.PO.Tag;
 import com.zsd.celeste.service.TagService;
-import com.zsd.celeste.util.result.DataResult;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ public class TagController {
      * */
     @GetMapping("/list")
     Result getList() {
-        return DataResult.ok(service.list());
+        return Result.ok(service.list());
     }
 
     /**

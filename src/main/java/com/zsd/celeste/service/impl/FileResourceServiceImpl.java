@@ -63,7 +63,7 @@ public class FileResourceServiceImpl implements FileResourceService {
         File uploadedFile = getSaveInfo(nameSpace,file.getOriginalFilename());
         // 保存图片
         saveFile(uploadedFile,file);
-        return nameSpace.getPath() + "/" + uploadedFile.getName();
+        return "/static/" + nameSpace.getPath() + "/" + uploadedFile.getName();
     }
 
 

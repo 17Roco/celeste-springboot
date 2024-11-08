@@ -10,7 +10,7 @@ values
     ('user61'),('user62'),('user63'),('user64'),('user65'),('user66'),('user67'),('user68'),('user69'),('user70'),('user71'),('user72'),('user73'),('user74'),('user75'),('user76'),('user77'),('user78'),('user79'),('user80'),
     ('user81'),('user82'),('user83'),('user84'),('user85'),('user86'),('user87'),('user88'),('user89'),('user90'),('user91'),('user92'),('user93'),('user94'),('user95'),('user96'),('user97'),('user98'),('user99'),('user100');
 
-update user set img='user/logo.svg' where username!='';
+update user set img='/static/user/logo.svg' where username!='';
 
 # 随机生成文章*100
 insert into article (uid, title, context) values

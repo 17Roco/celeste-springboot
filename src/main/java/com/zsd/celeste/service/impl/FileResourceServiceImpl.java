@@ -5,30 +5,38 @@ import com.zsd.celeste.exception.exception.ResourceSaveFailEx;
 import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.util.HashUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Objects;
 
 @Service
 public class FileResourceServiceImpl implements FileResourceService {
 
     @Autowired
     private HashUtil hashUtil;
-    @Getter
-    private final String basePath = "D:\\project\\jar\\static\\";
 
     /**
      * 获取保存的路径，文件夹不存在则创建
      * */
     private String getPath(ResourceNameSpace resourceNameSpace) {
-        File file = new File(getBasePath() + resourceNameSpace.getPath()+"\\");
-        // 不存在则创建
-        if (!file.exists() || file.isFile()){
-            if (!file.mkdir())
+        // 获取文件夹路径
+        File file = new File(getFolder() + resourceNameSpace.getPath());
+        // 不存在或不是文件夹，则创建
+        if (!file.exists() || !file.isDirectory()){
+            try {
+                Files.createDirectories(file.toPath());
+            } catch (IOException e) {
                 throw new ResourceSaveFailEx("路径创建失败");
+            }
         }
         // 返回路径
         return file.getPath();
@@ -38,8 +46,12 @@ public class FileResourceServiceImpl implements FileResourceService {
      * 获取保存的文件信息
      * */
     private File getSaveInfo(ResourceNameSpace nameSpace,String filename){
-        String saveFilename = hashUtil.hash(filename);
-        File saveFile = new File(getPath(nameSpace) + "\\" + saveFilename);
+        // 获取路径
+        String path = getPath(nameSpace);
+        // 生存hash文件名
+        String hashName = hashUtil.hash(filename);
+        // 创建文件
+        File saveFile = new File(path + "/" + hashName);
         if (saveFile.exists())
             throw new ResourceSaveFailEx("文件已存在");
         return saveFile;
@@ -56,24 +68,25 @@ public class FileResourceServiceImpl implements FileResourceService {
         }
     }
 
-    private String saveResource(MultipartFile file,ResourceNameSpace nameSpace) {
-        if (file.isEmpty())
-            throw new ResourceSaveFailEx("文件为空");
-        // 设定图片路径
-        File uploadedFile = getSaveInfo(nameSpace,file.getOriginalFilename());
-        // 保存图片
-        saveFile(uploadedFile,file);
-        return "/static/" + nameSpace.getPath() + "/" + uploadedFile.getName();
-    }
+
+
+
+
 
 
 
     /**
-     * 保存图片
+     * 保存资源
      * */
-    public String saveImg(MultipartFile file,ResourceNameSpace nameSpace) {
-        return saveResource(file,nameSpace);
+    public String saveResource(MultipartFile data,ResourceNameSpace nameSpace) {
+        if (Objects.isNull(data) ||data.isEmpty())
+            throw new ResourceSaveFailEx("文件为空");
+        // 设定图片路径
+        File file = getSaveInfo(nameSpace,data.getOriginalFilename());
+        // 保存图片
+        saveFile(file,data);
+        // 返回图片路径
+        return file.getPath();
     }
-
 
 }

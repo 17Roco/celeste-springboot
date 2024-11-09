@@ -106,7 +106,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 获取用户
         Article article = needBySelf(aid);
         // 保存图片
-        String img = resourceService.saveImg(file, ResourceNameSpace.IMAGE_ARTICLE);
+        String img = resourceService.saveResource(file, ResourceNameSpace.IMAGE_ARTICLE);
         // 修改并保存
         article.setImg(img);
         updateById(article);

@@ -7,11 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 @SpringBootTest
 public class CommentTest {
     @Autowired
     private CommentService commentService;
-    @Test
+//    @Test
     public void test() {
 
 //        for (int i = 1; i <= 10; i++) {
@@ -24,7 +29,7 @@ public class CommentTest {
 //        }
     }
 
-    @Test
+//    @Test
     public void test2() {
         IPage<Comment> comment = commentService.getArticleComment(1, 1);
         System.out.println(comment);

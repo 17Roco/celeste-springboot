@@ -132,7 +132,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取用户
         User user = needById(AutUtil.uid());
         // 保存图片
-        String img = fileResourceService.saveImg(file, ResourceNameSpace.IMAGE_USER);
+        String img = fileResourceService.saveResource(file, ResourceNameSpace.IMAGE_USER);
         // 修改并保存
         user.setImg(img);
         updateById(user);

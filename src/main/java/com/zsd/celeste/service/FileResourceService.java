@@ -5,7 +5,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileResourceService {
 
-    String getBasePath();
+    /*
+    * 文件的保存路径
+    * */
+    default String getFolder(){
+        return "./static/";
+    };
 
-    String saveImg(MultipartFile file, ResourceNameSpace nameSpace);
+    String saveResource(MultipartFile data,ResourceNameSpace nameSpace);
 }

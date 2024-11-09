@@ -4,14 +4,24 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.mapper.ArticleMapper;
+import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.service.impl.FileResourceServiceImpl;
 import com.zsd.celeste.util.HashUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.MethodDescriptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +37,13 @@ class CelesteApplicationTests {
     UserService userService;
     @Autowired
     HashUtil hashUtil;
-    @Test
+    @Autowired
+    FileResourceService fileResourceService;
+
+
+
+
+//    @Test
     void contextLoads() throws ParseException {
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -45,9 +61,8 @@ class CelesteApplicationTests {
 
     }
 
-//    @Test
-    void a() throws ParseException {
-        userService.getById(1);
+    @Test
+    void testHash() throws IOException {
+//        Path directories = Files.createDirectories(new File("./1/1").toPath());
     }
-
 }

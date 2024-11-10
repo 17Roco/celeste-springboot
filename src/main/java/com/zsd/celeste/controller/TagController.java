@@ -4,6 +4,7 @@ import com.zsd.celeste.entity.PO.Tag;
 import com.zsd.celeste.service.TagService;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,6 +26,7 @@ public class TagController {
     /**
      * 添加标签
      * */
+    @PreAuthorize("@autUtil.isAdmin()")
     @PostMapping("/{title}")
     public Result add(@PathVariable String title) {
         Tag tag = new Tag(null, title, "", 0);

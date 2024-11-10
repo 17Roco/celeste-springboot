@@ -22,6 +22,7 @@ public class UserInfoController {
 
     /**
      * 获取用户信息
+     * @param id 用户id
      * */
     @GetMapping("/{id}")
     Result getUser(@PathVariable Integer id) {
@@ -31,6 +32,7 @@ public class UserInfoController {
 
     /**
      * 更新用户信息 username,sex,birthday,sign
+     * @param form 用户信息表单
      * */
     @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/info")
@@ -40,6 +42,7 @@ public class UserInfoController {
 
     /**
      * 更新头像
+     * @param file 头像文件
      * */
     @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/img")
@@ -49,6 +52,7 @@ public class UserInfoController {
 
     /**
      * 更新密码
+     * @param update 密码更新表单
      * */
     @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/pw")
@@ -60,14 +64,17 @@ public class UserInfoController {
 
     /**
      * 获取关注列表
+     * @param id 用户id
+     * @param index 页码
      * */
-    @GetMapping({"/follow/{id}","/follow/{id}/{index}"})
-    Result getUserFollow(@PathVariable Integer id, @PathVariable(required = false) Integer index) {
-        return Result.ok(service.getFollow(id,index == null ? 1 : index));
+    @GetMapping("/follow/{id}/{index}")
+    Result getUserFollow(@PathVariable Integer id, @PathVariable Integer index) {
+        return Result.ok(service.getFollow(id,index));
     }
 
     /**
      * 关注、取消关注
+     * @param uid 被关注用户id
      * */
     @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/follow/{uid}")

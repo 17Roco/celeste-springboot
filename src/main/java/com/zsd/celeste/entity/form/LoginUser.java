@@ -1,6 +1,7 @@
 package com.zsd.celeste.entity.form;
 
 import com.zsd.celeste.entity.PO.User;
+import com.zsd.celeste.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +16,10 @@ public class LoginUser implements UserDetails {
 
     private User user;
     private String token;
+
+    public Role getRole(){
+        return Role.fromValue(user.getRole());
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -16,14 +16,16 @@ public class UserController {
 
     /**
      * 登录
+     * @param form 登录表单
      * */
     @PostMapping("/login")
     Result login(@RequestBody LoginForm form) {
-        return Result.map(map->map.put("token",service.login(form.getUsername(), form.getPassword())));
+        return Result.map("token",service.login(form.getUsername(), form.getPassword()));
     }
 
     /**
      * 注册
+     * @param form 注册表单
      * */
     @PostMapping("/register")
     Result register(@RequestBody LoginForm form) {

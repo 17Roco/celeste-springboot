@@ -27,7 +27,7 @@ create table user(
     birthday date         default null      comment '生日',
     sign     varchar(200) default ''        comment '个性签名',
 
-    img      varchar(64)  not null          default '/static/default.png',
+    img      varchar(128) not null          default '/static/default.png',
     password varchar(64)  not null          default '$2a$10$.VXU9ZtIPk40SqQnMFI2zud6ht7xN5Z2hlFBCQoL.sAZA6lu/2rCG',
     phone    varchar(64)  default null      unique ,
     email    varchar(64)  default null      unique ,

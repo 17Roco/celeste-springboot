@@ -26,7 +26,7 @@ public class FileResourceServiceImpl implements FileResourceService {
 
     @Autowired
     private HashUtil hashUtil;
-    @Getter
+
     @Value("${celeste.save-path}")
     private String savePath;
 
@@ -36,11 +36,11 @@ public class FileResourceServiceImpl implements FileResourceService {
     }
 
     /**
-     * 获取保存的路径，文件夹不存在则创建
+     * 获取保存路径
      * */
-    private String getPath(ResourceNameSpace resourceNameSpace) {
+    public String getSavePath() {
         // 获取文件夹路径
-        File file = new File(getSavePath() + resourceNameSpace.getPath());
+        File file = new File(savePath + "static");
         // 不存在或不是文件夹，则创建
         if (!file.exists() || !file.isDirectory()){
             try {
@@ -49,40 +49,28 @@ public class FileResourceServiceImpl implements FileResourceService {
                 throw new ResourceSaveFailEx("路径创建失败");
             }
         }
-        // 返回路径
-        return file.getPath();
+        return savePath;
     }
 
     /**
-     * 获取保存的文件信息
+     * 获取保存名称
      * */
-    private File getSaveInfo(ResourceNameSpace nameSpace,String filename){
-        // 获取路径
-        String path = getPath(nameSpace);
-        // 生存hash文件名
-        String hashName = hashUtil.hash(filename);
-        // 创建文件
-        File saveFile = new File(path + "/" + hashName);
-        if (saveFile.exists())
-            throw new ResourceSaveFailEx("文件已存在");
-        return saveFile;
+    private String getSaveName(ResourceNameSpace nameSpace,String originalName){
+        return "static/" + nameSpace.getPath() + "_" + hashUtil.hash(originalName);
     }
+
 
     /**
      * 保存到硬盘
      * */
-    private void saveFile(File file,MultipartFile data){
+    private void saveFile(String path,MultipartFile data){
         try {
+            File file = new File(getSavePath() + path);
             data.transferTo(file);
         } catch (IOException e) {
             throw new ResourceSaveFailEx(e.getMessage());
         }
     }
-
-
-
-
-
 
 
 
@@ -93,11 +81,11 @@ public class FileResourceServiceImpl implements FileResourceService {
         if (Objects.isNull(data) ||data.isEmpty())
             throw new ResourceSaveFailEx("文件为空");
         // 设定图片路径
-        File file = getSaveInfo(nameSpace,data.getOriginalFilename());
+        String img = getSaveName(nameSpace,data.getOriginalFilename());
         // 保存图片
-        saveFile(file,data);
+        saveFile(img,data);
         // 返回图片路径
-        return file.getPath();
+        return img;
     }
 
 }

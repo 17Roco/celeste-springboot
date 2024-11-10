@@ -35,7 +35,6 @@ public class UserController {
     /**
      * 退出
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/logout")
     Result logout() {
         return Result.judge(service.logout(AutUtil.self().getToken()));
@@ -46,7 +45,6 @@ public class UserController {
     /**
      * 获取当前用户信息
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @GetMapping("/self")
     Result self() {
         return Result.ok(service.needById(AutUtil.self().getUid()));

@@ -19,17 +19,17 @@ public class CommentController {
     /**
      * 获取文章的评论
      * */
-    @GetMapping({"/article/{aid}","/article/{aid}/{index}"})
-    Result getArticleComment(@PathVariable Integer aid, @PathVariable(required = false) Integer index){
-        return Result.ok(service.getArticleComment(aid, index == null ? 1 : index));
+    @GetMapping("/article/{aid}/{index}")
+    Result getArticleComment(@PathVariable Integer aid, @PathVariable Integer index){
+        return Result.ok(service.getArticleComment(aid, index));
     }
 
     /**
      * 获取评论的子评论
      * */
-    @GetMapping({"/children/{cid}","/children/{cid}/{index}"})
-    Result getArticleChildrenComment(@PathVariable Integer cid, @PathVariable(required = false) Integer index){
-        return Result.ok(service.getChildrenComment(cid,index == null ? 1 : index));
+    @GetMapping("/children/{cid}/{index}")
+    Result getArticleChildrenComment(@PathVariable Integer cid, @PathVariable Integer index){
+        return Result.ok(service.getChildrenComment(cid,index));
     }
 
     /**
@@ -45,7 +45,6 @@ public class CommentController {
     /**
      * 在文章下评论
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/article")
     Result comment(@RequestBody CommentForm form){
         return Result.judge(service.addComment(form, CommentType.ARTICLE));

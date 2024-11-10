@@ -22,8 +22,6 @@ public class ArticleController {
 
     @Autowired
     private ArticleService service;
-    @Autowired
-    private TagService tagService;
 
     /**
      * 获取指定文章

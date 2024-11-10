@@ -34,7 +34,6 @@ public class UserInfoController {
      * 更新用户信息 username,sex,birthday,sign
      * @param form 用户信息表单
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/info")
     Result updateUserInfo(@RequestBody UserInfoForm form) {
         return Result.judge(service.updateBySelf(form));
@@ -44,7 +43,6 @@ public class UserInfoController {
      * 更新头像
      * @param file 头像文件
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/img")
     Result upload(@RequestParam("file") MultipartFile file) {
         return Result.ok(service.updateImg(file));
@@ -54,7 +52,6 @@ public class UserInfoController {
      * 更新密码
      * @param update 密码更新表单
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @PutMapping("/pw")
     Result changePassword(@RequestBody ChangePasswordForm update){
         return Result.judge(service.updatePassword(AutUtil.self().getUsername(), update.getOldPassword(), update.getNewPassword()));
@@ -76,12 +73,10 @@ public class UserInfoController {
      * 关注、取消关注
      * @param uid 被关注用户id
      * */
-    @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/follow/{uid}")
     Result follow(@PathVariable Integer uid) {
         return follow(uid,true);
     }
-    @PreAuthorize("@autUtil.needLogin()")
     @PostMapping("/unfollow/{uid}")
     Result unfollow(@PathVariable Integer uid) {
         return follow(uid,false);

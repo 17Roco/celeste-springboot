@@ -63,9 +63,9 @@ public class FileResourceServiceImpl implements FileResourceService {
     /**
      * 保存到硬盘
      * */
-    private void saveFile(String path,MultipartFile data){
+    private void saveFile(String img,MultipartFile data){
         try {
-            File file = new File(getSavePath() + path);
+            File file = new File(getSavePath() + img);
             data.transferTo(file);
         } catch (IOException e) {
             throw new ResourceSaveFailEx(e.getMessage());
@@ -85,7 +85,7 @@ public class FileResourceServiceImpl implements FileResourceService {
         // 保存图片
         saveFile(img,data);
         // 返回图片路径
-        return img;
+        return "/" + img;
     }
 
 }

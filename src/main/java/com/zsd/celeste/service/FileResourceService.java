@@ -8,9 +8,7 @@ public interface FileResourceService {
     /*
     * 文件的保存路径
     * */
-    default String getFolder(){
-        return "./static/";
-    };
+    String getSavePath();
 
     String saveResource(MultipartFile data,ResourceNameSpace nameSpace);
 }

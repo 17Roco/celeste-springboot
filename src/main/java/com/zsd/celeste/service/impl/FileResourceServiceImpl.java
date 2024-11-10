@@ -23,13 +23,16 @@ public class FileResourceServiceImpl implements FileResourceService {
 
     @Autowired
     private HashUtil hashUtil;
+    @Getter
+    @Value("${celeste.save-path}")
+    private String savePath;
 
     /**
      * 获取保存的路径，文件夹不存在则创建
      * */
     private String getPath(ResourceNameSpace resourceNameSpace) {
         // 获取文件夹路径
-        File file = new File(getFolder() + resourceNameSpace.getPath());
+        File file = new File(getSavePath() + resourceNameSpace.getPath());
         // 不存在或不是文件夹，则创建
         if (!file.exists() || !file.isDirectory()){
             try {

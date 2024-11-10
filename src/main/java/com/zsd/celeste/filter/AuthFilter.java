@@ -25,8 +25,6 @@ import java.util.Objects;
 public class AuthFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService service;
-    @Autowired
-    private ProjectInfoProperties projectInfoProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -56,8 +54,9 @@ public class AuthFilter extends OncePerRequestFilter {
     LoginUser auth(String token){
         // 无 token
         if(!StringUtils.hasText(token)) return null;
-        // token 无效
+        // 获取 user
         LoginUser user = service.getUser(token);
+        // 无效 token
         if(Objects.isNull(user)) {
             //throw new RuntimeException("token失效");
             // todo

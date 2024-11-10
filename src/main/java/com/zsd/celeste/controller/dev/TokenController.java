@@ -25,19 +25,10 @@ public class TokenController {
 
     @GetMapping("/token")
     Result getTable(){
-        Map<String, HashMap<String, Object>> collect = service.getCache().entrySet().stream().collect(Collectors.toMap(
-                Map.Entry::getKey,
-                e -> {
-                    HashMap<String, Object> map = new HashMap<>();
-                    map.put("uid", e.getValue().getUser().getUid());
-                    map.put("username", e.getValue().getUser().getUsername());
-                    map.put("password", e.getValue().getUser().getPassword());
-                    return map;
-                }
-        ));
-
-        return Result.ok(collect);
+        return Result.ok(service.getMap());
     }
+
+
 
     @PutMapping("/upload")
     Result updateToken(@RequestParam("file") MultipartFile file) {

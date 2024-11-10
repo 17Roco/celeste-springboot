@@ -49,9 +49,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     AuthenticationManager manager;
     @Autowired
     private LinkMapper linkMapper;
-    public String getResourceMsg() {
-        return "用户不存在";
-    }
     final private LinkConfig followConfig = new LinkConfig("link_user_follow","id","uid");
 
     /**
@@ -77,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 验证
         LoginUser auth = auth(username, password);
         // 生成并返回token
-        return tokenService.addToken(auth.getUser());
+        return tokenService.addToken(auth.getUser().getUid());
     }
 
     /**
@@ -123,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPassword(passwordEncoder.encode(newPassword));
         if (!updateById(user))
             throw new RuntimeException("修改失败");
-        tokenService.removeUser(user);
+        tokenService.removeUid(user.getUid());
         return true;
     }
     /**
@@ -174,13 +171,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public IPage<User> getFollow(Integer id, Integer index) {
         Page<User> page = Page.of(index, getSize());
         return getBaseMapper().getFollowList(page, id);
-
-
-        // 获取 ids
-//        List<Integer> followIds = linkMapper.get(followConfig, id);
-        //  获取 users
-//        return page(index, new QueryWrapper<User>().in("uid", followIds));
-
     }
 
     /**

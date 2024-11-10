@@ -8,12 +8,12 @@ import java.util.Map;
 
 public interface TokenService {
 
-    Map<String, LoginUser> getCache();
-    Map<Integer, List<String>> getReCache();
+    Map<String,Object> getMap();
 
-
-    String  addToken(User user);
-    void removeToken(String token);
     LoginUser getUser(String token);
-    void removeUser(User user);
+
+    Integer getUid(String token);
+    String addToken(Integer uid);
+    void removeToken(String token);
+    void removeUid(Integer uid);
 }

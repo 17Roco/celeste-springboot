@@ -1,8 +1,8 @@
 package com.zsd.celeste.util.base;
 
 import com.zsd.celeste.entity.PO.UserPojo;
-import com.zsd.celeste.exception.exception.pojo.NotPojoOwnerEx;
-import com.zsd.celeste.exception.exception.pojo.PojoSaveFailEx;
+import com.zsd.celeste.exception.exception.pojo.NotOwnerEx;
+import com.zsd.celeste.exception.exception.pojo.SaveFailEx;
 import com.zsd.celeste.util.AutUtil;
 
 import java.io.Serializable;
@@ -17,7 +17,7 @@ public interface BasePojoService<T extends UserPojo> extends BaseService<T> {
     default T needBySelf(Serializable id){
         T t = needById(id);
         if (!Objects.equals(t.getUid(), AutUtil.self().getUid()))
-            throw new NotPojoOwnerEx();
+            throw new NotOwnerEx();
         return t;
     }
 
@@ -35,8 +35,8 @@ public interface BasePojoService<T extends UserPojo> extends BaseService<T> {
     default T saveBySelf(T t){
         t.setUid(AutUtil.uid());
         if (!save(t))
-            throw new PojoSaveFailEx();
-        return needBySelf(t.Id());
+            throw new SaveFailEx();
+        return t;
     }
 
     /**

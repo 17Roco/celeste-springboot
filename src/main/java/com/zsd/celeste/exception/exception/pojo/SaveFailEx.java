@@ -1,7 +1,7 @@
 package com.zsd.celeste.exception.exception.pojo;
 
-public class PojoSaveFailEx extends RuntimeException {
-    public PojoSaveFailEx() {
+public class SaveFailEx extends RuntimeException {
+    public SaveFailEx() {
         super("保存失败");
     }
 }

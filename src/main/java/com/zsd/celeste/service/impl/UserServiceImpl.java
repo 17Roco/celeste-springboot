@@ -2,6 +2,7 @@ package com.zsd.celeste.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.form.UserInfoForm;
@@ -171,10 +172,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 获取关注列表
      * */
     public IPage<User> getFollow(Integer id, Integer index) {
+        Page<User> page = Page.of(index, getSize());
+        return getBaseMapper().getFollowList(page, id);
+
+
         // 获取 ids
-        List<Integer> followIds = linkMapper.get(followConfig, id);
+//        List<Integer> followIds = linkMapper.get(followConfig, id);
         //  获取 users
-        return page(index, new QueryWrapper<User>().in("uid", followIds));
+//        return page(index, new QueryWrapper<User>().in("uid", followIds));
 
     }
 

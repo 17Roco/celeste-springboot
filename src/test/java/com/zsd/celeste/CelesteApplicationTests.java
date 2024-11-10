@@ -1,9 +1,12 @@
 package com.zsd.celeste;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsd.celeste.entity.PO.Article;
+import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.mapper.ArticleMapper;
+import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.service.impl.FileResourceServiceImpl;
@@ -41,7 +44,8 @@ class CelesteApplicationTests {
     HashUtil hashUtil;
     @Autowired
     FileResourceService fileResourceService;
-
+    @Autowired
+    UserMapper userMapper;
 
 
 
@@ -61,6 +65,12 @@ class CelesteApplicationTests {
         System.out.println(filter);
         filter.getRecords().forEach(System.out::println);
 
+    }
+
+    @Test
+    void a() {
+        Page<User> page = Page.of(1, 10);
+        userMapper.getFollowedList(page, 4).getRecords().forEach(System.out::println);
     }
 
 }

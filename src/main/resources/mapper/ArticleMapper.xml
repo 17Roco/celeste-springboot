@@ -3,7 +3,8 @@
 <mapper namespace="com.zsd.celeste.mapper.ArticleMapper">
     <select id="filter" resultType="com.zsd.celeste.entity.PO.Article">
         select
-            article.aid, article.uid, article.title, article.create_time, article.update_time, article.img,article.watch, article.likee, article.status, article.def_flag
+            article.aid, article.uid, article.title, article.create_time, article.update_time, article.img,article.watch, article.likee, article.status, article.def_flag,
+            substring(article.context, 1, 30) as context
         from article
             <if test="filter.tag != null">
             join link_article_tag on link_article_tag.aid = article.aid

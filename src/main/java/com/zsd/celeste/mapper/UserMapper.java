@@ -1,5 +1,6 @@
 package com.zsd.celeste.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zsd.celeste.entity.PO.User;
@@ -13,6 +14,8 @@ import com.zsd.celeste.entity.PO.User;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
+    Page<User> getFollowList(Page<User> page, int uid);
 
+    Page<User> getFollowedList(Page<User> page, int uid);
 }
 

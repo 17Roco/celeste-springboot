@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsd.celeste.mapper.UserMapper">
+    <select id="getFollowList" resultType="com.zsd.celeste.entity.PO.User">
+        select
+            user.*
+            from link_user_follow
+            join user on link_user_follow.uid = user.uid
+        where link_user_follow.id = #{uid}
+    </select>
+    <select id="getFollowedList" resultType="com.zsd.celeste.entity.PO.User">
+        select
+            user.*
+            from link_user_follow
+            join user on link_user_follow.id = user.uid
+        where link_user_follow.uid = #{uid}
+    </select>
+</mapper>

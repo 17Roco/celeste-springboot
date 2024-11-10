@@ -6,7 +6,7 @@ values
     ('root'),
     ('user1'),('user2'),('user3'),('user4'),('user5'),('user6'),('user7'),('user8'),('user9'),('user10'),('user11'),('user12'),('user13'),('user14'),('user15'),('user16'),('user17'),('user18'),('user19');
 
-update user set img='/static/user/logo.svg' where username!='';
+update user set img='/static/user/default.png' where username!='';
 
 
 # 28 个标签

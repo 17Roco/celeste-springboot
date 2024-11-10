@@ -8,6 +8,7 @@ import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.service.UserService;
 import com.zsd.celeste.service.impl.FileResourceServiceImpl;
 import com.zsd.celeste.util.HashUtil;
+import com.zsd.celeste.util.TimeUtil;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.MethodDescriptor;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 
 @SpringBootTest
@@ -61,8 +63,4 @@ class CelesteApplicationTests {
 
     }
 
-    @Test
-    void testHash() throws IOException {
-//        Path directories = Files.createDirectories(new File("./1/1").toPath());
-    }
 }

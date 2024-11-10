@@ -1,6 +1,7 @@
 package com.zsd.celeste.entity.PO;
 
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -17,7 +18,6 @@ import lombok.AllArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @TableName("tag")
 public class Tag implements Pojo{
     @JsonIgnore
@@ -30,6 +30,18 @@ public class Tag implements Pojo{
     private String info;
     @TableField("num")
     private Integer num;
+    @JsonIgnore
+    @TableField("def_flag")
+    @TableLogic()
+    private Integer defFlag;
+
+    public Tag(Integer tid, String title, String info, Integer num) {
+        this.tid = tid;
+        this.title = title;
+        this.info = info;
+        this.num = num;
+    }
+
 
     public Tag addNum() {
         num++;

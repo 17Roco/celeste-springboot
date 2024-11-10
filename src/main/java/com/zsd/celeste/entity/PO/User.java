@@ -25,10 +25,10 @@ public class User implements UserPojo{
     @TableId("uid")
     private Integer uid;
 
-    @TableField("sex")
-    private Integer sex;
     @TableField("username")
     private String username;
+    @TableField("sex")
+    private Integer sex;
     @TableField("birthday")
     private Date birthday;
     @TableField("sign")
@@ -50,6 +50,9 @@ public class User implements UserPojo{
     private Integer followed;
     @TableField("status")
     private Integer status;
+    @JsonIgnore
+    @TableField("role")
+    private Integer role;
     @JsonIgnore
     @TableLogic
     @TableField("def_flag")

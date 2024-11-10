@@ -4,8 +4,10 @@ import com.zsd.celeste.enums.ResourceNameSpace;
 import com.zsd.celeste.exception.exception.ResourceSaveFailEx;
 import com.zsd.celeste.service.FileResourceService;
 import com.zsd.celeste.util.HashUtil;
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.util.Objects;
 
 @Service
+@Slf4j
 public class FileResourceServiceImpl implements FileResourceService {
 
     @Autowired
@@ -26,6 +29,11 @@ public class FileResourceServiceImpl implements FileResourceService {
     @Getter
     @Value("${celeste.save-path}")
     private String savePath;
+
+    @PostConstruct
+    public void init() {
+        log.info("savePath: {}", savePath);
+    }
 
     /**
      * 获取保存的路径，文件夹不存在则创建

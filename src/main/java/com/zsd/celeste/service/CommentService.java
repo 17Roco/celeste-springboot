@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.PO.Comment;
 import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.enums.CommentType;
-import com.zsd.celeste.util.base.service.BasePojoService;
+import com.zsd.celeste.util.base.BasePojoService;
 
 public interface CommentService extends BasePojoService<Comment> {
 

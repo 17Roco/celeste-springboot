@@ -1,9 +1,8 @@
 package com.zsd.celeste.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsd.celeste.entity.PO.Tag;
-import com.zsd.celeste.util.base.service.BaseService;
+import com.zsd.celeste.util.base.BaseService;
 
 import java.util.List;
 

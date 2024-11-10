@@ -1,4 +1,4 @@
-package com.zsd.celeste.util.base.service;
+package com.zsd.celeste.util.base;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

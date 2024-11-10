@@ -1,4 +1,4 @@
-package com.zsd.celeste.util.base.service;
+package com.zsd.celeste.util.base;
 
 import com.zsd.celeste.entity.PO.UserPojo;
 import com.zsd.celeste.exception.exception.pojo.NotPojoOwnerEx;

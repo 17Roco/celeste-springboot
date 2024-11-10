@@ -6,7 +6,7 @@ import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.UserInfoForm;
 import com.zsd.celeste.util.AutUtil;
-import com.zsd.celeste.util.base.service.BasePojoService;
+import com.zsd.celeste.util.base.BasePojoService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * (User)表服务接口

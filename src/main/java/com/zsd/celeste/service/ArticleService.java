@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
-import com.zsd.celeste.util.base.service.BasePojoService;
+import com.zsd.celeste.util.base.BasePojoService;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;

@@ -48,7 +48,7 @@ create table article(
 
     title       varchar(64) not null ,
     context     text        not null ,
-    img         varchar(64) default null,
+    img         varchar(128)default null,
 
     create_time datetime    default now(),
     update_time datetime    default now(),
@@ -102,4 +102,13 @@ create table `link_article_tag`(
     aid     int,
     tid     int,
     primary key (aid,tid)
+);
+
+
+DROP TABLE if exists likee;
+create table `likee`(
+    uid     int,
+    obj_id  int,
+    type    int comment "1:article,2:comment",
+    primary key (uid,obj_id,type)
 );

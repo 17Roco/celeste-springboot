@@ -67,7 +67,7 @@ class CelesteApplicationTests {
 
     }
 
-    @Test
+//    @Test
     void a() {
         Page<User> page = Page.of(1, 10);
         userMapper.getFollowedList(page, 4).getRecords().forEach(System.out::println);

@@ -16,7 +16,9 @@ public interface CommentService extends BasePojoService<Comment> {
     /**
      * 添加评论
      */
-    boolean addComment(CommentForm form, CommentType type);
+    Comment addComment(CommentForm form, CommentType type);
+
+
     /**
      * 删除评论 + 删除子评论
      */
@@ -24,6 +26,12 @@ public interface CommentService extends BasePojoService<Comment> {
         return removeBySelf(cid) && remove(new QueryWrapper<Comment>().eq("type",CommentType.ARTICLE.getValue()).eq("pid", cid));
     }
 
+    /**
+     * 获取评论数量
+     * */
+    default Long getCommentCount(int pid, CommentType type){
+        return count(new QueryWrapper<Comment>().eq("pid", pid).eq("type", type.getValue()));
+    }
 
     /**
      * 获取文章评论

@@ -44,6 +44,10 @@ public class Comment implements UserPojo{
     @TableField(exist = false)
     private User user;
     @TableField(exist = false)
+    private Boolean isLike;
+    @TableField(exist = false)
+    private  Integer childrenCount;
+    @TableField(exist = false)
     private IPage<Comment> comments;
 
 

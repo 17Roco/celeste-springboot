@@ -3,6 +3,7 @@ package com.zsd.celeste.controller;
 
 import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.enums.CommentType;
+import com.zsd.celeste.service.ArticleService;
 import com.zsd.celeste.service.CommentService;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class CommentController {
 
     @Autowired
     private CommentService service;
+    @Autowired
+    private ArticleService articleService;
 
     /**
      * 获取文章的评论
@@ -27,7 +30,7 @@ public class CommentController {
     /**
      * 获取评论的子评论
      * */
-    @GetMapping("/children/{cid}/{index}")
+    @GetMapping("/reply/{cid}/{index}")
     Result getArticleChildrenComment(@PathVariable Integer cid, @PathVariable Integer index){
         return Result.ok(service.getChildrenComment(cid,index));
     }
@@ -47,8 +50,15 @@ public class CommentController {
      * */
     @PostMapping("/article")
     Result comment(@RequestBody CommentForm form){
-        return Result.judge(service.addComment(form, CommentType.ARTICLE));
+        articleService.needById(form.getPid());
+        return Result.ok(service.addComment(form, CommentType.ARTICLE));
     }
+    @PostMapping("/reply")
+    Result reply(@RequestBody CommentForm form){
+        service.needById(form.getPid());
+        return Result.ok(service.addComment(form, CommentType.CHILDREN));
+    }
+
 
     /**
      * 点赞、取消点赞

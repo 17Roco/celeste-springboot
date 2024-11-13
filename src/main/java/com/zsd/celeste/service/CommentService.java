@@ -23,7 +23,10 @@ public interface CommentService extends BasePojoService<Comment> {
      * 删除评论 + 删除子评论
      */
     default boolean deleteComment(int cid){
-        return removeBySelf(cid) && remove(new QueryWrapper<Comment>().eq("type",CommentType.ARTICLE.getValue()).eq("pid", cid));
+        boolean b = removeBySelf(cid);
+        if(b)
+            remove(new QueryWrapper<Comment>().eq("type",CommentType.CHILDREN.getValue()).eq("pid", cid));
+        return b;
     }
 
     /**

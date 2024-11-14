@@ -25,13 +25,15 @@ import java.io.Serializable;
 public interface UserService extends BasePojoService<User>, UserDetailsService {
 
     default  UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = getOne(new QueryWrapper<User>().eq("username", username));
+        User user = getUserByUsername(username);
         return new LoginUser(need(user),null);
     }
 
+    default User getUserByUsername(String username) {
+        return getOne(new QueryWrapper<User>().eq("username", username));
+    }
 
-    void setPasswordEncoder(PasswordEncoder passwordEncoder);
-    void setManager(AuthenticationManager manager);
+
 
     /**
      * 获取用户信息 + 是否关注
@@ -50,14 +52,6 @@ public interface UserService extends BasePojoService<User>, UserDetailsService {
         return user;
     }
 
-    /**
-     * 登录
-     * 登出
-     * 注册
-     * */
-    String login(String username, String password);
-    boolean logout(String token);
-    boolean register(String username, String password);
 
     /**
      * 更新基本信息
@@ -74,8 +68,10 @@ public interface UserService extends BasePojoService<User>, UserDetailsService {
      * 获取列表
      * 是否关注
     * */
-    boolean follow(Integer id, Integer uid,boolean b);
     IPage<User> getFollow(Integer id, Integer index);
+    IPage<User> getFollowed(Integer id, Integer index);
+
+    boolean follow(Integer id, Integer uid,boolean b);
     boolean isFollow(Integer id,Integer uid);
 
 }

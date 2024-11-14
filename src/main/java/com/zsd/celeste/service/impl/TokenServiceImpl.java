@@ -54,14 +54,4 @@ public class TokenServiceImpl implements TokenService {
         cache.reDelete(uid);
     }
 
-
-    public LoginUser getUser(String token){
-        Integer uid = getUid(token);
-        if (uid == null)
-            return null;
-        User user = new User();
-        user.setUid(uid);
-        return new LoginUser(user, token);
-    }
-
 }

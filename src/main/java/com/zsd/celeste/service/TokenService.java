@@ -10,7 +10,6 @@ public interface TokenService {
 
     Map<String,Object> getMap();
 
-    LoginUser getUser(String token);
 
     Integer getUid(String token);
     String addToken(Integer uid);

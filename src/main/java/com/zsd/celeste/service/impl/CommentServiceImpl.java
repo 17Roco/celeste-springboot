@@ -16,6 +16,7 @@ import com.zsd.celeste.util.AutUtil;
 import com.zsd.celeste.util.PojoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -70,7 +71,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     /**
      * 点赞评论
      * */
+    @Transactional
     public boolean like(int cid,boolean like) {
-        return like ?likeService.like(cid, LikeType.COMMENT) : likeService.unlike(cid, LikeType.COMMENT);
+        Comment comment = needById(cid);
+        // 点赞
+        boolean b = like ? likeService.like(cid, LikeType.COMMENT) : likeService.unlike(cid, LikeType.COMMENT);
+        // 更新点赞数
+        if (b) updateById(comment.addLike(like ? 1 : -1));
+        return b;
     }
 }

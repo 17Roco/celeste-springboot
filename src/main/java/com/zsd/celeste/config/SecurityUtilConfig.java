@@ -27,11 +27,7 @@ public class SecurityUtilConfig {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(encoder);
         provider.setUserDetailsService(userService);
-        ProviderManager manager = new ProviderManager(provider);
-        // 设置 userService
-        userService.setPasswordEncoder(encoder);
-        userService.setManager(manager);
         // 返回 AuthenticationManager
-        return manager;
+        return new ProviderManager(provider);
     }
 }

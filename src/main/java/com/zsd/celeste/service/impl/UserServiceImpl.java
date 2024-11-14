@@ -43,59 +43,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     TokenService tokenService;
     @Autowired
     private FileResourceService fileResourceService;
-    @Setter
-    PasswordEncoder passwordEncoder;
-    @Setter
-    AuthenticationManager manager;
     @Autowired
     private LinkMapper linkMapper;
     final private LinkConfig followConfig = new LinkConfig("link_user_follow","id","uid");
-
-    /**
-     * 验证信息
-     * */
-    public LoginUser auth(String username, String password) {
-        // 验证用户
-        Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        LoginUser u = (LoginUser) authenticate.getPrincipal();
-        // 判断用户认证
-        if (Objects.isNull(u))
-            throw new RuntimeException("用户认证失败");
-        return u;
-    }
-
-
-
-
-    /**
-     * 登录
-     * */
-    public String login(String username, String password) {
-        // 验证
-        LoginUser auth = auth(username, password);
-        // 生成并返回token
-        return tokenService.addToken(auth.getUser().getUid());
-    }
-
-    /**
-    * 登出
-    * */
-    public boolean logout(String token) {
-        tokenService.removeToken(token);
-        return true;
-    }
-
-    /**
-     * 注册
-     * */
-    public boolean register(String username, String password) {
-        if (exists(new QueryWrapper<User>().eq("username",username)))
-            throw new RuntimeException("用户名已存在");
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        return save(user);
-    }
 
 
 
@@ -115,12 +65,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 修改密码
      * */
     public boolean updatePassword(String username, String oldPassword, String newPassword) {
-        LoginUser auth = auth(username, oldPassword);
-        User user = auth.getUser();
-        user.setPassword(passwordEncoder.encode(newPassword));
-        if (!updateById(user))
-            throw new RuntimeException("修改失败");
-        tokenService.removeUid(user.getUid());
+//        LoginUser auth = auth(username, oldPassword);
+//        User user = auth.getUser();
+//        user.setPassword(passwordEncoder.encode(newPassword));
+//        if (!updateById(user))
+//            throw new RuntimeException("修改失败");
+//        tokenService.removeUid(user.getUid());
         return true;
     }
     /**
@@ -171,6 +121,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public IPage<User> getFollow(Integer id, Integer index) {
         Page<User> page = Page.of(index, getSize());
         return getBaseMapper().getFollowList(page, id);
+    }
+
+    /**
+     * 获取被关注列表
+     * */
+    public IPage<User> getFollowed(Integer id, Integer index) {
+        Page<User> page = Page.of(index, getSize());
+        return getBaseMapper().getFollowedList(page, id);
     }
 
     /**

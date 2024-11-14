@@ -1,6 +1,5 @@
 package com.zsd.celeste.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.exception.exception.LoginEx;
@@ -86,6 +85,7 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 根据token获取用户信息
+     * @param token token
      * */
     public User getLoginUser(String token){
         Integer uid = tokenService.getUid(token);

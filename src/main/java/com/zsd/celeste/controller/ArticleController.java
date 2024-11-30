@@ -2,7 +2,6 @@ package com.zsd.celeste.controller;
 import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.service.ArticleService;
-import com.zsd.celeste.service.TagService;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,12 +95,12 @@ public class ArticleController {
     Result updateTag(Integer aid, String tag,boolean b){
         return Result.judge(b ? service.addTag(aid,tag) : service.delTag(aid,tag));
     }
-    @PostMapping("/add_tag/{aid}/{tag}")
-    Result addTag(@PathVariable Integer aid, @PathVariable String tag){
+    @PostMapping("/add_tag/{aid}")
+    Result addTag(@PathVariable Integer aid, @RequestParam String tag){
         return updateTag(aid,tag,true);
     }
-    @PostMapping("/del_tag/{aid}/{tag}")
-    Result delTag(@PathVariable Integer aid, @PathVariable String tag){
+    @PostMapping("/del_tag/{aid}")
+    Result delTag(@PathVariable Integer aid, @RequestParam String tag){
         return updateTag(aid,tag,false);
     }
 }

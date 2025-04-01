@@ -9,14 +9,4 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootTest
 public class RedisTest {
-
-    @Autowired
-    RedisTemplate<String, String> redisTemplate;
-    @Test
-    public void testRedis() {
-
-        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-
-
-    }
 }

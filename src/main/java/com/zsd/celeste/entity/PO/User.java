@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zsd.celeste.entity.PO.base.UserPojo;
 import com.zsd.celeste.entity.form.UserInfoForm;
 import lombok.*;
 
@@ -22,7 +23,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("user")
-public class User implements UserPojo{
+public class User implements UserPojo {
     @TableId("uid")
     private Integer uid;
 
@@ -42,9 +43,6 @@ public class User implements UserPojo{
     private String phone;
     @TableField("email")
     private String email;
-    @JsonIgnore
-    @TableField("password")
-    private String password;
 
     @TableField("follow")
     private Integer follow;
@@ -52,6 +50,11 @@ public class User implements UserPojo{
     private Integer followed;
     @TableField("status")
     private Integer status;
+
+
+    @JsonIgnore
+    @TableField("password")
+    private String password;
     @JsonIgnore
     @TableField("role")
     private Integer role;
@@ -59,23 +62,6 @@ public class User implements UserPojo{
     @TableLogic
     @TableField("def_flag")
     private Integer defFlag;
-
-    @TableField(exist = false)
-    private Boolean isFollow;
-
-
-
-
-
-    public User update(UserInfoForm form){
-        this.username = form.getUsername();
-        this.sex = form.getSex();
-        this.birthday = form.getBirthday();
-        this.sign = form.getSign();
-        return this;
-    }
-
-
     @Override
     public Integer Id() {
         return getUid();
@@ -85,5 +71,26 @@ public class User implements UserPojo{
     public void Id(Integer id) {
         setUid(id);
     }
+
+
+
+    /**
+     * 是否关注
+     * */
+    @TableField(exist = false)
+    private Boolean isFollow;
+    /**
+     * @param form 是否关注
+     * 更新用户信息
+     * */
+    public User update(UserInfoForm form){
+        this.username = form.getUsername();
+        this.sex = form.getSex();
+        this.birthday = form.getBirthday();
+        this.sign = form.getSign();
+        return this;
+    }
+
+
 }
 

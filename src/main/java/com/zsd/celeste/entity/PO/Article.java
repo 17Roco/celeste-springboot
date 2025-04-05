@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zsd.celeste.entity.PO.base.UserPojo;
 import com.zsd.celeste.entity.form.ArticleForm;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("article")
-public class Article implements UserPojo{
+public class Article implements UserPojo {
     @TableId("aid")
     private Integer aid;
 
@@ -55,32 +56,6 @@ public class Article implements UserPojo{
     @TableField("def_flag")
     @TableLogic()
     private Integer defFlag;
-
-
-    @TableField(exist = false)
-    private List<String> tags = new ArrayList<>();
-    @TableField(exist = false)
-    private User user;
-    @TableField(exist = false)
-    private Boolean isLike;
-
-
-    public Article update(ArticleForm update){
-        setTitle(update.getTitle());
-        setContext(update.getContext());
-        setUpdateTime(new Date());
-        return this;
-    }
-    public Article(Integer aid, Integer uid, ArticleForm update){
-        this.aid = aid;
-        this.uid = uid;
-        update(update);
-    }
-    public Article changeLike(Integer i){
-        likee += i;
-        return this;
-    }
-
     @Override
     public Integer Id() {
         return getAid();
@@ -89,5 +64,50 @@ public class Article implements UserPojo{
     public void Id(Integer id) {
         setAid(id);
     }
+
+
+
+
+    /**
+     * 文章标签
+     * */
+    @TableField(exist = false)
+    private List<String> tags = new ArrayList<>();
+    /**
+     * 文章作者
+     * */
+    @TableField(exist = false)
+    private User user;
+    /**
+     * 是否点赞
+     * */
+    @TableField(exist = false)
+    private Boolean isLike;
+    /**
+     * 构造器
+     * */
+    public Article(Integer aid, Integer uid, ArticleForm update){
+        this.aid = aid;
+        this.uid = uid;
+        update(update);
+    }
+    /**
+     * @param update
+     * 使用form更新article
+     * */
+    public Article update(ArticleForm update){
+        setTitle(update.getTitle());
+        setContext(update.getContext());
+        setUpdateTime(new Date());
+        return this;
+    }
+    /**
+     * 点赞
+     * */
+    public Article changeLike(Integer i){
+        likee += i;
+        return this;
+    }
 }
+
 

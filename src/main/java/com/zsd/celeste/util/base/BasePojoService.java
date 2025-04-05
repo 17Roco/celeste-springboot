@@ -1,6 +1,6 @@
 package com.zsd.celeste.util.base;
 
-import com.zsd.celeste.entity.PO.UserPojo;
+import com.zsd.celeste.entity.PO.base.UserPojo;
 import com.zsd.celeste.exception.exception.pojo.NotOwnerEx;
 import com.zsd.celeste.exception.exception.pojo.SaveFailEx;
 import com.zsd.celeste.util.AutUtil;

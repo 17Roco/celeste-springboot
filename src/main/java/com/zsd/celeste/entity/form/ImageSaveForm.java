@@ -1,6 +1,6 @@
 package com.zsd.celeste.entity.form;
 
-import com.zsd.celeste.entity.PO.UserPojo;
+import com.zsd.celeste.entity.PO.base.UserPojo;
 import io.lettuce.core.output.KeyValueStreamingChannel;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

@@ -71,14 +71,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     /**
-     * 保存文章
+     * 保存文章，（标题和内容）
      * */
     public Article saveBySelf(ArticleForm form) {
         return saveBySelf(new Article().update(form));
     }
 
     /**
-    * 更新文章
+    * 更新文章，（根据id修改标题和内容）
     * */
     public boolean updateBySelf(Serializable id, ArticleForm form) {
         return ArticleService.super.updateBySelf(id, a->a.update(form));

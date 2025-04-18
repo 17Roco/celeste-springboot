@@ -1,10 +1,10 @@
-package com.zsd.celeste.service.impl;
+package com.zsd.celeste.service.data.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.mapper.TagMapper;
 import com.zsd.celeste.entity.PO.Tag;
-import com.zsd.celeste.service.TagService;
+import com.zsd.celeste.service.data.TagService;
 import com.zsd.celeste.util.link.LinkConfig;
 import com.zsd.celeste.util.link.LinkMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,14 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Autowired
     private LinkMapper linkMapper;
-    public String getResourceMsg() {
-        return "标签不存在";
-    }
+
     final private LinkConfig tagConfig = new LinkConfig("link_article_tag","aid","tid");
 
     @Override
     public List<Tag> getTagsByAid(Integer aid) {
+        // 查询aid对应的tag
         List<Integer> tids = linkMapper.get(tagConfig, aid);
+        // 查询tag信息
         return tids.isEmpty() ? new ArrayList<>() : list(new QueryWrapper<Tag>().in("tid", tids));
     }
 

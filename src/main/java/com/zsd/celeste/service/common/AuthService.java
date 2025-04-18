@@ -1,10 +1,12 @@
-package com.zsd.celeste.service;
+package com.zsd.celeste.service.common;
 
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.LoginUser;
 
 public interface AuthService {
 
+
+    LoginUser auth(String username, String password);
 
     /**
      * 登录
@@ -30,7 +32,6 @@ public interface AuthService {
      * 获取当前用户信息
      * @return 用户信息
      * */
-    User getSelf();
 
     User getLoginUser(String token);
 }

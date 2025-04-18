@@ -1,4 +1,4 @@
-package com.zsd.celeste.service;
+package com.zsd.celeste.service.data;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zsd.celeste.entity.PO.Tag;
@@ -16,9 +16,6 @@ public interface TagService extends BaseService<Tag> {
 
     default Tag getTagByTitle(String title){
         return getOne(new QueryWrapper<Tag>().eq("title", title));
-    }
-    default Tag needTagByTitle(String title){
-        return need(getTagByTitle(title));
     }
 
     /**

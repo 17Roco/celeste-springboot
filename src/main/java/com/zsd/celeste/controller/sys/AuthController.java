@@ -1,8 +1,7 @@
-package com.zsd.celeste.controller;
+package com.zsd.celeste.controller.sys;
 
 import com.zsd.celeste.entity.form.LoginForm;
-import com.zsd.celeste.service.AuthService;
-import com.zsd.celeste.util.AutUtil;
+import com.zsd.celeste.service.common.AuthService;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,17 +35,8 @@ public class AuthController {
      * */
     @PostMapping("/logout")
     Result logout() {
-        return Result.judge(service.logout(AutUtil.self().getToken()));
-    }
-
-
-
-    /**
-     * 获取当前用户信息
-     * */
-    @GetMapping("/self")
-    Result self() {
-        return Result.ok(service.getSelf());
+        // todo get token
+        return Result.judge(service.logout(null));
     }
 
 }

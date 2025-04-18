@@ -1,8 +1,6 @@
 package com.zsd.celeste.AOP;
 
-import com.zsd.celeste.entity.form.LoginUser;
-import com.zsd.celeste.service.sys.TrafficService;
-import com.zsd.celeste.util.AutUtil;
+import com.zsd.celeste.service.common.TrafficService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

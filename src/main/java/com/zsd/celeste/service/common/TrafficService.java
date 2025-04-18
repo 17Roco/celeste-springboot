@@ -1,9 +1,7 @@
-package com.zsd.celeste.service.sys;
+package com.zsd.celeste.service.common;
 
 import lombok.Getter;
 import org.springframework.stereotype.Service;
-
-import java.util.Queue;
 
 @Getter
 @Service

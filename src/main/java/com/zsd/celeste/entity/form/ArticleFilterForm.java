@@ -1,13 +1,11 @@
 package com.zsd.celeste.entity.form;
 
-import com.zsd.celeste.util.AutUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -36,9 +34,10 @@ public class ArticleFilterForm {
         ORDER_MAP.put("like", "likee");
     }
 
-    public Integer getUid() {
-        if (!Objects.isNull(self) && self)
-            return AutUtil.uid();
-        return uid;
-    }
+    // todo getUid
+//    public Integer getUid() {
+//        if (!Objects.isNull(self) && self)
+//            return AutUtil.uid();
+//        return uid;
+//    }
 }

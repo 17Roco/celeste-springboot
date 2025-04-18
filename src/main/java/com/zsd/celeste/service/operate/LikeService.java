@@ -1,10 +1,9 @@
-package com.zsd.celeste.service;
+package com.zsd.celeste.service.operate;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsd.celeste.entity.Like;
 import com.zsd.celeste.enums.LikeType;
-import com.zsd.celeste.util.AutUtil;
 
 public interface LikeService extends IService<Like> {
 
@@ -52,12 +51,15 @@ public interface LikeService extends IService<Like> {
     }
 
     default boolean isLike(Integer objId, LikeType type){
-        return isLike(AutUtil.uid(),objId,type);
+        // todo get uid
+        return isLike(null,objId,type);
     }
     default boolean like(Integer objId, LikeType type){
-        return like(AutUtil.uid(),objId,type);
+        // todo get uid
+        return like(null,objId,type);
     }
     default boolean unlike(Integer objId, LikeType type){
-        return unlike(AutUtil.uid(),objId,type);
+        // todo get uid
+        return unlike(null,objId,type);
     }
 }

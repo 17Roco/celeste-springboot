@@ -1,11 +1,7 @@
-package com.zsd.celeste.service.impl;
+package com.zsd.celeste.service.common.impl;
 
-import com.zsd.celeste.entity.form.LoginUser;
-import com.zsd.celeste.entity.PO.User;
-import com.zsd.celeste.service.TokenService;
-import com.zsd.celeste.service.UserService;
+import com.zsd.celeste.service.common.TokenService;
 import com.zsd.celeste.util.redis.RedisTokenHash;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,19 +1,12 @@
 package com.zsd.celeste.controller.dev;
 
 import com.zsd.celeste.enums.ResourceNameSpace;
-import com.zsd.celeste.service.FileResourceService;
-import com.zsd.celeste.service.TokenService;
+import com.zsd.celeste.service.common.FileResourceService;
+import com.zsd.celeste.service.common.TokenService;
 import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dev")

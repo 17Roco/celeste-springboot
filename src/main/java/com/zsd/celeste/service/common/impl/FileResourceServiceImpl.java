@@ -1,21 +1,17 @@
-package com.zsd.celeste.service.impl;
+package com.zsd.celeste.service.common.impl;
 
 import com.zsd.celeste.enums.ResourceNameSpace;
 import com.zsd.celeste.exception.exception.ResourceSaveFailEx;
-import com.zsd.celeste.service.FileResourceService;
+import com.zsd.celeste.service.common.FileResourceService;
 import com.zsd.celeste.util.HashUtil;
 import jakarta.annotation.PostConstruct;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;

@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.cglib.core.internal.Function;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 @Data
 public class Result {
@@ -25,10 +26,13 @@ public class Result {
     static public Result error(Object data) {
         return new Result(ResultCode.ERROR, null, data);
     }
+
     static public Result judge(boolean b){
         return b? ok(null) : error(null);
     }
-
+    static public Result judge(Object b){
+        return Objects.isNull(b) ? error(null) : ok(b);
+    }
     static public Result map(String key, Object value){
         HashMap<String, Object> map = new HashMap<>();
         map.put(key, value);

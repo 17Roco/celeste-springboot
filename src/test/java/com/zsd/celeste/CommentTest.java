@@ -2,15 +2,9 @@ package com.zsd.celeste;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.PO.Comment;
-import com.zsd.celeste.service.CommentService;
-import org.junit.jupiter.api.Test;
+import com.zsd.celeste.service.data.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @SpringBootTest
 public class CommentTest {
@@ -31,7 +25,5 @@ public class CommentTest {
 
 //    @Test
     public void test2() {
-        IPage<Comment> comment = commentService.getArticleComment(1, 1);
-        System.out.println(comment);
     }
 }

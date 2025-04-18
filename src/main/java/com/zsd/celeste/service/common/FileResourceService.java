@@ -1,4 +1,4 @@
-package com.zsd.celeste.service;
+package com.zsd.celeste.service.common;
 
 import com.zsd.celeste.enums.ResourceNameSpace;
 import org.springframework.web.multipart.MultipartFile;

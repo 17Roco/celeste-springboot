@@ -1,12 +1,11 @@
-package com.zsd.celeste.service.impl;
+package com.zsd.celeste.service.common.impl;
 
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.LoginUser;
 import com.zsd.celeste.exception.exception.LoginEx;
-import com.zsd.celeste.service.AuthService;
-import com.zsd.celeste.service.TokenService;
-import com.zsd.celeste.service.UserService;
-import com.zsd.celeste.util.AutUtil;
+import com.zsd.celeste.service.common.AuthService;
+import com.zsd.celeste.service.common.TokenService;
+import com.zsd.celeste.service.data.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -60,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
      * 登出
      * */
     public boolean logout(String token) {
+        // 删除token
         tokenService.removeToken(token);
         return true;
     }
@@ -68,20 +68,17 @@ public class AuthServiceImpl implements AuthService {
      * 注册
      * */
     public boolean register(String username, String password) {
+        // 验证用户名是否存在
         if (userService.getUserByUsername(username) != null)
             throw new LoginEx("用户名已存在");
+        // 创建用户
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
+        // 保存用户
         return userService.save(user);
     }
 
-    /**
-     * 获取当前用户信息
-     * */
-    public User getSelf() {
-        return userService.getById(AutUtil.uid());
-    }
 
     /**
      * 根据token获取用户信息

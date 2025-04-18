@@ -1,9 +1,9 @@
-package com.zsd.celeste.service.impl;
+package com.zsd.celeste.service.operate.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.Like;
 import com.zsd.celeste.mapper.LikeMapper;
-import com.zsd.celeste.service.LikeService;
+import com.zsd.celeste.service.operate.LikeService;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -27,7 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     TokenService tokenService;
     @Autowired
-    private FileResourceService fileResourceService;
+    FileResourceService fileResourceService;
     @Autowired
     PasswordEncoder passwordEncoder;
 

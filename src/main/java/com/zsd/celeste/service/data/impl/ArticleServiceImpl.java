@@ -12,6 +12,7 @@ import com.zsd.celeste.service.data.ArticleService;
 import com.zsd.celeste.service.common.FileResourceService;
 import com.zsd.celeste.service.data.TagService;
 import com.zsd.celeste.service.data.UserService;
+import com.zsd.celeste.util.base.EditPojoInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,9 +79,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     /**
      * 修改封面
      * */
-    public String updateImg(Integer aid,MultipartFile file) {
+    public String updateImg(Integer aid, MultipartFile file, EditPojoInterface<Article> before) {
         // 获取文章
         Article article = needById(aid);
+        // before
+        before.edit(article);
         // 保存图片
         String img = resourceService.saveResource(file, ResourceNameSpace.IMAGE_ARTICLE);
         // 修改并保存

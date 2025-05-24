@@ -1,14 +1,17 @@
 package com.zsd.celeste.controller.data;
 import com.zsd.celeste.entity.PO.Article;
+import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.service.data.ArticleService;
 import com.zsd.celeste.util.result.Result;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * (Article)表控制层
@@ -47,9 +50,13 @@ public class ArticleController {
      * 保存内容
      * */
     @PostMapping("/context")
-    Result save(@RequestBody ArticleForm form) {
+    @PreAuthorize("@auth.needUser(#user)")
+    Result save(@RequestBody ArticleForm form, User user) {
+        // 创建文章
+        Article article = new Article().update(form);
+        article.setUid(user.getUid());
         // 保存文章
-        Article article = service.create(new Article().update(form));
+        service.create(article);
         // 返回文章id
         return Result.map(map -> map.put("aid", article.getAid()));
     }
@@ -58,24 +65,47 @@ public class ArticleController {
      * 更新内容 （标题、内容）
      * */
     @PutMapping("/context/{aid}")
-    Result update(@PathVariable Integer aid,@RequestBody ArticleForm form) {
-        return Result.judge(service.change(aid, a->a.update(form)));
+    @PreAuthorize("@auth.needUser(#user)")
+    Result update(@PathVariable Integer aid,@RequestBody ArticleForm form,User user) {
+        return Result.judge(
+                // 修改文章
+                service.change(aid,
+                        a -> a.update(form),
+                        a -> {
+                            // 验证权限
+                            if(!Objects.equals(user.getUid(), a.getUid()))
+                                throw new RuntimeException("无权限修改");
+                        }
+    )
+        );
     }
 
     /**
      * 更新封面，并返回新的封面地址
      * */
     @PutMapping("/img/{aid}")
-    Result updateImg(@PathVariable Integer aid,MultipartFile file) {
-        return Result.map(map -> map.put("img", service.updateImg(aid,file)));
+    @PreAuthorize("@auth.needUser(#user)")
+    Result updateImg(@PathVariable Integer aid,MultipartFile file,User user) {
+        return Result.map(map -> map.put("img", service.updateImg(aid,file,
+                a -> {
+                    // 验证权限
+                    if(!Objects.equals(user.getUid(), a.getUid()))
+                        throw new RuntimeException("无权限修改");
+                })));
     }
 
     /**
      * 删除文章
      * */
     @DeleteMapping("/{aid}")
-    public Result delete(@PathVariable Integer aid) {
-        return Result.judge(service.deleteOne(aid));
+    @PreAuthorize("@auth.needUser(#user)")
+    public Result delete(@PathVariable Integer aid,User user) {
+        return Result.judge(service.deleteOne(aid,
+                a -> {
+                    // 验证权限
+                    if(!Objects.equals(user.getUid(), a.getUid()))
+                        throw new RuntimeException("无权限修改");
+                }));
     }
 
 

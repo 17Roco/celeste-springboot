@@ -9,6 +9,7 @@ import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.service.common.FileResourceService;
 import com.zsd.celeste.service.data.UserService;
 import com.zsd.celeste.util.HashUtil;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -56,5 +57,6 @@ class CelesteApplicationTests {
         Page<User> page = Page.of(1, 10);
         userMapper.getFollowedList(page, 4).getRecords().forEach(System.out::println);
     }
+
 
 }

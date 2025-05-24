@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zsd.celeste.entity.PO.base.Pojo;
 import com.zsd.celeste.exception.exception.ResourceSaveFailEx;
 import com.zsd.celeste.exception.exception.pojo.NotExistEx;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.function.Function;
 
 
 /**
@@ -18,7 +20,7 @@ import java.util.Objects;
  *  needById
  *  page(index)
 */
-public interface BaseService<T> extends IService<T> {
+public interface BaseService<T extends Pojo> extends IService<T> {
 
     /**
      * 默认分页大小
@@ -46,22 +48,36 @@ public interface BaseService<T> extends IService<T> {
      * 删除资源，不存在则报错 、 删除资源同时鉴权 PojoNotExistEx
      * */
     default boolean deleteOne(Serializable id) {
-        needById(id);
+        return deleteOne(id,t->{});
+    }
+    default boolean deleteOne(Serializable id,EditPojoInterface<T> before) {
+        // 获取资源
+        T t = needById(id);
+        // 调用before方法
+        before.edit(t);
+        // 删除资源
         return removeById(id);
     }
+
+
 
     /**
      * 修改资源
      * */
-    default T change(Serializable id, EditPojoInterface<T> edit){
+    default T change(Serializable id, EditPojoInterface<T> edit,EditPojoInterface<T> before){
         // 获取资源
         T t = needById(id);
+        // 调用before方法
+        before.edit(t);
         // 修改资源
         edit.edit(t);
         // 更新资源
         if (!updateById(t))
             throw new ResourceSaveFailEx("");
         return t;
+    }
+    default T change(Serializable id, EditPojoInterface<T> edit){
+        return change(id,edit,t->{});
     }
 
     /**

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.util.base.BaseService;
+import com.zsd.celeste.util.base.EditPojoInterface;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -19,6 +20,6 @@ public interface ArticleService extends BaseService<Article> {
     /**
      * 修改文章封面
      * */
-    String updateImg(Integer aid,MultipartFile file);
+    String updateImg(Integer aid, MultipartFile file, EditPojoInterface<Article> before);
 }
 

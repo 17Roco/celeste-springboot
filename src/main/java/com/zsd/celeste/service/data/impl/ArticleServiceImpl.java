@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Tag;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.enums.ResourceNameSpace;
-import com.zsd.celeste.mapper.ArticleMapper;
+import com.zsd.celeste.mapper.data.ArticleMapper;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.service.data.ArticleService;
 import com.zsd.celeste.service.common.FileResourceService;

@@ -2,7 +2,7 @@ package com.zsd.celeste.service.data.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zsd.celeste.mapper.TagMapper;
+import com.zsd.celeste.mapper.data.TagMapper;
 import com.zsd.celeste.entity.PO.Tag;
 import com.zsd.celeste.service.data.TagService;
 import com.zsd.celeste.util.link.LinkConfig;

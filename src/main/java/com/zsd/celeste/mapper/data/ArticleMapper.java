@@ -1,4 +1,4 @@
-package com.zsd.celeste.mapper;
+package com.zsd.celeste.mapper.data;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

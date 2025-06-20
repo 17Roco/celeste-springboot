@@ -8,9 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.Objects;
-import java.util.function.Function;
 
 @Component
 public class AutUtil {
@@ -37,7 +35,7 @@ public class AutUtil {
     /**
     * 如果登录则执行传入的函数
     * */
-    static public void login(FuntionInterface function){
+    static public void login(FunctionInterface function){
         if (isLogin()){
             function.apply();
         }
@@ -94,4 +92,9 @@ public class AutUtil {
         return true;
     }
 
+}
+
+
+interface FunctionInterface {
+    void apply();
 }

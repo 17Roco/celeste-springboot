@@ -1,4 +1,4 @@
-package com.zsd.celeste.mapper;
+package com.zsd.celeste.mapper.data;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

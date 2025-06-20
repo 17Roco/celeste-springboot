@@ -1,4 +1,4 @@
-package com.zsd.celeste.mapper;
+package com.zsd.celeste.mapper.relation;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zsd.celeste.entity.Like;

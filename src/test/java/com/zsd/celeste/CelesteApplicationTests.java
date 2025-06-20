@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsd.celeste.entity.PO.Article;
 import com.zsd.celeste.entity.PO.User;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
-import com.zsd.celeste.mapper.ArticleMapper;
+import com.zsd.celeste.mapper.data.ArticleMapper;
 import com.zsd.celeste.mapper.UserMapper;
 import com.zsd.celeste.service.common.FileResourceService;
 import com.zsd.celeste.service.data.UserService;
 import com.zsd.celeste.util.HashUtil;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

@@ -5,6 +5,8 @@ import com.zsd.celeste.entity.form.ArticleForm;
 import com.zsd.celeste.entity.form.ArticleFilterForm;
 import com.zsd.celeste.service.data.ArticleService;
 import com.zsd.celeste.util.result.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.Objects;
  * @author zsd
  * @since 2024-06-07 00:46:33
  */
+@Tag(name = "文章")
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
@@ -29,6 +32,7 @@ public class ArticleController {
     /**
      * 获取指定文章
      * */
+    @Operation(summary = "获取指定文章",description = "根据文章id获取指定文章")
     @GetMapping("/{aid}")
     Result get(@PathVariable Integer aid) {
         return Result.ok(service.needById(aid));

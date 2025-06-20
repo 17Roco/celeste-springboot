@@ -6,6 +6,14 @@ import com.zsd.celeste.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/*
+* AuthController 身份验证控制器
+*
+* /login 登录
+* /register 注册
+* /logout 退出
+*
+* */
 @RestController
 public class AuthController {
 

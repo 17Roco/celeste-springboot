@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zsd.celeste.entity.PO.Comment;
 import com.zsd.celeste.entity.form.CommentForm;
 import com.zsd.celeste.enums.CommentType;
-import com.zsd.celeste.mapper.CommentMapper;
+import com.zsd.celeste.mapper.data.CommentMapper;
 import com.zsd.celeste.service.data.CommentService;
 import com.zsd.celeste.service.data.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
